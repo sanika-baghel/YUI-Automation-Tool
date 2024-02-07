@@ -7,11 +7,13 @@ import './App.css';
 const App = () => {
   const [hoveredItemId, setHoveredItemId] = useState(null);
   const [hoveredItemLabel, setHoveredItemLabel] = useState(null);
+  const [hoveredItemClass, setHoveredItemClass] = useState(null);
   const [droppedItems, setDroppedItems] = useState([]);
  
-  const handleHover = (itemId,itemLabel) => {
+  const handleHover = (itemId,itemLabel,itemClass) => {
     setHoveredItemId(itemId);
     setHoveredItemLabel(itemLabel);
+    setHoveredItemClass(itemClass);
   };
  
  
@@ -47,6 +49,7 @@ const App = () => {
           <h8>Show Details</h8>
           {hoveredItemId && <p>Field ID: {hoveredItemId}</p>}
           {hoveredItemLabel && <p>Field Label: {hoveredItemLabel}</p>}
+          {hoveredItemClass && <p>Field Class: {hoveredItemClass}</p>}
         </div>
       </div>
  

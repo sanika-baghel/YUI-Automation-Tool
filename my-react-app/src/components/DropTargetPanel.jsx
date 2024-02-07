@@ -102,7 +102,7 @@ const DropTargetPanel = ({ onHover, droppedItems, setDroppedItems }) => {
  
   const handleMouseEnter = (index) => {
     const currentItem = droppedItems[index];
-    onHover(currentItem.id, currentItem.label);
+    onHover(currentItem.id, currentItem.label, currentItem.class);
   };
  
   const handleAddDropdownOption = (index) => {
@@ -134,7 +134,13 @@ const DropTargetPanel = ({ onHover, droppedItems, setDroppedItems }) => {
     const inputValue = prompt(`Enter ${value}`);
     if (inputValue !== null) {
       const updatedItems = [...droppedItems];
-      updatedItems[index][value === 'addLabel' ? 'label' : 'id'] = inputValue;
+      // Check if the value is 'addClass' and set the class accordingly
+      if (value === 'addClass') {
+        updatedItems[index]['class'] = inputValue;
+      } else {
+        // For other cases (addLabel, addID), set label or id accordingly
+        updatedItems[index][value === 'addLabel' ? 'label' : 'id'] = inputValue;
+      }
       setDroppedItems(updatedItems);
       setContextMenu({ visible: false, index: -1, x: 0, y: 0, showAddDropdownOption: false });
     }
@@ -169,13 +175,14 @@ const DropTargetPanel = ({ onHover, droppedItems, setDroppedItems }) => {
         options={[
           { label: 'Add Label', value: 'addLabel', className: "option" },
           { label: 'Add ID', value: 'addID' },
+          { label: 'Add Class', value: 'addClass' },
           { label: 'Make ReadOnly', value: 'makeReadOnly' },
           { label: 'Add Astrik Mark', value: 'addAstrikMark' },
           ...(contextMenu.showAddDropdownOption ? [{ label: 'Add Dropdown Option', value: 'addDropdownOption' }] : []),
           { label: 'Delete', value: 'delete' },
         ]}
         onSelect={(value) => {
-          if (value === 'addLabel' || value === 'addID') {
+          if (value === 'addLabel' || value === 'addID' || value ==='addClass') {
             handleAddLabelId(contextMenu.index, value);
           } else if (value === 'addDropdownOption') {
             handleAddDropdownOption(contextMenu.index);
