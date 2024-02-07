@@ -62,11 +62,13 @@ const DropTargetPanel = ({ onHover, droppedItems, setDroppedItems }) => {
  
     // Add x, y coordinates to the dropped item
     const newItem = {
+      className: item.addClass,
       type: item.type,
       id: droppedItems.length + 1,
       text: item.text,
       label: '',
       id: '',
+      readOnly: item.readOnly,
       options: [],
       mandatory: false,
       // Include x, y coordinates in the dropped item
@@ -124,7 +126,7 @@ const DropTargetPanel = ({ onHover, droppedItems, setDroppedItems }) => {
   
     setContextMenu({ visible: false, index: -1, x: 0, y: 0, showAddDropdownOption: false });
   };
-  
+
   const handleDeleteItem = (index) => {
     const updatedItems = droppedItems.filter((item, i) => i !== index);
     setShowLabelIdOptions(showLabelIdOptions.filter((_, i) => i !== index));
