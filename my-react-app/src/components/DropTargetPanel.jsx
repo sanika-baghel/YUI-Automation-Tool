@@ -204,11 +204,17 @@ const DropTargetPanel = ({ onHover, droppedItems, setDroppedItems }) => {
           >
             {showLabelIdOptions[index] && item.label && (
               <div style={{ marginBottom: '4px' }}>
-                {item.mandatory && <span style={{ color: 'red' }}>*</span>}
-                {item.label}
-              </div>
+              {item.mandatory && <span style={{ color: 'red' }}>*</span>}
+            {item.type !== 'BUTTON' && item.label}   {/* Conditionally hide label for BUTTON type */}
+            </div>
             )}
-            {item.type === 'BUTTON' && <button>{item.label}</button>}
+           {item.type === 'BUTTON' && (
+                <button>
+                  {item.label && <span style={{ display: 'none' }}></span>}
+                  {/* Display label name on the button */}
+                  {item.label}
+                </button>
+              )}
             {item.type === 'TEXTBOX' && (
               <input type="text" 
                placeholder={item.text} 
