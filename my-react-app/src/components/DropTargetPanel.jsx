@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { useDrop } from 'react-dnd';
 import Draggable from 'react-draggable';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { Form, InputGroup } from 'react-bootstrap';
+import { faSearch } from '@fortawesome/free-solid-svg-icons';
  
 const CustomContextMenu = ({ visible, x, y, options, onSelect }) => {
   return (
@@ -222,8 +224,17 @@ const DropTargetPanel = ({ onHover, droppedItems, setDroppedItems }) => {
             )}
             {item.type === 'LOOKUP' && (
               <>
-                <input type="lookup" placeholder="Search.." readOnly={item.readonly} />
-                <FontAwesomeIcon icon="search" />
+                <InputGroup className="mb-3" readOnly={item.readonly}>
+                  <Form.Control
+                    placeholder="Search..."
+                    aria-label="Search"
+                    aria-describedby="search-icon"
+                    readOnly={item.readonly}
+                  />
+                  <InputGroup.Text id="search-icon"  readOnly={item.readonly}>
+                    <FontAwesomeIcon icon={faSearch} />
+                  </InputGroup.Text>
+                </InputGroup>
               </>
             )}
             {showLabelIdOptions[index] && item.id && (
