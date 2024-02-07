@@ -208,7 +208,7 @@ const DropTargetPanel = ({ onHover, droppedItems, setDroppedItems }) => {
                 {item.label}
               </div>
             )}
-            {item.type === 'BUTTON' && <button>{item.text}</button>}
+            {item.type === 'BUTTON' && <button>{item.label}</button>}
             {item.type === 'TEXTBOX' && (
               <input type="text" placeholder={item.text} readOnly={item.readonly}
                 style={{ backgroundColor: item.readonly ? item.color : '' }}
@@ -231,14 +231,17 @@ const DropTargetPanel = ({ onHover, droppedItems, setDroppedItems }) => {
             )}
             {item.type === 'LOOKUP' && (
               <>
-                <InputGroup className="mb-3" readOnly={item.readonly}>
+                <InputGroup className="mb-3" readOnly={item.readonly} 
+                style={{ backgroundColor: item.readonly ? item.color : '' }} >
                   <Form.Control
                     placeholder="Search..."
                     aria-label="Search"
                     aria-describedby="search-icon"
                     readOnly={item.readonly}
+                    style={{ backgroundColor: item.readonly ? item.color : '' }}
                   />
-                  <InputGroup.Text id="search-icon"  readOnly={item.readonly}>
+                  <InputGroup.Text id="search-icon"  readOnly={item.readonly}
+                  style={{ backgroundColor: item.readonly ? item.color : '' }}>
                     <FontAwesomeIcon icon={faSearch} />
                   </InputGroup.Text>
                 </InputGroup>
