@@ -110,19 +110,21 @@ const DropTargetPanel = ({ onHover, droppedItems, setDroppedItems }) => {
     const updatedItems = [...droppedItems];
     const dropdownOptions = updatedItems[index].options || [];
     const groupIndex = dropdownOptions.findIndex((group) => group.heading === heading);
- 
+  
     const optionText = prompt(`Enter an option for "${heading}" dropdown:`);
- 
-    if (groupIndex !== -1) {
-      updatedItems[index].options[groupIndex].options.push({ text: optionText });
-    } else {
-      updatedItems[index].options.push({ heading, options: [{ text: optionText }] });
+  
+    if (optionText !== null && optionText.trim() !== '') { // Check if optionText is not empty
+      if (groupIndex !== -1) {
+        updatedItems[index].options[groupIndex].options.push({ text: optionText });
+      } else {
+        updatedItems[index].options.push({ heading, options: [{ text: optionText }] });
+      }
+      setDroppedItems(updatedItems);
     }
- 
-    setDroppedItems(updatedItems);
+  
     setContextMenu({ visible: false, index: -1, x: 0, y: 0, showAddDropdownOption: false });
   };
- 
+  
   const handleDeleteItem = (index) => {
     const updatedItems = droppedItems.filter((item, i) => i !== index);
     setShowLabelIdOptions(showLabelIdOptions.filter((_, i) => i !== index));
