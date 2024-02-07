@@ -8,12 +8,16 @@ const App = () => {
   const [hoveredItemId, setHoveredItemId] = useState(null);
   const [hoveredItemLabel, setHoveredItemLabel] = useState(null);
   const [hoveredItemClass, setHoveredItemClass] = useState(null);
+  const [hoveredItemReadOnly, setHoveredItemReadOnly] = useState(false);
+  const [hoveredItemMandatory, setHoveredItemMandatory] = useState(false);
   const [droppedItems, setDroppedItems] = useState([]);
  
-  const handleHover = (itemId,itemLabel,itemClass) => {
+  const handleHover = (itemId,itemLabel,itemClass,itemReadOnly,itemMadetory) => {
     setHoveredItemId(itemId);
     setHoveredItemLabel(itemLabel);
     setHoveredItemClass(itemClass);
+    setHoveredItemReadOnly(itemReadOnly);
+    setHoveredItemMandatory(itemMadetory);
   };
  
  
@@ -50,6 +54,8 @@ const App = () => {
           {hoveredItemId && <p>Field ID: {hoveredItemId}</p>}
           {hoveredItemLabel && <p>Field Label: {hoveredItemLabel}</p>}
           {hoveredItemClass && <p>Field Class: {hoveredItemClass}</p>}
+          {hoveredItemReadOnly && <p>IsReadOnly: {hoveredItemReadOnly.toString()}</p>}
+          {hoveredItemMandatory && <p>IsMandatory: {hoveredItemMandatory.toString()}</p>}
         </div>
       </div>
  

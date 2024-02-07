@@ -83,7 +83,7 @@ const DropTargetPanel = ({ onHover, droppedItems, setDroppedItems }) => {
       const updatedItems = [...droppedItems];
       updatedItems[index] = {
         ...updatedItems[index],
-        readonly: true,
+        readOnly: true,
         color: '#f2f2f2',
       };
       setDroppedItems(updatedItems);
@@ -102,7 +102,7 @@ const DropTargetPanel = ({ onHover, droppedItems, setDroppedItems }) => {
  
   const handleMouseEnter = (index) => {
     const currentItem = droppedItems[index];
-    onHover(currentItem.id, currentItem.label, currentItem.class);
+    onHover(currentItem.id, currentItem.label, currentItem.class, currentItem.readOnly, currentItem.mandatory);
   };
  
   const handleAddDropdownOption = (index) => {
@@ -210,8 +210,10 @@ const DropTargetPanel = ({ onHover, droppedItems, setDroppedItems }) => {
             )}
             {item.type === 'BUTTON' && <button>{item.label}</button>}
             {item.type === 'TEXTBOX' && (
-              <input type="text" placeholder={item.text} readOnly={item.readonly}
-                style={{ backgroundColor: item.readonly ? item.color : '' }}
+              <input type="text" 
+               placeholder={item.text} 
+               readOnly={item.readOnly}
+               style={{ backgroundColor: item.readOnly ? item.color : '' }}
               />
             )}
             {item.type === 'RADIO' && <input type="radio" name="radioGroup" />}
@@ -231,8 +233,8 @@ const DropTargetPanel = ({ onHover, droppedItems, setDroppedItems }) => {
             )}
             {item.type === 'LOOKUP' && (
               <>
-                <InputGroup className="mb-3" readOnly={item.readonly} 
-                style={{ backgroundColor: item.readonly ? item.color : '' }} >
+                <InputGroup className="mb-3" readOnly={item.readOnly} 
+                style={{ backgroundColor: item.readOnly ? item.color : '' }} >
                   <Form.Control
                     placeholder="Search..."
                     aria-label="Search"
@@ -240,8 +242,8 @@ const DropTargetPanel = ({ onHover, droppedItems, setDroppedItems }) => {
                     readOnly={item.readonly}
                     style={{ backgroundColor: item.readonly ? item.color : '' }}
                   />
-                  <InputGroup.Text id="search-icon"  readOnly={item.readonly}
-                  style={{ backgroundColor: item.readonly ? item.color : '' }}>
+                  <InputGroup.Text id="search-icon"  readOnly={item.readOnly}
+                  style={{ backgroundColor: item.readOnly ? item.color : '' }}>
                     <FontAwesomeIcon icon={faSearch} />
                   </InputGroup.Text>
                 </InputGroup>
