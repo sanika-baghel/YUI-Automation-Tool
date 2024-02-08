@@ -59,10 +59,8 @@ const DropTargetPanel = ({ onHover, droppedItems, setDroppedItems }) => {
     const offset = monitor.getSourceClientOffset();
     const x = offset.x;
     const y = offset.y;
- 
-    // Add x, y coordinates to the dropped item
-    const newItem = {
-      className: item.addClass,
+    const newItem = {            
+      className: item.addClass,       // Add x, y coordinates to the dropped item
       type: item.type,
       id: droppedItems.length + 1,
       text: item.text,
@@ -70,9 +68,8 @@ const DropTargetPanel = ({ onHover, droppedItems, setDroppedItems }) => {
       id: '',
       readOnly: item.readOnly,
       options: [],
-      mandatory: false,
-      // Include x, y coordinates in the dropped item
-      coordinates: { x, y },
+      mandatory: false, 
+      coordinates: { x, y },     // Include x, y coordinates in the dropped item
     };
  
     setDroppedItems([...droppedItems, newItem]);
@@ -93,9 +90,6 @@ const DropTargetPanel = ({ onHover, droppedItems, setDroppedItems }) => {
     setContextMenu({ visible: false, index: -1, x: 0, y: 0, showAddDropdownOption: false });
   };
  
- 
- 
- 
   const handleContextMenu = (e, index) => {
     e.preventDefault();
     const showAddDropdownOption = droppedItems[index]?.type === 'DROPDOWN';
@@ -112,7 +106,6 @@ const DropTargetPanel = ({ onHover, droppedItems, setDroppedItems }) => {
     const updatedItems = [...droppedItems];
     const dropdownOptions = updatedItems[index].options || [];
     const groupIndex = dropdownOptions.findIndex((group) => group.heading === heading);
-  
     const optionText = prompt(`Enter an option for "${heading}" dropdown:`);
   
     if (optionText !== null && optionText.trim() !== '') { // Check if optionText is not empty
@@ -123,7 +116,6 @@ const DropTargetPanel = ({ onHover, droppedItems, setDroppedItems }) => {
       }
       setDroppedItems(updatedItems);
     }
-  
     setContextMenu({ visible: false, index: -1, x: 0, y: 0, showAddDropdownOption: false });
   };
 
@@ -137,12 +129,10 @@ const DropTargetPanel = ({ onHover, droppedItems, setDroppedItems }) => {
   const handleAddLabelId = (index, value) => {
     const inputValue = prompt(`Enter ${value}`);
     if (inputValue !== null) {
-      const updatedItems = [...droppedItems];
-      // Check if the value is 'addClass' and set the class accordingly
-      if (value === 'addClass') {
+      const updatedItems = [...droppedItems]; 
+      if (value === 'addClass') {       // Check if the value is 'addClass' and set the class accordingly
         updatedItems[index]['class'] = inputValue;
-      } else {
-        // For other cases (addLabel, addID), set label or id accordingly
+      } else {       // For other cases (addLabel, addID), set label or id accordingly
         updatedItems[index][value === 'addLabel' ? 'label' : 'id'] = inputValue;
       }
       setDroppedItems(updatedItems);
@@ -155,7 +145,6 @@ const DropTargetPanel = ({ onHover, droppedItems, setDroppedItems }) => {
       alert('Please add a label before marking the field as mandatory.');
       return;
     }
- 
     const isMandatory = window.confirm('Do you want this field to be mandatory?');
     const updatedItems = [...droppedItems];
     updatedItems[index]['mandatory'] = isMandatory;
