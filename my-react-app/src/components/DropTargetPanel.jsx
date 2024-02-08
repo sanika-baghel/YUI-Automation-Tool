@@ -216,9 +216,14 @@ const DropTargetPanel = ({ onHover, droppedItems, setDroppedItems }) => {
           >
             {showLabelIdOptions[index] && item.label && (
               <div style={{ marginBottom: '4px' }}>
-              {item.mandatory && <span style={{ color: 'red' }}>*</span>}
-            {item.type !== 'BUTTON' && item.label}   {/* Conditionally hide label for BUTTON type */}
-            </div>
+                {item.mandatory && <span style={{ color: 'red' }}>*</span>}
+                {item.type !== 'BUTTON' && item.label}   {/* Conditionally hide label for BUTTON type */}
+              </div>
+            )}
+            {showLabelIdOptions[index] && item.id && (
+              <div className="panel-3-id" style={{ display: 'none', position: 'absolute', top: '0', right: '0', background: '#eee', padding: '4px' }}>
+                ID: {item.id}
+              </div>
             )}
            {item.type === 'BUTTON' && (
                 <button>
@@ -266,11 +271,6 @@ const DropTargetPanel = ({ onHover, droppedItems, setDroppedItems }) => {
                   </InputGroup.Text>
                 </InputGroup>
               </>
-            )}
-            {showLabelIdOptions[index] && item.id && (
-              <div className="panel-3-id" style={{ display: 'none', position: 'absolute', top: '0', right: '0', background: '#eee', padding: '4px' }}>
-                ID: {item.id}
-              </div>
             )}
           </div>
         </Draggable>
