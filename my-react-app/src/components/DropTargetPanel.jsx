@@ -89,27 +89,7 @@ const DropTargetPanel = ({ onHover, droppedItems, setDroppedItems }) => {
     }
     setContextMenu({ visible: false, index: -1, x: 0, y: 0, showAddDropdownOption: false });
   };
-<<<<<<< Updated upstream
  
-=======
-
-  const handleMakeEditable = (index) => {
-    const updatedItems = [...droppedItems];
-    updatedItems[index] = {
-      ...updatedItems[index],
-      readOnly: false, // Set readOnly to false when making the item editable again
-    };
-    setDroppedItems(updatedItems);
-    const hoveredItem = droppedItems[index]; // Update the hovered item's read-only state to false without clearing other details
-    onHover(
-      hoveredItem.id,
-      hoveredItem.label,
-      hoveredItem.class,
-      false // Indicate that the item is no longer read-only
-    );
-  };
-
->>>>>>> Stashed changes
   const handleContextMenu = (e, index) => {
     e.preventDefault();
     const showAddDropdownOption = droppedItems[index]?.type === 'DROPDOWN';
@@ -127,7 +107,6 @@ const DropTargetPanel = ({ onHover, droppedItems, setDroppedItems }) => {
     const dropdownOptions = updatedItems[index].options || [];
     const groupIndex = dropdownOptions.findIndex((group) => group.heading === heading);
     const optionText = prompt(`Enter an option for "${heading}" dropdown:`);
-<<<<<<< Updated upstream
   
     if (optionText !== null && optionText.trim() !== '') { // Check if optionText is not empty
       if (groupIndex !== -1) {
@@ -137,14 +116,6 @@ const DropTargetPanel = ({ onHover, droppedItems, setDroppedItems }) => {
       }
       setDroppedItems(updatedItems);
     }
-=======
-    if (groupIndex !== -1) {
-      updatedItems[index].options[groupIndex].options.push({ text: optionText });
-    } else {
-      updatedItems[index].options.push({ heading, options: [{ text: optionText }] });
-    }
-    setDroppedItems(updatedItems);
->>>>>>> Stashed changes
     setContextMenu({ visible: false, index: -1, x: 0, y: 0, showAddDropdownOption: false });
   };
 
@@ -158,18 +129,10 @@ const DropTargetPanel = ({ onHover, droppedItems, setDroppedItems }) => {
   const handleAddLabelId = (index, value) => {
     const inputValue = prompt(`Enter ${value}`);
     if (inputValue !== null) {
-<<<<<<< Updated upstream
       const updatedItems = [...droppedItems]; 
       if (value === 'addClass') {       // Check if the value is 'addClass' and set the class accordingly
         updatedItems[index]['class'] = inputValue;
       } else {       // For other cases (addLabel, addID), set label or id accordingly
-=======
-      const updatedItems = [...droppedItems];
-
-      if (value === 'addClass') {
-        updatedItems[index]['class'] = inputValue;
-      } else {
->>>>>>> Stashed changes
         updatedItems[index][value === 'addLabel' ? 'label' : 'id'] = inputValue;
       }
       setDroppedItems(updatedItems);
@@ -207,7 +170,6 @@ const DropTargetPanel = ({ onHover, droppedItems, setDroppedItems }) => {
           { label: 'Add ID', value: 'addID' },
           { label: 'Add Class', value: 'addClass' },
           { label: 'Make ReadOnly', value: 'makeReadOnly' },
-          { label: 'Make Editable', value: 'makeEditable' },
           { label: 'Add Astrik Mark', value: 'addAstrikMark' },
           ...(contextMenu.showAddDropdownOption ? [{ label: 'Add Dropdown Option', value: 'addDropdownOption' }] : []),
           { label: 'Delete', value: 'delete' },
@@ -223,9 +185,7 @@ const DropTargetPanel = ({ onHover, droppedItems, setDroppedItems }) => {
             handleAddAstrikMark(contextMenu.index);
           } else if (value === 'makeReadOnly') {
             handleMakeReadOnly(contextMenu.index);
-          }else if (value === 'makeEditable') {
-            handleMakeEditable(contextMenu.index); 
-        }
+          }
         }}
       />
       {droppedItems.map((item, index) => (
