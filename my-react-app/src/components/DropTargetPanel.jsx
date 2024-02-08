@@ -68,7 +68,7 @@ const DropTargetPanel = ({ onHover, droppedItems, setDroppedItems }) => {
       id: '',
       readOnly: item.readOnly,
       options: [],
-      mandatory: false,
+      mandatory: false, 
       coordinates: { x, y },     // Include x, y coordinates in the dropped item
     };
  
@@ -89,7 +89,24 @@ const DropTargetPanel = ({ onHover, droppedItems, setDroppedItems }) => {
     }
     setContextMenu({ visible: false, index: -1, x: 0, y: 0, showAddDropdownOption: false });
   };
- 
+
+  const handleMakeEditable = (index) => {
+    const updatedItems = [...droppedItems];
+    updatedItems[index] = {
+      ...updatedItems[index],
+      readOnly: false, // Set readOnly to false when making the item editable again
+    };
+    setDroppedItems(updatedItems);
+    const hoveredItem = droppedItems[index]; // Update the hovered item's read-only state to false without clearing other details
+    onHover(
+      hoveredItem.id,
+      hoveredItem.label,
+      hoveredItem.class,
+      false // Indicate that the item is no longer read-only
+    );
+  };
+
+
   const handleContextMenu = (e, index) => {
     e.preventDefault();
     const showAddDropdownOption = droppedItems[index]?.type === 'DROPDOWN';
@@ -107,7 +124,6 @@ const DropTargetPanel = ({ onHover, droppedItems, setDroppedItems }) => {
     const dropdownOptions = updatedItems[index].options || [];
     const groupIndex = dropdownOptions.findIndex((group) => group.heading === heading);
     const optionText = prompt(`Enter an option for "${heading}" dropdown:`);
- 
     if (optionText !== null && optionText.trim() !== '') { // Check if optionText is not empty
       if (groupIndex !== -1) {
         updatedItems[index].options[groupIndex].options.push({ text: optionText });
@@ -130,9 +146,9 @@ const DropTargetPanel = ({ onHover, droppedItems, setDroppedItems }) => {
     const inputValue = prompt(`Enter ${value}`);
     if (inputValue !== null) {
       const updatedItems = [...droppedItems];
-      if (value === 'addClass') {       // Check if the value is 'addClass' and set the class accordingly
+      if (value === 'addClass') {
         updatedItems[index]['class'] = inputValue;
-      } else {       // For other cases (addLabel, addID), set label or id accordingly
+      } else {
         updatedItems[index][value === 'addLabel' ? 'label' : 'id'] = inputValue;
       }
       setDroppedItems(updatedItems);
@@ -170,6 +186,7 @@ const DropTargetPanel = ({ onHover, droppedItems, setDroppedItems }) => {
           { label: 'Add ID', value: 'addID' },
           { label: 'Add Class', value: 'addClass' },
           { label: 'Make ReadOnly', value: 'makeReadOnly' },
+          { label: 'Make Editable', value: 'makeEditable' },
           { label: 'Add Astrik Mark', value: 'addAstrikMark' },
           ...(contextMenu.showAddDropdownOption ? [{ label: 'Add Dropdown Option', value: 'addDropdownOption' }] : []),
           { label: 'Delete', value: 'delete' },
@@ -185,7 +202,9 @@ const DropTargetPanel = ({ onHover, droppedItems, setDroppedItems }) => {
             handleAddAstrikMark(contextMenu.index);
           } else if (value === 'makeReadOnly') {
             handleMakeReadOnly(contextMenu.index);
-          }
+          }else if (value === 'makeEditable') {
+            handleMakeEditable(contextMenu.index); 
+        }
         }}
       />
       {droppedItems.map((item, index) => (
@@ -209,8 +228,8 @@ const DropTargetPanel = ({ onHover, droppedItems, setDroppedItems }) => {
                 </button>
               )}
             {item.type === 'TEXTBOX' && (
-              <input type="text"
-               placeholder={item.text}
+              <input type="text" 
+               placeholder={item.text} 
                readOnly={item.readOnly}
                style={{ backgroundColor: item.readOnly ? item.color : '' }}
               />
@@ -232,7 +251,7 @@ const DropTargetPanel = ({ onHover, droppedItems, setDroppedItems }) => {
             )}
             {item.type === 'LOOKUP' && (
               <>
-                <InputGroup className="mb-3" readOnly={item.readOnly}
+                <InputGroup className="mb-3" readOnly={item.readOnly} 
                 style={{ backgroundColor: item.readOnly ? item.color : '' }} >
                   <Form.Control
                     placeholder="Search..."
