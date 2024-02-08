@@ -5,7 +5,17 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Form, InputGroup } from 'react-bootstrap';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
  
-const CustomContextMenu = ({ visible, x, y, options, onSelect }) => {
+const CustomContextMenu = ({ visible, x, y, options, onSelect,readOnly,editable, }) => {
+  let filteredOptions = options;
+  if (readOnly) {
+    filteredOptions = options.filter(
+      (option) => option.value !== "makeReadOnly"
+    );
+  } else if (editable) {
+    filteredOptions = options.filter(
+      (option) => option.value !== "makeEditable"
+    );
+  }
   return (
     <div
       className="custom-context-menu"
@@ -20,7 +30,7 @@ const CustomContextMenu = ({ visible, x, y, options, onSelect }) => {
         zIndex: 1000,
       }}
     >
-      {options.map((option) => (
+      {filteredOptions.map((option) => (
         <div
           key={option.label}
           onClick={() => onSelect(option.value)}
@@ -206,6 +216,8 @@ const DropTargetPanel = ({ onHover, droppedItems, setDroppedItems }) => {
             handleMakeEditable(contextMenu.index); 
         }
         }}
+        readOnly={droppedItems[contextMenu.index]?.readOnly}
+        editable={!droppedItems[contextMenu.index]?.readOnly}
       />
       {droppedItems.map((item, index) => (
         <Draggable key={item.id}>
