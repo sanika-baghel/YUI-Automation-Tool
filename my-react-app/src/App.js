@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import DraggableItem from './components/DraggableItem';
 import DropTargetPanel from './components/DropTargetPanel';
+import NavigationBar from './components/NavigationBar'; // Import the NavigationBar component
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
 
@@ -20,7 +21,6 @@ const App = () => {
     setHoveredItemMandatory(itemMadetory);
   };
 
-
   const downloadJsonFile = () => {
     const jsonContent = JSON.stringify(droppedItems, null, 2);
     const blob = new Blob([jsonContent], { type: 'application/json' });
@@ -33,6 +33,7 @@ const App = () => {
 
   return (
     <div className="container-fluid">
+      <NavigationBar /> {/* Include the NavigationBar component here */}
       <div className="row">
         <div className="col-md-3 sidebar">
           <h8><b>ToolBox</b></h8>

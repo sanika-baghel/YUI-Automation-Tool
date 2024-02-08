@@ -47,4 +47,11 @@ body {
   color: #888; 
 }
 
+.navbar {
+  padding: 10px; /* Adjust padding as needed */
+  font-size: 14px; /* Adjust font size as needed */
+}
 
+.custom-navbar {
+  height: 30px;  /* Adjust the height to your preference */
+}

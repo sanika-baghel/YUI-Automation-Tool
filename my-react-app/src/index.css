@@ -11,3 +11,7 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+.custom-navbar {
+  height: 30px;  /* Adjust the height to your preference */
+}
