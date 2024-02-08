@@ -68,7 +68,7 @@ const DropTargetPanel = ({ onHover, droppedItems, setDroppedItems }) => {
       id: '',
       readOnly: item.readOnly,
       options: [],
-      mandatory: false, 
+      mandatory: false,
       coordinates: { x, y },     // Include x, y coordinates in the dropped item
     };
  
@@ -107,7 +107,7 @@ const DropTargetPanel = ({ onHover, droppedItems, setDroppedItems }) => {
     const dropdownOptions = updatedItems[index].options || [];
     const groupIndex = dropdownOptions.findIndex((group) => group.heading === heading);
     const optionText = prompt(`Enter an option for "${heading}" dropdown:`);
-  
+ 
     if (optionText !== null && optionText.trim() !== '') { // Check if optionText is not empty
       if (groupIndex !== -1) {
         updatedItems[index].options[groupIndex].options.push({ text: optionText });
@@ -118,7 +118,7 @@ const DropTargetPanel = ({ onHover, droppedItems, setDroppedItems }) => {
     }
     setContextMenu({ visible: false, index: -1, x: 0, y: 0, showAddDropdownOption: false });
   };
-
+ 
   const handleDeleteItem = (index) => {
     const updatedItems = droppedItems.filter((item, i) => i !== index);
     setShowLabelIdOptions(showLabelIdOptions.filter((_, i) => i !== index));
@@ -129,7 +129,7 @@ const DropTargetPanel = ({ onHover, droppedItems, setDroppedItems }) => {
   const handleAddLabelId = (index, value) => {
     const inputValue = prompt(`Enter ${value}`);
     if (inputValue !== null) {
-      const updatedItems = [...droppedItems]; 
+      const updatedItems = [...droppedItems];
       if (value === 'addClass') {       // Check if the value is 'addClass' and set the class accordingly
         updatedItems[index]['class'] = inputValue;
       } else {       // For other cases (addLabel, addID), set label or id accordingly
@@ -209,8 +209,8 @@ const DropTargetPanel = ({ onHover, droppedItems, setDroppedItems }) => {
                 </button>
               )}
             {item.type === 'TEXTBOX' && (
-              <input type="text" 
-               placeholder={item.text} 
+              <input type="text"
+               placeholder={item.text}
                readOnly={item.readOnly}
                style={{ backgroundColor: item.readOnly ? item.color : '' }}
               />
@@ -232,7 +232,7 @@ const DropTargetPanel = ({ onHover, droppedItems, setDroppedItems }) => {
             )}
             {item.type === 'LOOKUP' && (
               <>
-                <InputGroup className="mb-3" readOnly={item.readOnly} 
+                <InputGroup className="mb-3" readOnly={item.readOnly}
                 style={{ backgroundColor: item.readOnly ? item.color : '' }} >
                   <Form.Control
                     placeholder="Search..."
