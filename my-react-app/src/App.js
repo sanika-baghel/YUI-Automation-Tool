@@ -35,7 +35,7 @@ const App = () => {
     <div className="container-fluid">
       <div className="row">
         <div className="col-md-3 sidebar">
-          <h8>ToolBox</h8>
+          <h8><b>ToolBox</b></h8>
           <DraggableItem type="BUTTON" text="Button" />
           <DraggableItem type="TEXTBOX" text="Textbox" />
           <DraggableItem type="RADIO" text="Radio Button" />
@@ -50,11 +50,11 @@ const App = () => {
         </div>
 
         <div className="col-md-2 output-window">
-          <h8>Show Details</h8><br/><br/>
+          <h8><b>Show Details</b></h8><br/><br/>
           {hoveredItemId && <span><b>Field ID:</b>{hoveredItemId}</span>}<br />
           {hoveredItemLabel && <span><b>Field Label:</b> {hoveredItemLabel}</span>} <br />
-          {hoveredItemMandatory && <span><b>IsMandatory:</b>{hoveredItemMandatory.toString()}</span>}
-          {hoveredItemClass && <h8><b>Field Class:</b> {hoveredItemClass}</h8>} <br />
+          {hoveredItemMandatory && <span><b>IsMandatory:</b>{hoveredItemMandatory.toString()}</span>}<br />
+          {hoveredItemClass && <h8><b>Class:</b> {hoveredItemClass}</h8>} <br />
           {hoveredItemReadOnly && <h8><b>IsReadOnly:</b>{hoveredItemReadOnly.toString()}</h8>}
         </div>
 
