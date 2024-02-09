@@ -69,14 +69,14 @@ const DropTargetPanel = ({ onHover, droppedItems, setDroppedItems }) => {
     const offset = monitor.getSourceClientOffset();
     const x = offset.x;
     const y = offset.y;
-    const newItem = {            
-      className: item.addClass,       // Add x, y coordinates to the dropped item
+    const newItem = {                 
       type: item.type,
       id: droppedItems.length + 1,
       text: item.text,
+      class: '',  
       label: '',
       id: '',
-      readOnly: item.readOnly,
+      readOnly: false,
       options: [],
       mandatory: false, 
       coordinates: { x, y },     // Include x, y coordinates in the dropped item
