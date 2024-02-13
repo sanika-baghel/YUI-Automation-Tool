@@ -45,6 +45,12 @@ const App = () => {
           <DraggableItem type="CHECKBOX" text="Checkbox" />
           <DraggableItem type="DROPDOWN" text="Catalog" />
           <DraggableItem type="LOOKUP" text="Lookup" />
+          <DraggableItem type="TEXTAREA" text="Textarea" />
+          <DraggableItem type="CALENDER" text="Calender" />
+          <DraggableItem type="BARCODE" text="Barcode" />
+          <DraggableItem type="ATTACHMENT" text="Attachment" />
+          <DraggableItem type="HEADER" text="Header" />
+          <DraggableItem type="FOOTER" text="Footer" />
         </div>
 
         <div className="col-md-7 code-editor">
@@ -64,7 +70,7 @@ const App = () => {
 
       </div>
 
-      <div className="fixed-bottom fixed-left p-3">
+      <div className="bottom left p-3">
         <button onClick={downloadJsonFile} className="btn btn-dark">
           Download JSON
         </button>

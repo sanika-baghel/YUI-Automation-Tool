@@ -48,7 +48,7 @@ const DropTargetPanel = ({ onHover, droppedItems, setDroppedItems }) => {
   const [showLabelIdOptions, setShowLabelIdOptions] = useState(Array(droppedItems.length).fill(true));
  
   const [, drop] = useDrop({
-    accept: ['BUTTON', 'TEXTBOX', 'RADIO', 'CHECKBOX', 'DROPDOWN', 'LOOKUP'],
+    accept: ['BUTTON', 'TEXTBOX', 'RADIO', 'CHECKBOX', 'DROPDOWN', 'LOOKUP','TEXTAREA','CALENDER','BARCODE','ATTACHMENT','HEADER','FOOTER'],
     drop: (item, monitor) => handleDrop(item, monitor),
   });
  
