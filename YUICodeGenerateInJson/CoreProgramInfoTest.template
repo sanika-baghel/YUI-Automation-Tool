@@ -1,0 +1,4 @@
+<div>
+  <label class="">{{applbl 'lABELNAME'}}</label>
+  <input type="text" id="textboxid" name="textboxid" class="lABELNAME" data-mize_required  disabled />
+</div>

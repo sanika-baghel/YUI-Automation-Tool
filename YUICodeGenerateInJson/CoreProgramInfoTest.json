@@ -1,0 +1,73 @@
+{"form": {
+  "children": [
+    {
+      "children": [
+        {
+          "attributes": {"class": ""},
+          "tag": "label",
+          "text": "{{applbl ''}}"
+        },
+        {
+          "attributes": {
+            "name": "",
+            "id": "",
+            "type": "text",
+            "class": ""
+          },
+          "tag": "input",
+          "text": ""
+        }
+      ],
+      "attributes": {},
+      "tag": "div"
+    },
+    {
+      "children": [
+        {
+          "attributes": {"class": ""},
+          "tag": "label",
+          "text": "{{applbl ''}}"
+        },
+        {
+          "attributes": {
+            "name": "",
+            "id": "",
+            "type": "checkbox",
+            "class": ""
+          },
+          "tag": "input",
+          "text": ""
+        }
+      ],
+      "attributes": {},
+      "tag": "div"
+    },
+    {
+      "children": [
+        {
+          "attributes": {"class": ""},
+          "tag": "label",
+          "text": "{{applbl ''}}"
+        },
+        {
+          "attributes": {
+            "name": "",
+            "id": "",
+            "type": "text",
+            "class": ""
+          },
+          "tag": "input",
+          "text": ""
+        }
+      ],
+      "attributes": {},
+      "tag": "div"
+    }
+  ],
+  "attributes": {
+    "role": "form",
+    "id": "return-info-form",
+    "class": "form-horizontal"
+  },
+  "tag": "form"
+}}
