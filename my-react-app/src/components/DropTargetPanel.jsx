@@ -177,6 +177,16 @@ const DropTargetPanel = ({ onHover, droppedItems, setDroppedItems }) => {
     setDroppedItems(updatedItems);
     setContextMenu({ visible: false, index: -1, x: 0, y: 0, showAddDropdownOption: false });
   };
+
+  const handleRemoveAsteriskMark = (index) => {
+    const confirmed = window.confirm('Do you want to remove the asterisk mark?');
+    if (confirmed) {
+      const updatedItems = [...droppedItems];
+      updatedItems[index]['mandatory'] = false; // Set mandatory to false to remove the asterisk mark
+      setDroppedItems(updatedItems);
+    }
+    setContextMenu({ visible: false, index: -1, x: 0, y: 0, showAddDropdownOption: false });
+  };
  
   const panelStyle = {
     border: '5px ',
@@ -197,7 +207,10 @@ const DropTargetPanel = ({ onHover, droppedItems, setDroppedItems }) => {
           { label: 'Add Class', value: 'addClass' },
           { label: 'Make ReadOnly', value: 'makeReadOnly' },
           { label: 'Make Editable', value: 'makeEditable' },
-          { label: 'Add Astrik Mark', value: 'addAstrikMark' },
+          ...(droppedItems[contextMenu.index]?.mandatory ? 
+            [{ label: 'Remove Asterisk Mark', value: 'removeAsteriskMark' }] : 
+            [{ label: 'Add Asterisk Mark', value: 'addAsteriskMark' }]
+          ),
           ...(contextMenu.showAddDropdownOption ? [{ label: 'Add Dropdown Option', value: 'addDropdownOption' }] : []),
           { label: 'Delete', value: 'delete' },
         ]}
@@ -208,8 +221,10 @@ const DropTargetPanel = ({ onHover, droppedItems, setDroppedItems }) => {
             handleAddDropdownOption(contextMenu.index);
           } else if (value === 'delete') {
             handleDeleteItem(contextMenu.index);
-          } else if (value === 'addAstrikMark') {
+          } else if (value === 'addAsteriskMark') {
             handleAddAstrikMark(contextMenu.index);
+          } else if (value === 'removeAsteriskMark') {
+            handleRemoveAsteriskMark(contextMenu.index);
           } else if (value === 'makeReadOnly') {
             handleMakeReadOnly(contextMenu.index);
           }else if (value === 'makeEditable') {
