@@ -67,8 +67,6 @@ const DropTargetPanel = ({ onHover, droppedItems, setDroppedItems }) => {
  
   const handleDrop = (item, monitor) => {
     const offset = monitor.getSourceClientOffset();
-    const x = offset.x;
-    const y = offset.y;
     const newItem = {                 
       type: item.type,
       id: droppedItems.length + 1,
@@ -80,7 +78,6 @@ const DropTargetPanel = ({ onHover, droppedItems, setDroppedItems }) => {
       readOnly: false,
       options: [],
       mandatory: false, 
-      coordinates: { x, y },     
     };
  
     setDroppedItems([...droppedItems, newItem]);
