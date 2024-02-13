@@ -9,16 +9,18 @@ const App = () => {
   const [hoveredItemId, setHoveredItemId] = useState(null);
   const [hoveredItemLabel, setHoveredItemLabel] = useState(null);
   const [hoveredItemClass, setHoveredItemClass] = useState(null);
+  const [hoveredItemValue, setHoveredItemValue] = useState(null);
   const [hoveredItemReadOnly, setHoveredItemReadOnly] = useState(false);
   const [hoveredItemMandatory, setHoveredItemMandatory] = useState(false);
   const [droppedItems, setDroppedItems] = useState([]);
 
-  const handleHover = (itemId, itemLabel, itemClass, itemReadOnly, itemMadetory) => {
+  const handleHover = (itemId, itemLabel, itemClass, itemReadOnly, itemMadetory,itemValue) => {
     setHoveredItemId(itemId);
     setHoveredItemLabel(itemLabel);
     setHoveredItemClass(itemClass);
     setHoveredItemReadOnly(itemReadOnly);
     setHoveredItemMandatory(itemMadetory);
+    setHoveredItemValue(itemValue);
   };
 
   const downloadJsonFile = () => {
@@ -52,11 +54,12 @@ const App = () => {
 
         <div className="col-md-2 output-window">
           <h8><b>Show Details</b></h8><br/><br/>
-          {hoveredItemId && <span><b>Field ID:</b>{hoveredItemId}</span>}<br />
-          {hoveredItemLabel && <span><b>Field Label:</b> {hoveredItemLabel}</span>} <br />
-          {hoveredItemMandatory && <span><b>IsMandatory:</b>{hoveredItemMandatory.toString()}</span>}<br />
-          {hoveredItemClass && <h8><b>Class:</b> {hoveredItemClass}</h8>} <br />
-          {hoveredItemReadOnly && <h8><b>IsReadOnly:</b>{hoveredItemReadOnly.toString()}</h8>}
+          {hoveredItemId && <span><b>Field ID :</b>{hoveredItemId}</span>}<br />
+          {hoveredItemLabel && <span><b>Field Label :</b> {hoveredItemLabel}</span>} <br />
+          {hoveredItemMandatory && <span><b>IsMandatory :</b>{hoveredItemMandatory.toString()}</span>}<br />
+          {hoveredItemClass && <h8><b>Field Class :</b> {hoveredItemClass}</h8>} <br />
+          {hoveredItemValue && <h8><b>Field Value :</b> {hoveredItemValue}</h8>} <br />
+          {hoveredItemReadOnly && <h8><b>IsReadOnly :</b>{hoveredItemReadOnly.toString()}</h8>}
         </div>
 
       </div>

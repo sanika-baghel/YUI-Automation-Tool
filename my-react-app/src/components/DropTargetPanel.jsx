@@ -72,6 +72,7 @@ const DropTargetPanel = ({ onHover, droppedItems, setDroppedItems }) => {
     const newItem = {                 
       type: item.type,
       id: droppedItems.length + 1,
+      value: '',
       text: item.text,
       class: '',  
       label: '',
@@ -79,7 +80,7 @@ const DropTargetPanel = ({ onHover, droppedItems, setDroppedItems }) => {
       readOnly: false,
       options: [],
       mandatory: false, 
-      coordinates: { x, y },     // Include x, y coordinates in the dropped item
+      coordinates: { x, y },     
     };
  
     setDroppedItems([...droppedItems, newItem]);
@@ -125,7 +126,7 @@ const DropTargetPanel = ({ onHover, droppedItems, setDroppedItems }) => {
  
   const handleMouseEnter = (index) => {
     const currentItem = droppedItems[index];
-    onHover(currentItem.id, currentItem.label, currentItem.class, currentItem.readOnly, currentItem.mandatory);
+    onHover(currentItem.id, currentItem.label, currentItem.class, currentItem.readOnly, currentItem.mandatory,currentItem.value);
   };
  
   const handleAddDropdownOption = (index) => {
@@ -158,7 +159,9 @@ const DropTargetPanel = ({ onHover, droppedItems, setDroppedItems }) => {
       const updatedItems = [...droppedItems];
       if (value === 'addClass') {
         updatedItems[index]['class'] = inputValue;
-      } else {
+      }else if(value === 'addValue'){
+        updatedItems[index]['value'] = inputValue;
+      }else {
         updatedItems[index][value === 'addLabel' ? 'label' : 'id'] = inputValue;
       }
       setDroppedItems(updatedItems);
@@ -205,6 +208,7 @@ const DropTargetPanel = ({ onHover, droppedItems, setDroppedItems }) => {
           { label: 'Add Label', value: 'addLabel', className: "option" },
           { label: 'Add ID', value: 'addID' },
           { label: 'Add Class', value: 'addClass' },
+          { label: 'Add Value', value: 'addValue' },
           { label: 'Make ReadOnly', value: 'makeReadOnly' },
           { label: 'Make Editable', value: 'makeEditable' },
           ...(droppedItems[contextMenu.index]?.mandatory ? 
@@ -215,7 +219,7 @@ const DropTargetPanel = ({ onHover, droppedItems, setDroppedItems }) => {
           { label: 'Delete', value: 'delete' },
         ]}
         onSelect={(value) => {
-          if (value === 'addLabel' || value === 'addID' || value ==='addClass') {
+          if (value === 'addLabel' || value === 'addID' || value ==='addClass'||value ==='addValue') {
             handleAddLabelId(contextMenu.index, value);
           } else if (value === 'addDropdownOption') {
             handleAddDropdownOption(contextMenu.index);
