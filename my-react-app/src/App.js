@@ -4,6 +4,7 @@ import DropTargetPanel from './components/DropTargetPanel';
 import NavigationBar from './components/NavigationBar'; // Import the NavigationBar component
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
+import ListGroup from 'react-bootstrap/ListGroup';
 
 const App = () => {
   const [hoveredItemId, setHoveredItemId] = useState(null);
@@ -49,6 +50,7 @@ const App = () => {
           <DraggableItem type="CALENDER" text="Calender" />
           <DraggableItem type="BARCODE" text="Barcode" />
           <DraggableItem type="ATTACHMENT" text="Attachment" />
+          <DraggableItem type="LOOKUPANDBARCODE" text="Lookup & Barcode" />
           <DraggableItem type="HEADER" text="Header" />
           <DraggableItem type="FOOTER" text="Footer" />
         </div>
