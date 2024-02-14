@@ -15,7 +15,7 @@ const App = () => {
   const [hoveredItemMandatory, setHoveredItemMandatory] = useState(false);
   const [droppedItems, setDroppedItems] = useState([]);
 
-  const handleHover = (itemId, itemLabel, itemClass, itemReadOnly, itemMadetory,itemValue) => {
+  const handleHover = (itemId, itemLabel, itemClass, itemReadOnly, itemMadetory, itemValue) => {
     setHoveredItemId(itemId);
     setHoveredItemLabel(itemLabel);
     setHoveredItemClass(itemClass);
@@ -61,7 +61,12 @@ const App = () => {
         </div>
 
         <div className="col-md-2 output-window">
-          <h8><b>Show Details</b></h8><br/><br/>
+          <div className="bottom left p-3">
+            <button onClick={downloadJsonFile} className="bottom btn btn-dark">
+              Download JSON
+            </button>
+          </div>
+          <h8><b>Show Details</b></h8><br /><br />
           {hoveredItemId && <span><b>Field ID :</b>{hoveredItemId}</span>}<br />
           {hoveredItemLabel && <span><b>Field Label :</b> {hoveredItemLabel}</span>} <br />
           {hoveredItemMandatory && <span><b>IsMandatory :</b>{hoveredItemMandatory.toString()}</span>}<br />
@@ -69,13 +74,7 @@ const App = () => {
           {hoveredItemValue && <h8><b>Field Value :</b> {hoveredItemValue}</h8>} <br />
           {hoveredItemReadOnly && <h8><b>IsReadOnly :</b>{hoveredItemReadOnly.toString()}</h8>}
         </div>
-
-      </div>
-
-      <div className="bottom left p-3">
-        <button onClick={downloadJsonFile} className="btn btn-dark">
-          Download JSON
-        </button>
+        
       </div>
     </div>
   );

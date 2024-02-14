@@ -4,6 +4,7 @@ import Draggable from 'react-draggable';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Form, InputGroup } from 'react-bootstrap';
 import { faBarcode, faCalendarDays, faSearch } from '@fortawesome/free-solid-svg-icons';
+import axios from 'axios';
 
 const CustomContextMenu = ({ visible, x, y, options, onSelect, readOnly, editable }) => {
   let filteredOptions = options;
@@ -194,6 +195,11 @@ const DropTargetPanel = ({ onHover, droppedItems, setDroppedItems }) => {
     position: 'relative',
   };
 
+  const [selectedFile, setSelectedFile] = useState(null);
+   const handleFileUpload = (event) => {
+     setSelectedFile(event.target.files[0]);
+   };
+
   return (
     <div ref={drop} className="col-lg-3 " style={panelStyle}>
       <CustomContextMenu
@@ -307,11 +313,9 @@ const DropTargetPanel = ({ onHover, droppedItems, setDroppedItems }) => {
               </>
             )}
             {item.type === 'ATTACHMENT' && (
-              <button>
-                {item.label && <span style={{ display: 'none' }}>item.label</span>}
-                {/* Display label name on the button */}
-                {item.label}
-              </button>
+              <div>
+              <input type="file" onChange={handleFileUpload} />
+            </div>
             )}
             {item.type === 'TEXTAREA' && (
               <textarea
