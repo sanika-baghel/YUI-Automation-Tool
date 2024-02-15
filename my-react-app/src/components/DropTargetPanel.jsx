@@ -199,7 +199,16 @@ const DropTargetPanel = ({ onHover, droppedItems, setDroppedItems }) => {
    const handleFileUpload = (event) => {
      setSelectedFile(event.target.files[0]);
    };
-
+   // Add the handleDeleteLabel function outside the DropTargetPanel component
+const handleDeleteLabel = (index) => {
+  const confirmed = window.confirm('Are you sure you want to delete this label?');
+  if (confirmed) {
+    const updatedItems = [...droppedItems];
+    updatedItems[index]['label'] = ''; // Remove the label
+    setDroppedItems(updatedItems);
+  }
+  setContextMenu({ visible: false, index: -1, x: 0, y: 0, showAddDropdownOption: false });
+};
   return (
     <div ref={drop} className="col-lg-3 " style={panelStyle}>
       <CustomContextMenu
@@ -207,7 +216,10 @@ const DropTargetPanel = ({ onHover, droppedItems, setDroppedItems }) => {
         x={contextMenu.x}
         y={contextMenu.y}
         options={[
-          { label: 'Add Label', value: 'addLabel', className: "option" },
+          ...(droppedItems[contextMenu.index]?.label ?
+            [{ label: 'Delete Label', value: 'deleteLabel' }] :
+            [{ label: 'Add Label', value: 'addLabel' }] 
+          ),
           { label: 'Add ID', value: 'addID' },
           { label: 'Add Class', value: 'addClass' },
           { label: 'Add Value', value: 'addValue' },
@@ -235,7 +247,10 @@ const DropTargetPanel = ({ onHover, droppedItems, setDroppedItems }) => {
             handleMakeReadOnly(contextMenu.index);
           } else if (value === 'makeEditable') {
             handleMakeEditable(contextMenu.index);
+          }else if (value === 'deleteLabel') {
+            handleDeleteLabel(contextMenu.index);
           }
+          
         }}
         readOnly={droppedItems[contextMenu.index]?.readOnly}
         editable={!droppedItems[contextMenu.index]?.readOnly}
@@ -279,7 +294,7 @@ const DropTargetPanel = ({ onHover, droppedItems, setDroppedItems }) => {
                 style={{ backgroundColor: item.readOnly ? item.color : '' }}
               />
             )}
-            {item.type === 'RADIO' && <input type="radio" name="radioGroup" />}
+            {item.type === 'RADIO' && <input type="radio"/>}
             {item.type === 'CHECKBOX' && <input type="checkbox" />}
             {item.type === 'DROPDOWN' && (
               <select className="form-select">
