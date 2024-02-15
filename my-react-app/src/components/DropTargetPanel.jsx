@@ -299,7 +299,7 @@ const handleDeleteLabel = (index) => {
             {item.type === 'DROPDOWN' && (
               <select className="form-select">
                 {item.options?.map((group, i) => (
-                  <optgroup key={i} label={group.heading}>
+                  <optgroup key={i}>
                     {group.options?.map((option, j) => (
                       <option key={j} value={option.id} className="dropdown-option">
                         {option.text}
