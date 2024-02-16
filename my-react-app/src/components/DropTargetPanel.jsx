@@ -49,7 +49,7 @@ const DropTargetPanel = ({ onHover, droppedItems, setDroppedItems }) => {
   const [showLabelIdOptions, setShowLabelIdOptions] = useState(Array(droppedItems.length).fill(true));
 
   const [, drop] = useDrop({
-    accept: ['BUTTON', 'TEXTBOX', 'RADIO', 'CHECKBOX', 'DROPDOWN', 'LOOKUP', 'TEXTAREA', 'CALENDER', 'BARCODE', 'LOOKUPANDBARCODE', 'ATTACHMENT', 'HEADER', 'FOOTER'],
+    accept: ['BUTTON', 'TEXTBOX', 'RADIO', 'CHECKBOX', 'DROPDOWN', 'LOOKUP', 'TEXTAREA', 'CALENDAR', 'BARCODE', 'LOOKUPANDBARCODE', 'ATTACHMENT', 'HEADER', 'FOOTER'],
     drop: (item, monitor) => handleDrop(item, monitor),
   });
 
@@ -364,7 +364,7 @@ const handleDeleteLabel = (index) => {
                 style={{ width: '400%' }}
               />
             )}
-            {item.type === 'CALENDER' && (
+            {item.type === 'CALENDAR' && (
               <>
                 <InputGroup className="mb-3" readOnly={item.readOnly}
                   style={{ backgroundColor: item.readOnly ? item.color : '' }} >
