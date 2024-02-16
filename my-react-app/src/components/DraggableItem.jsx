@@ -1,6 +1,7 @@
 import React from 'react';
 import { useDrag } from 'react-dnd';
  
+
 const DraggableItem = ({ type, text }) => {
   const [, drag] = useDrag({
     type,
@@ -8,7 +9,7 @@ const DraggableItem = ({ type, text }) => {
   });
  
   return (
-    <div ref={drag} style={{ padding: '8px', margin: '8px', cursor: 'move', border: '1px solid #ccc' }}>
+    <div ref={drag} className="draggable-item">
       {text}
     </div>
   );

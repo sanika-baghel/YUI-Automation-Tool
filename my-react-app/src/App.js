@@ -4,7 +4,6 @@ import DropTargetPanel from './components/DropTargetPanel';
 import NavigationBar from './components/NavigationBar'; // Import the NavigationBar component
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
-import ListGroup from 'react-bootstrap/ListGroup';
 
 const App = () => {
   const [hoveredItemId, setHoveredItemId] = useState(null);
@@ -38,7 +37,7 @@ const App = () => {
     <div className="container-fluid">
       <NavigationBar /> {/* Include the NavigationBar component here */}
       <div className="row">
-        <div className="col-md-3 sidebar">
+        <div className="col-md-2 sidebar">
           <h8><b>ToolBox</b></h8>
           <DraggableItem type="BUTTON" text="Button" />
           <DraggableItem type="TEXTBOX" text="Textbox" />
@@ -60,7 +59,7 @@ const App = () => {
           <DropTargetPanel droppedItems={droppedItems} setDroppedItems={setDroppedItems} onHover={handleHover} />
         </div>
 
-        <div className="col-md-2 output-window">
+        <div className="col-md-3 output-window">
           <div className="bottom left p-3">
             <button onClick={downloadJsonFile} className="bottom btn btn-dark">
               Download JSON
