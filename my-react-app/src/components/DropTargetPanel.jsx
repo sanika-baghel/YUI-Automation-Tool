@@ -68,22 +68,46 @@ const DropTargetPanel = ({ onHover, droppedItems, setDroppedItems }) => {
 
   const handleDrop = (item, monitor) => {
     const offset = monitor.getSourceClientOffset();
-    const newItem = {
-      type: item.type,
-      id: droppedItems.length + 1,
-      value: '',
-      text: item.text,
-      class: '',
-      label: '',
-      id: '',
-      readOnly: false,
-      options: [],
-      mandatory: false,
-    };
-
-    setDroppedItems([...droppedItems, newItem]);
-    setShowLabelIdOptions([...showLabelIdOptions, true]);
+    let newItem;
+  
+    if (item.type === 'RADIO') {
+      const count = prompt('Enter the number of radio buttons to create:');
+      if (count && !isNaN(count)) {
+        newItem = {
+          type: item.type,
+          id: droppedItems.length + 1,
+          value: '',
+          text: item.text,
+          class: '',
+          label: '',
+          id: '',
+          readOnly: false,
+          options: [],
+          mandatory: false,
+        };
+  
+        setDroppedItems([...droppedItems, ...Array(parseInt(count)).fill(newItem)]);
+        setShowLabelIdOptions([...showLabelIdOptions, ...Array(parseInt(count)).fill(true)]);
+      }
+    } else {
+      newItem = {
+        type: item.type,
+        id: droppedItems.length + 1,
+        value: '',
+        text: item.text,
+        class: '',
+        label: '',
+        id: '',
+        readOnly: false,
+        options: [],
+        mandatory: false,
+      };
+  
+      setDroppedItems([...droppedItems, newItem]);
+      setShowLabelIdOptions([...showLabelIdOptions, true]);
+    }
   };
+  
 
   const handleMakeReadOnly = (index) => {
     const confirmed = window.confirm('Do you want this field Readonly?');
