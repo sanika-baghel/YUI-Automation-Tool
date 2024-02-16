@@ -66,12 +66,12 @@ const App = () => {
             </button>
           </div>
           <h8 style={{ color:'white' }}><b>Show Details</b></h8><br /><br />
-          {hoveredItemId && <span><b>Field ID :</b>{hoveredItemId}</span>}<br />
-          {hoveredItemLabel && <span><b>Field Label :</b> {hoveredItemLabel}</span>} <br />
-          {hoveredItemMandatory && <span><b>IsMandatory :</b>{hoveredItemMandatory.toString()}</span>}<br />
-          {hoveredItemClass && <h8><b>Field Class :</b> {hoveredItemClass}</h8>} <br />
-          {hoveredItemValue && <h8><b>Field Value :</b> {hoveredItemValue}</h8>} <br />
-          {hoveredItemReadOnly && <h8><b>IsReadOnly :</b>{hoveredItemReadOnly.toString()}</h8>}
+          {hoveredItemId && <span style={{ color:'white' }}><b>Field ID :</b>{hoveredItemId}</span>}<br />
+          {hoveredItemLabel && <span style={{ color:'white' }}><b>Field Label :</b> {hoveredItemLabel}</span>} <br />
+          {hoveredItemMandatory && <span style={{ color:'white' }}><b>IsMandatory :</b>{hoveredItemMandatory.toString()}</span>}<br />
+          {hoveredItemClass && <h8 style={{ color:'white' }}><b>Field Class :</b> {hoveredItemClass}</h8>} <br />
+          {hoveredItemValue && <h8 style={{ color:'white' }}><b>Field Value :</b> {hoveredItemValue}</h8>} <br />
+          {hoveredItemReadOnly && <h8 style={{ color:'white' }}><b>IsReadOnly :</b>{hoveredItemReadOnly.toString()}</h8>}
         </div>
         
       </div>
