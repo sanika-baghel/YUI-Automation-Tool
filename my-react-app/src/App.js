@@ -38,7 +38,7 @@ const App = () => {
       <NavigationBar /> {/* Include the NavigationBar component here */}
       <div className="row">
         <div className="col-md-2 sidebar">
-          <h8><b>ToolBox</b></h8>
+          <h8 style={{ color:'white' }}><b>ToolBox</b></h8>
           <DraggableItem type="BUTTON" text="Button" />
           <DraggableItem type="TEXTBOX" text="Textbox" />
           <DraggableItem type="RADIO" text="Radio Button" />
@@ -55,7 +55,7 @@ const App = () => {
         </div>
 
         <div className="col-md-7 code-editor">
-          <h8>Drop Target Panel</h8>
+          <h8 style={{ color:'white' }}>Drop Target Panel</h8>
           <DropTargetPanel droppedItems={droppedItems} setDroppedItems={setDroppedItems} onHover={handleHover} />
         </div>
 
@@ -65,7 +65,7 @@ const App = () => {
               Download JSON
             </button>
           </div>
-          <h8><b>Show Details</b></h8><br /><br />
+          <h8 style={{ color:'white' }}><b>Show Details</b></h8><br /><br />
           {hoveredItemId && <span><b>Field ID :</b>{hoveredItemId}</span>}<br />
           {hoveredItemLabel && <span><b>Field Label :</b> {hoveredItemLabel}</span>} <br />
           {hoveredItemMandatory && <span><b>IsMandatory :</b>{hoveredItemMandatory.toString()}</span>}<br />

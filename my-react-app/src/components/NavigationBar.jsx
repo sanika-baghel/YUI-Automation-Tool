@@ -8,7 +8,7 @@ const NavigationBar = ({ onToolSelect }) => {
   };
 
   return (
-    <nav className="navbar navbar-dark bg-dark custom-navbar">
+    <nav className="navbar navbar-dark custom-navbar" style={{ backgroundColor:'#575555' }}>
       <div className="btn-group text-white">
         {/* <a href="#!" onClick={() => handleToolSelect('File')} style={{ color: 'white' }}>File</a>
         <a href="#!" onClick={() => handleToolSelect('Edit')} style={{ color: 'white' }}>Edit</a> */}
