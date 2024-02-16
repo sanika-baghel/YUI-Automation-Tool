@@ -69,7 +69,7 @@ const DropTargetPanel = ({ onHover, droppedItems, setDroppedItems }) => {
   const handleDrop = (item, monitor) => {
     const offset = monitor.getSourceClientOffset();
     let newItem;
-  
+
     if (item.type === 'RADIO') {
       const count = prompt('Enter the number of radio buttons to create:');
       if (count && !isNaN(count)) {
@@ -85,7 +85,7 @@ const DropTargetPanel = ({ onHover, droppedItems, setDroppedItems }) => {
           options: [],
           mandatory: false,
         };
-  
+
         setDroppedItems([...droppedItems, ...Array(parseInt(count)).fill(newItem)]);
         setShowLabelIdOptions([...showLabelIdOptions, ...Array(parseInt(count)).fill(true)]);
       }
@@ -102,12 +102,11 @@ const DropTargetPanel = ({ onHover, droppedItems, setDroppedItems }) => {
         options: [],
         mandatory: false,
       };
-  
+
       setDroppedItems([...droppedItems, newItem]);
       setShowLabelIdOptions([...showLabelIdOptions, true]);
     }
   };
-  
 
   const handleMakeReadOnly = (index) => {
     const confirmed = window.confirm('Do you want this field Readonly?');
@@ -220,19 +219,19 @@ const DropTargetPanel = ({ onHover, droppedItems, setDroppedItems }) => {
   };
 
   const [selectedFile, setSelectedFile] = useState(null);
-   const handleFileUpload = (event) => {
-     setSelectedFile(event.target.files[0]);
-   };
-   // Add the handleDeleteLabel function outside the DropTargetPanel component
-const handleDeleteLabel = (index) => {
-  const confirmed = window.confirm('Are you sure you want to delete this label?');
-  if (confirmed) {
-    const updatedItems = [...droppedItems];
-    updatedItems[index]['label'] = ''; // Remove the label
-    setDroppedItems(updatedItems);
-  }
-  setContextMenu({ visible: false, index: -1, x: 0, y: 0, showAddDropdownOption: false });
-};
+  const handleFileUpload = (event) => {
+    setSelectedFile(event.target.files[0]);
+  };
+  // Add the handleDeleteLabel function outside the DropTargetPanel component
+  const handleDeleteLabel = (index) => {
+    const confirmed = window.confirm('Are you sure you want to delete this label?');
+    if (confirmed) {
+      const updatedItems = [...droppedItems];
+      updatedItems[index]['label'] = ''; // Remove the label
+      setDroppedItems(updatedItems);
+    }
+    setContextMenu({ visible: false, index: -1, x: 0, y: 0, showAddDropdownOption: false });
+  };
   return (
     <div ref={drop} className="col-lg-3 " style={panelStyle}>
       <CustomContextMenu
@@ -242,7 +241,7 @@ const handleDeleteLabel = (index) => {
         options={[
           ...(droppedItems[contextMenu.index]?.label ?
             [{ label: 'Delete Label', value: 'deleteLabel' }] :
-            [{ label: 'Add Label', value: 'addLabel' }] 
+            [{ label: 'Add Label', value: 'addLabel' }]
           ),
           { label: 'Add ID', value: 'addID' },
           { label: 'Add Class', value: 'addClass' },
@@ -271,10 +270,10 @@ const handleDeleteLabel = (index) => {
             handleMakeReadOnly(contextMenu.index);
           } else if (value === 'makeEditable') {
             handleMakeEditable(contextMenu.index);
-          }else if (value === 'deleteLabel') {
+          } else if (value === 'deleteLabel') {
             handleDeleteLabel(contextMenu.index);
           }
-          
+
         }}
         readOnly={droppedItems[contextMenu.index]?.readOnly}
         editable={!droppedItems[contextMenu.index]?.readOnly}
@@ -318,7 +317,7 @@ const handleDeleteLabel = (index) => {
                 style={{ backgroundColor: item.readOnly ? item.color : '' }}
               />
             )}
-            {item.type === 'RADIO' && <input type="radio"/>}
+            {item.type === 'RADIO' && <input type="radio" name="radioGroup"/>}
             {item.type === 'CHECKBOX' && <input type="checkbox" />}
             {item.type === 'DROPDOWN' && (
               <select className="form-select">
@@ -353,8 +352,8 @@ const handleDeleteLabel = (index) => {
             )}
             {item.type === 'ATTACHMENT' && (
               <div>
-              <input type="file" onChange={handleFileUpload} />
-            </div>
+                <input type="file" onChange={handleFileUpload} />
+              </div>
             )}
             {item.type === 'TEXTAREA' && (
               <textarea

@@ -55,12 +55,10 @@ const App = () => {
             <DraggableItem type="FOOTER" text="Footer" />
           </div>
           <div className="bottom left p-3" style={{ position: 'fixed', bottom: '0', left: '0', padding: '15px' }}>
-    <button onClick={downloadJsonFile} className="btn btn-light" style={{ color: 'black' }}>
-        Download JSON
-    </button>
-</div>
-
-
+            <button onClick={downloadJsonFile} className="btn btn-light" style={{ color: 'black' }}>
+              Download JSON
+            </button>
+          </div>
         </div>
 
         <div className="col-md-7 code-editor">
@@ -69,7 +67,6 @@ const App = () => {
         </div>
 
         <div className="col-md-3 output-window">
-
           <h8 style={{ color: 'white' }}><b>Show Details</b></h8><br /><br />
           {hoveredItemId && <span style={{ color: 'white' }}><b>Field ID :</b>{hoveredItemId}</span>}<br />
           {hoveredItemLabel && <span style={{ color: 'white' }}><b>Field Label :</b> {hoveredItemLabel}</span>} <br />
