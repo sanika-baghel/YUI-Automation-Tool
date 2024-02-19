@@ -86,23 +86,29 @@ const DropTargetPanel = ({ onHover, droppedItems, setDroppedItems,editedLabel, e
     if (item.type === 'RADIO') {
       const count = prompt('Enter the number of radio buttons to create:');
       if (count && !isNaN(count)) {
-        newItem = {
-          type: item.type,
-          id: droppedItems.length + 1,
-          value: '',
-          text: item.text,
-          class: '',
-          label: '',
-          id: '',
-          readOnly: false,
-          options: [],
-          mandatory: false,
-        };
- 
-        setDroppedItems([...droppedItems, ...Array(parseInt(count)).fill(newItem)]);
+        const radioButtons = [];
+        for (let i = 0; i < parseInt(count); i++) {
+          // Assign default label or empty label to the radio button
+          const label = ''; // You can change this to assign default label if needed
+          const radioButton = {
+            type: item.type,
+            id: droppedItems.length + i + 1,
+            value: '',
+            text: label,
+            class: '',
+            label: '',
+            readOnly: false,
+            options: [],
+            mandatory: false,
+          };
+          radioButtons.push(radioButton);
+        }
+    
+        setDroppedItems([...droppedItems, ...radioButtons]);
         setShowLabelIdOptions([...showLabelIdOptions, ...Array(parseInt(count)).fill(true)]);
       }
-    } else {
+    }
+    else {
       newItem = {
         type: item.type,
         id: droppedItems.length + 1,
