@@ -98,7 +98,7 @@ const DropTargetPanel = ({ onHover, droppedItems, setDroppedItems,editedLabel, e
           options: [],
           mandatory: false,
         };
-
+ 
         setDroppedItems([...droppedItems, ...Array(parseInt(count)).fill(newItem)]);
         setShowLabelIdOptions([...showLabelIdOptions, ...Array(parseInt(count)).fill(true)]);
       }
@@ -115,7 +115,7 @@ const DropTargetPanel = ({ onHover, droppedItems, setDroppedItems,editedLabel, e
         options: [],
         mandatory: false,
       };
-
+ 
       setDroppedItems([...droppedItems, newItem]);
       setShowLabelIdOptions([...showLabelIdOptions, true]);
     }
