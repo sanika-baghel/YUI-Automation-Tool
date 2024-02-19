@@ -82,7 +82,7 @@ const DropTargetPanel = ({ onHover, droppedItems, setDroppedItems,editedLabel, e
   const handleDrop = (item, monitor) => {
     const offset = monitor.getSourceClientOffset();
     let newItem;
-
+ 
     if (item.type === 'RADIO') {
       const count = prompt('Enter the number of radio buttons to create:');
       if (count && !isNaN(count)) {
