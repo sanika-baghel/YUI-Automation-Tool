@@ -44,7 +44,7 @@ const CustomContextMenu = ({ visible, x, y, options, onSelect, readOnly, editabl
   );
 };
 
-const DropTargetPanel = ({ onHover, droppedItems, setDroppedItems }) => {
+const DropTargetPanel = ({ onHover, droppedItems, setDroppedItems,editedLabel, editedClass, editedValue  }) => {
   const [contextMenu, setContextMenu] = useState({ visible: false, index: -1, x: 0, y: 0 });
   const [showLabelIdOptions, setShowLabelIdOptions] = useState(Array(droppedItems.length).fill(true));
 
@@ -60,11 +60,24 @@ const DropTargetPanel = ({ onHover, droppedItems, setDroppedItems }) => {
   };
 
   useEffect(() => {
+    const updatedItems = droppedItems.map((item) => {
+      if (item.id === contextMenu.index) {
+        return {
+          ...item,
+          label: editedLabel,
+          class: editedClass,
+          value: editedValue,
+        };
+      }
+      return item;
+    });
+    setDroppedItems(updatedItems);
     document.addEventListener('click', handleClickOutside);
     return () => {
       document.removeEventListener('click', handleClickOutside);
     };
-  }, [contextMenu]);
+  }, [contextMenu, editedLabel, editedClass, editedValue]);
+  
 
   const handleDrop = (item, monitor) => {
     const offset = monitor.getSourceClientOffset();

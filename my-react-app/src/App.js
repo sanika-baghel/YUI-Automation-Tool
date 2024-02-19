@@ -4,23 +4,29 @@ import DropTargetPanel from './components/DropTargetPanel';
 import NavigationBar from './components/NavigationBar'; // Import the NavigationBar component
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
+import ListGroup from 'react-bootstrap/ListGroup';
 
 const App = () => {
-  const [hoveredItemId, setHoveredItemId] = useState(null);
-  const [hoveredItemLabel, setHoveredItemLabel] = useState(null);
-  const [hoveredItemClass, setHoveredItemClass] = useState(null);
-  const [hoveredItemValue, setHoveredItemValue] = useState(null);
-  const [hoveredItemReadOnly, setHoveredItemReadOnly] = useState(false);
-  const [hoveredItemMandatory, setHoveredItemMandatory] = useState(false);
+  const [hoveredItem, setHoveredItem] = useState({
+    id: null,
+    label: null,
+    class: null,
+    value: null,
+    readOnly: false,
+    mandatory: false,
+  });
+  
   const [droppedItems, setDroppedItems] = useState([]);
 
-  const handleHover = (itemId, itemLabel, itemClass, itemReadOnly, itemMadetory, itemValue) => {
-    setHoveredItemId(itemId);
-    setHoveredItemLabel(itemLabel);
-    setHoveredItemClass(itemClass);
-    setHoveredItemReadOnly(itemReadOnly);
-    setHoveredItemMandatory(itemMadetory);
-    setHoveredItemValue(itemValue);
+  const handleHover = (itemId, itemLabel, itemClass, itemReadOnly, itemMandatory, itemValue) => {
+    setHoveredItem({
+      id: itemId,
+      label: itemLabel,
+      class: itemClass,
+      value: itemValue,
+      readOnly: itemReadOnly,
+      mandatory: itemMandatory,
+    });
   };
 
   const downloadJsonFile = () => {
@@ -32,6 +38,37 @@ const App = () => {
     a.download = 'dropped_items.json';
     a.click();
   };
+
+  const [editedLabel, setEditedLabel] = useState('');
+  const [editedClass, setEditedClass] = useState('');
+  const [editedValue, setEditedValue] = useState('');
+
+
+  // Function to handle changes in the input fields
+  const handleLabelChange = (event) => {
+    setEditedLabel(event.target.value);
+    updateHoveredItem();
+  };
+  
+  const handleClassChange = (event) => {
+    setEditedClass(event.target.value);
+    updateHoveredItem();
+  };
+  
+  const handleValueChange = (event) => {
+    setEditedValue(event.target.value);
+    updateHoveredItem();
+  };
+  
+  const updateHoveredItem = () => {
+    setHoveredItem((prevItem) => ({
+      ...prevItem,
+      label: editedLabel,
+      class: editedClass,
+      value: editedValue,
+    }));
+  };
+  
 
   return (
     <div className="container-fluid">
@@ -67,18 +104,34 @@ const App = () => {
         </div>
 
         <div className="col-md-3 output-window">
-          <h8 style={{ color: 'white' }}><b>Show Details</b></h8><br /><br />
-          {hoveredItemId && <span style={{ color: 'white' }}><b>Field ID :</b>{hoveredItemId}</span>}<br />
-          {hoveredItemLabel && <span style={{ color: 'white' }}><b>Field Label :</b> {hoveredItemLabel}</span>} <br />
-          {hoveredItemMandatory && <span style={{ color: 'white' }}><b>IsMandatory :</b>{hoveredItemMandatory.toString()}</span>}<br />
-          {hoveredItemClass && <h8 style={{ color: 'white' }}><b>Field Class :</b> {hoveredItemClass}</h8>} <br />
-          {hoveredItemValue && <h8 style={{ color: 'white' }}><b>Field Value :</b> {hoveredItemValue}</h8>} <br />
-          {hoveredItemReadOnly && <h8 style={{ color: 'white' }}><b>IsReadOnly :</b>{hoveredItemReadOnly.toString()}</h8>}
-        </div>
-
+         <h8><b>Properties</b></h8><br /><br />
+          <table className="table table-bordered" style={{ borderCollapse: 'collapse' }}>
+          <tbody>
+            <TableRow label="Field ID" value={hoveredItem.id} />
+            <TableRow label="Field Label" value={hoveredItem.label} editable onChange={handleLabelChange} />
+            <TableRow label="Is Mandatory" value={hoveredItem.mandatory.toString()} />
+            <TableRow label="Field Class" value={hoveredItem.class} editable onChange={handleClassChange} />
+            <TableRow label="Field Value" value={hoveredItem.value} editable onChange={handleValueChange} />
+            <TableRow label="Is Read Only" value={hoveredItem.readOnly.toString()} />
+          </tbody>
+          </table>
+         </div>
       </div>
     </div>
   );
 };
+
+const TableRow = ({ label, value, editable, onChange}) => (
+  <tr>
+    <td><b>{label}</b></td>
+    <td>
+      {editable ? (
+        <input type="text" value={value} onChange={onChange} />
+      ) : (
+        value
+      )}
+    </td>
+  </tr>
+);
 
 export default App;
