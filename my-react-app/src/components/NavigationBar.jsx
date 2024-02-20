@@ -35,7 +35,6 @@ const NavigationBar = ({ onToolSelect }) => {
   <Dropdown.Menu show={fileDropdownVisible} style={{ backgroundColor: '#c2bfbf' }}>
     <Dropdown.Item onClick={() => handleToolSelect('NewFile')}>New File</Dropdown.Item>
     <Dropdown.Item onClick={() => handleToolSelect('Save')}>Save</Dropdown.Item>
-    <Dropdown.Item onClick={() => handleToolSelect('DownloadTemplate')}>Download Template</Dropdown.Item>
     <Dropdown.Item onClick={() => handleToolSelect('Exit')}>Exit</Dropdown.Item>
   </Dropdown.Menu>
 
