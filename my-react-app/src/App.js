@@ -4,7 +4,6 @@ import DropTargetPanel from './components/DropTargetPanel';
 import NavigationBar from './components/NavigationBar'; // Import the NavigationBar component
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
-import ListGroup from 'react-bootstrap/ListGroup';
 
 const App = () => {
   const [hoveredItem, setHoveredItem] = useState({
@@ -104,7 +103,7 @@ const App = () => {
         </div>
 
         <div className="col-md-3 output-window">
-         <h8><b>Properties</b></h8><br /><br />
+         <h8 style={{ color: 'white' }}><b>Properties</b></h8><br /><br />
           <table className="table table-bordered" style={{ borderCollapse: 'collapse' }}>
           <tbody>
             <TableRow label="Field ID" value={hoveredItem.id} />

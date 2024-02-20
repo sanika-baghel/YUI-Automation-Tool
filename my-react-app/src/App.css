@@ -24,7 +24,7 @@ body {
 }
 
 .code-editor {
-  background-color: #969595;
+  background-color: #c2bfbf;
 }
 
 .output-window {
@@ -77,4 +77,16 @@ body {
 
 .table-bordered td, .table-bordered th {
   border: 1px solid #0c0c0c;
+}
+a {
+  display: block;
+  color: white;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+}
+
+/* Normal state styling */
+a:hover {
+  background-color:rgb(170, 165, 165);
 }

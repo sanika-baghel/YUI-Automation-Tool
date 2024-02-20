@@ -13,28 +13,54 @@ const NavigationBar = ({ onToolSelect }) => {
   };
 
   return (
-    <nav className="navbar navbar-dark custom-navbar" style={{ backgroundColor: '#575555' }}>
-      <div className="nav-item dropdown">
-        <a
-          className="nav-link dropdown-toggle"
-          href="#!"
-          id="fileDropdown"
-          role="button"
-          onClick={() => setFileDropdownVisible(!fileDropdownVisible)}
-          style={{ color: 'white' }}
-        >
-          File
-        </a>
-        <Dropdown.Menu show={fileDropdownVisible} style={{ backgroundColor: '#969595' }}>
-          <Dropdown.Item onClick={() => handleToolSelect('NewFile')}>New File</Dropdown.Item>
-          <Dropdown.Item onClick={() => handleToolSelect('Save')}>Save</Dropdown.Item>
-          <Dropdown.Item onClick={() => handleToolSelect('DownloadTemplate')}>Download Template</Dropdown.Item>
-          <Dropdown.Item onClick={() => handleToolSelect('Exit')}>Exit</Dropdown.Item>
-        </Dropdown.Menu>
-      </div>
-      <span className="navbar-brand-sm text-white" style={{ marginTop: '-5px' }}>YUI-AUTOMATION TOOL</span>
-    </nav>
+    <nav class="navbar navbar-expand-lg navbar-light" style={{ backgroundColor: '#575555', height: '50px' }}>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav mr-auto">
+    <li class="nav-item dropdown">
+  
+  <a
+    className="nav-link dropdown-toggle"
+    href="#!"
+    id="fileDropdown"
+    role="button"
+    onClick={() => setFileDropdownVisible(!fileDropdownVisible)}
+    style={navLinkStyle }
+  >
+    File
+  </a>
+  <Dropdown.Menu show={fileDropdownVisible} style={{ backgroundColor: '#c2bfbf' }}>
+    <Dropdown.Item onClick={() => handleToolSelect('NewFile')}>New File</Dropdown.Item>
+    <Dropdown.Item onClick={() => handleToolSelect('Save')}>Save</Dropdown.Item>
+    <Dropdown.Item onClick={() => handleToolSelect('DownloadTemplate')}>Download Template</Dropdown.Item>
+    <Dropdown.Item onClick={() => handleToolSelect('Exit')}>Exit</Dropdown.Item>
+  </Dropdown.Menu>
+
+</li>
+      <li class="nav-item active">
+        <a class="nav-link" href="#" style={navLinkStyle}>Download Protrak Screen</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#" style={navLinkStyle }>Download YUI Screen</a>
+      </li>
+      
+    </ul>
+  </div>
+</nav>
   );
 };
+const navLinkStyle = {
+  color: 'white',
+  textDecoration: 'none',
+  padding: '14px 16px',
+  transition: 'background-color 0.3s',
+};
 
+// Add hover effect
+navLinkStyle[':hover'] = {
+  backgroundColor: 'rgb(170, 165, 165)',
+};
 export default NavigationBar;
