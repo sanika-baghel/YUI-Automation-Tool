@@ -29,14 +29,18 @@ const App = () => {
   };
 
   const downloadJsonFile = () => {
-    const jsonContent = JSON.stringify(droppedItems, null, 2);
-    const blob = new Blob([jsonContent], { type: 'application/json' });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = 'dropped_items.json';
-    a.click();
-  };
+    const confirmation = window.confirm("Are you sure you want to download the file?");
+    if (confirmation) {
+        const jsonContent = JSON.stringify(droppedItems, null, 2);
+        const blob = new Blob([jsonContent], { type: 'application/json' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'dropped_items.json';       
+        a.click();
+        alert("Download successful! ");
+    }
+};
 
   const [editedLabel, setEditedLabel] = useState('');
   const [editedClass, setEditedClass] = useState('');

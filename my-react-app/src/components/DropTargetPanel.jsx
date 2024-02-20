@@ -83,7 +83,7 @@ const DropTargetPanel = ({ onHover, droppedItems, setDroppedItems,editedLabel, e
     const offset = monitor.getSourceClientOffset();
     let newItem;
  
-    if (item.type === 'RADIO') {
+    if (item.type === 'RADIO' || item.type === 'CHECKBOX') {
       const count = prompt('Enter the number of radio buttons to create:');
       if (count && !isNaN(count)) {
         const radioButtons = [];
@@ -195,18 +195,25 @@ const DropTargetPanel = ({ onHover, droppedItems, setDroppedItems,editedLabel, e
   const handleAddLabelId = (index, value) => {
     const inputValue = prompt(`Enter ${value}`);
     if (inputValue !== null) {
-      const updatedItems = [...droppedItems];
-      if (value === 'addClass') {
-        updatedItems[index]['class'] = inputValue;
-      } else if (value === 'addValue') {
-        updatedItems[index]['value'] = inputValue;
-      } else {
-        updatedItems[index][value === 'addLabel' ? 'label' : 'id'] = inputValue;
-      }
-      setDroppedItems(updatedItems);
-      setContextMenu({ visible: false, index: -1, x: 0, y: 0, showAddDropdownOption: false });
+        const updatedItems = [...droppedItems];
+        // Check if the entered label already exists
+        const isDuplicateLabel = updatedItems.some(item => item.label === inputValue);
+        if (!isDuplicateLabel) {
+            if (value === 'addClass') {
+                updatedItems[index]['class'] = inputValue;
+            } else if (value === 'addValue') {
+                updatedItems[index]['value'] = inputValue;
+            } else {
+                updatedItems[index][value === 'addLabel' ? 'label' : 'id'] = inputValue;
+            }
+            setDroppedItems(updatedItems);
+            setContextMenu({ visible: false, index: -1, x: 0, y: 0, showAddDropdownOption: false });
+        } else {
+            alert(`Label "${inputValue}" already exists. Please enter a different label.`);
+        }
     }
-  };
+};
+
 
   const handleAddAstrikMark = (index) => {
     if (!droppedItems[index].label) {
