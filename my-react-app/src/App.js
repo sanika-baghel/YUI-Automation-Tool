@@ -79,7 +79,7 @@ const App = () => {
       <div className="row">
         <div className="col-md-2 sidebar">
           <div style={{ overflowY: 'auto', maxHeight: '380px' }}>
-            <h8 style={{ color: 'white' }}><b>ToolBox</b></h8>
+            <h8 style={{ color: 'black' }}><b>ToolBox</b></h8>
             <DraggableItem type="BUTTON" text="Button" />
             <DraggableItem type="TEXTBOX" text="Textbox" />
             <DraggableItem type="RADIO" text="Radio Button" />
@@ -103,13 +103,13 @@ const App = () => {
 
         <div className="col-md-7 code-editor">
           <div style={{ overflowY: 'auto', maxHeight: '620px' }}>
-            <h8 style={{ color: 'white' }}>Drop Target Panel</h8>
+            <h8 style={{ color: 'black' }}>Drop Target Panel</h8>
             <DropTargetPanel droppedItems={droppedItems} setDroppedItems={setDroppedItems} onHover={handleHover} />
           </div>
         </div>
 
         <div className="col-md-3 output-window">
-          <h8 style={{ color: 'white' }}><b>Properties</b></h8><br /><br />
+          <h8 style={{ color: 'black' }}><b>Properties</b></h8><br /><br />
           <table className="table table-bordered" style={{ borderCollapse: 'collapse' }}>
             <tbody>
               <TableRow label="Field ID" value={hoveredItem.id} />

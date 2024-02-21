@@ -20,15 +20,15 @@ body {
 }
 
 .sidebar {
-  background-color: #575555;
+  background-color:#bfdbdfdc;
 }
 
 .code-editor {
-  background-color: #c2bfbf;
+  background-color: #fbfcfc;
 }
 
 .output-window {
-  background-color: #575555;
+  background-color: #bfdbdfdc;
 }
 
 .panel-3-id {
@@ -68,11 +68,11 @@ body {
   cursor: move;
   transition: background-color 0.3s ease;
   border-radius: 5px;
-  color: white;
+  color: rgb(0, 0, 0);
 }
 
 .draggable-item:hover {
-  background-color: rgb(170, 165, 165);
+  background-color: #0fb6c9dc;
 }
 
 .table-bordered td, .table-bordered th {
@@ -88,5 +88,5 @@ a {
 
 /* Normal state styling */
 a:hover {
-  background-color:rgb(170, 165, 165);
+  background-color: #bfdbdfdc;
 }
