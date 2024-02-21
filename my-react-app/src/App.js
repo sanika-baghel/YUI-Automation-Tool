@@ -89,21 +89,40 @@ const downloadYUITemplate = async (e)  => {
   const [editedValue, setEditedValue] = useState('');
 
 
-  // Function to handle changes in the input fields
-  const handleLabelChange = (event) => {
-    setEditedLabel(event.target.value);
-    updateHoveredItem();
+  const handleLabelChange = (newLabel) => {
+    const updatedDroppedItems = [...droppedItems];
+    const hoveredItemIndex = updatedDroppedItems.findIndex(item => item.id === hoveredItem.id);
+    if (hoveredItemIndex !== -1) {
+      updatedDroppedItems[hoveredItemIndex].label = newLabel;
+      setDroppedItems(updatedDroppedItems);
+      setEditedLabel(newLabel);
+      updateHoveredItem();
+    }
+  };
+  
+  const handleClassChange = (newClass) => {
+    const updatedDroppedItems = [...droppedItems];
+    const hoveredItemIndex = updatedDroppedItems.findIndex(item => item.id === hoveredItem.id);
+    if (hoveredItemIndex !== -1) {
+      updatedDroppedItems[hoveredItemIndex].class = newClass;
+      setDroppedItems(updatedDroppedItems);
+      setEditedClass(newClass);
+      updateHoveredItem();
+    }
   };
 
-  const handleClassChange = (event) => {
-    setEditedClass(event.target.value);
-    updateHoveredItem();
+  const handleValueChange = (newValue) => {
+    const updatedDroppedItems = [...droppedItems];
+    const hoveredItemIndex = updatedDroppedItems.findIndex(item => item.id === hoveredItem.id);
+    if (hoveredItemIndex !== -1) {
+      updatedDroppedItems[hoveredItemIndex].value = newValue;
+      setDroppedItems(updatedDroppedItems);
+      setEditedValue(newValue);
+      updateHoveredItem();
+    }
   };
 
-  const handleValueChange = (event) => {
-    setEditedValue(event.target.value);
-    updateHoveredItem();
-  };
+
 
   const updateHoveredItem = () => {
     setHoveredItem((prevItem) => ({
@@ -183,7 +202,7 @@ const TableRow = ({ label, value, editable, onChange }) => (
     <td><b>{label}</b></td>
     <td>
       {editable ? (
-        <input type="text" value={value} onChange={onChange} />
+        <input type="text" value={value} onChange={(e) => onChange(e.target.value)} />
       ) : (
         value
       )}
