@@ -1,7 +1,5 @@
 package com.prorigo.service;
 
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -21,44 +19,37 @@ public class TemplateToJsonServiceImpl implements TemplateToJsonService {
 
   private final Gson gson = new Gson();
 
-  public List<FormData> convertTemplateToJson(MultipartFile file) {
-    String htmlContent = null;
-    try {
-      htmlContent = new String(file.getBytes());
-    } catch (IOException e) {
-      e.printStackTrace();
-    }
-    return parseHtml(htmlContent);
-  }
-
-  private List<FormData> parseHtml(String htmlContent) {
+  public List<FormData> convertTemplateToJson(MultipartFile file) throws IOException {
+    //Convert File to String
+    String htmlContent = new String(file.getBytes());
     Document doc = Jsoup.parse(htmlContent);
-
-    String label1 = (extractLabels(htmlContent));
 
     Elements elements = doc.select(
         "input[type=checkbox], input[type=radio], select, input[type=text],input[type=lookup],input[type=barcode],"
             + "input[type=lookup and barcode], input[type=Calendar], textarea,button, input[type=file]");
 
+    // Extract Label Names
+    List<String> labelNames = extractLabels(htmlContent);
     List<FormData> formDataList = new ArrayList<>();
     for (Element element : elements) {
       if (!element.toString().startsWith("<!--") && !element.toString().endsWith("-->")) {
         FormData formData = new FormData();
-
-        formData.setLabel(label1);
         String extractedContent = "";
+        // Iterate over label names and set them in FormData
+        int index = elements.indexOf(element);
+        if (index < labelNames.size()) {
+          formData.setLabel(labelNames.get(index));
+        }
         String inputValue = element.attr("value");
         int startIndex = inputValue.indexOf("{{");
         int endIndex = inputValue.indexOf("}}");
         if (startIndex != -1 && endIndex != -1 && startIndex < endIndex) {
           extractedContent = inputValue.substring(startIndex + 2, endIndex);
         }
-
-        formData.setType(getType(element));
+        formData.setType(checkTypeName(element));
         formData.setId(element.attr("id"));
-        formData.setClassName(element.hasAttr("class") ? element.attr("class") : "");
-
         formData.setValue(extractedContent);
+        formData.setClassName(element.hasAttr("class") ? element.attr("class") : "");
         formData.setReadOnly(element.hasAttr("disabled"));
 
         if (!element.hasAttr("data-mize_required")) {
@@ -91,72 +82,29 @@ public class TemplateToJsonServiceImpl implements TemplateToJsonService {
           formData.setText("Catalog");
           formData.setOptions(getSelectOptions(element));
         }
-
         formDataList.add(formData);
       }
     }
     return formDataList;
   }
 
-  private String check(String htmlContent) {
+  //Extract Label
+  private List<String> extractLabels(String htmlContent) {
     Document doc = Jsoup.parse(htmlContent);
     Elements labels = doc.select("form#return-info-form label");
-    String labelName = "";
+    List<String> labelNames = new ArrayList<>();
     for (Element label : labels) {
       String labelExpression = label.text();
       String regex = "'(.*?)'";
-      labelName = labelExpression.replaceAll("\\{\\{applbl\\s*" + regex + "}}", "$1").trim();
-      System.out.println("Label Name: " + labelName);
+      String extractedLabelName = labelExpression.replaceAll("\\{\\{applbl\\s*" + regex + "}}",
+          "$1").trim();
+      labelNames.add(extractedLabelName);
     }
-    return labelName;
+    return labelNames;
   }
 
-  private String extractLabels(String htmlContent) {
-    Document doc = Jsoup.parse(htmlContent);
-    Elements labels = doc.select("form#return-info-form label");
-    // List<String> labelNames = new ArrayList<>();
-    String labelName = "";
-    for (Element label : labels) {
-      String labelExpression = label.text();
-      String regex = "'(.*?)'";
-      labelName = labelExpression.replaceAll("\\{\\{applbl\\s*" + regex + "}}", "$1").trim();
-      System.out.println("Label Name: " + labelName);
-      //  labelNames.add(labelName);
-    }
-    return labelName;
-  }
-
-//  private static void extractLabels(Document doc,List<FormData> formDataList) {
-//   // Document doc = Jsoup.parse(htmlContent);
-//    Elements labels = doc.select("label");
-//    int labelsCount = labels.size();
-//    for (int i = 0; i < labelsCount; i++) {
-//      String labelText = labels.get(i).text().trim();
-//      if (!labelText.isEmpty() && i < formDataList.size()) {
-//        // Set label value in the FormData object at index i
-//        formDataList.get(i).setLabel(labelText);
-//      } else {
-//        // Handle the case where formDataList size is smaller than the number of labels
-//        System.err.println("Warning: Not enough FormData objects to set labels.");
-//        break; // Exit the loop
-//      }
-//    }
-//  }
-
-  private String extractLabelName(String htmlContent) {
-    // Regular expression to extract the label name from the {{applbl }} expression
-    String regex = "\\{\\{applbl\\s*'([^']+)'\\}\\}";
-    Pattern pattern = Pattern.compile(regex);
-    Matcher matcher = pattern.matcher(htmlContent);
-    if (matcher.find()) {
-      System.out.println("iff=======");
-      return matcher.group(1); // Extract the label name
-    } else {
-      return ""; // Return empty string if no label name is found
-    }
-  }
-
-  private String getType(Element element) {
+  //Check Type Name of the template
+  private String checkTypeName(Element element) {
     String tagName = element.tagName().toLowerCase();
     if ("input".equals(tagName)) {
       String type = element.attr("type").toLowerCase();
@@ -202,22 +150,7 @@ public class TemplateToJsonServiceImpl implements TemplateToJsonService {
     return options;
   }
 
-  public static String removeComments(String html) {
-    // Regular expression to match HTML comments
-    String commentRegex = "<!--(.*?)-->";
-    Pattern pattern = Pattern.compile(commentRegex, Pattern.DOTALL);
-    Matcher matcher = pattern.matcher(html.trim());
-
-    // Remove comments from the HTML string
-    StringBuffer cleanedHtml = new StringBuffer();
-    while (matcher.find()) {
-      matcher.appendReplacement(cleanedHtml, "");
-    }
-    matcher.appendTail(cleanedHtml);
-
-    return cleanedHtml.toString();
-  }
-
+  //Write data in Json File
   @Override
   public void writeToJsonFile(String json) throws IOException {
     try (FileWriter fileWriter = new FileWriter("output.json")) {

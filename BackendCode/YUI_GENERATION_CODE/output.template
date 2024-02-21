@@ -6,6 +6,26 @@
        <div class="panel-collapse collapse in col-xs-12 no-margin no-padding pad15-top id="">
          <div class="col-sm-12 errorText_overFlow no-margin no-padding clearfix">
            <div class="cc-field control-group drpDwn_cc hide">
+	      <div class="cc-field">
+	      <label class="">{{applbl 'TLABEL'}}</label>
+	      <div class="controls">
+	      {{#if @viewonly}}
+	      <p class="" id="TID" name="TID">{{TID}}</p>
+	      {{else}}
+	      <input type="text" id="TID" name="TID" class="" value="" data-mize_required disabled />
+	       {{/if}}
+	      </div>
+	     </div>
+	      <div class="cc-field">
+	      <label class="">{{applbl 'BUTlABEL'}}</label>
+	      <div class="controls">
+	      {{#if @viewonly}}
+	      <p class="" id="BID" name="BID">{{BID}}</p>
+	      {{else}}
+<button type="button" id="BID" name="BID" class="" value="{{BVALUE}}" data-mize_required disabled ></button>
+	       {{/if}}
+	      </div>
+	     </div>
         </div>
        </div>
       </div>

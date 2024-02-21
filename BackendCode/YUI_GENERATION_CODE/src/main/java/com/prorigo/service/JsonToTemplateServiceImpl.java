@@ -10,34 +10,32 @@ import org.springframework.stereotype.Service;
 public class JsonToTemplateServiceImpl implements JsonToTemplateService {
 
   @Override
-  public String generateForm(String jsonInput) {
+  public String convertJsonToTemplate(String jsonInput) {
     if (jsonInput == null || jsonInput.isEmpty()) {
       return "No JSON input provided.";
     }
 
     // Convert JSON to Java objects
     Gson gson = new Gson();
-
     FormData[] formElements = gson.fromJson(jsonInput, FormData[].class);
 
     // Check if formElements is null
     if (formElements == null) {
       return "Error parsing JSON input.";
     }
-
-    // Generate HTML form
+    // Generate Template form
     StringBuilder htmlForm = new StringBuilder();
-    // Your existing logic to generate HTML form
 
     htmlForm.append("<form role=\"form\" class=\"form-horizontal\" id=\"return-info-form\">\n");
-
     htmlForm.append(" <div class=\"col-sm-12 col-md-12 col-xs-12 clearfix no-padding\"> \n");
-
     htmlForm.append("  <div class=\"col-sm-12 clearfix no-padding\"> \n");
     htmlForm.append("    <div class=\"col-sm-12 no-padding return-info-form\"> \n");
-    htmlForm.append("      <div class=\"col-xs-12 print-halfbox no-padding clearfix pad10-bottom\">\n");
-    htmlForm.append("       <div class=\"panel-collapse collapse in col-xs-12 no-margin no-padding pad15-top id=\"\">\n");
-    htmlForm.append("         <div class=\"col-sm-12 errorText_overFlow no-margin no-padding clearfix\">\n");
+    htmlForm.append(
+        "      <div class=\"col-xs-12 print-halfbox no-padding clearfix pad10-bottom\">\n");
+    htmlForm.append(
+        "       <div class=\"panel-collapse collapse in col-xs-12 no-margin no-padding pad15-top id=\"\">\n");
+    htmlForm.append(
+        "         <div class=\"col-sm-12 errorText_overFlow no-margin no-padding clearfix\">\n");
     htmlForm.append("           <div class=\"cc-field control-group drpDwn_cc hide\">\n");
 
     for (FormData element : formElements) {
@@ -55,22 +53,21 @@ public class JsonToTemplateServiceImpl implements JsonToTemplateService {
 
       htmlForm.append("\t      {{else}}\n");
 
-      // Check if the value is null
+      // Check if the value is null or not
       String value = (element.getValue() != null && !element.getValue().equalsIgnoreCase("")) ? "{{"
           + element.getValue() + "}}" : "";
-      System.out.println("value==" + value);
 
       switch (element.getType()) {
 
         //For Button
         case "BUTTON":
-          htmlForm.append("<button type=\"button\" id=\"").append(element.getId())
+          htmlForm.append("   <button type=\"button\" id=\"").append(element.getId())
                   .append("\" name=\"").append(element.getId())
                   .append("\" class=\"").append(element.getClassName())
                   .append("\" value=\"")
                   .append(value).append("\"")
                   .append(element.isMandatory() ? " data-mize_required" : "")
-                  .append(element.isReadOnly() ? " disabled" : "").append(" >")
+                  .append(element.isReadOnly() ? " disabled" : "").append(" >\n")
                   .append("</button>\n");
           break;
 
@@ -99,6 +96,7 @@ public class JsonToTemplateServiceImpl implements JsonToTemplateService {
 
           break;
 
+        //For TextArea
         case "TEXTAREA":
           htmlForm.append("\t<textarea").append(" id=\"").append(element.getId())
                   .append("\" name=\"").append(element.getId()).append("\" class=\"")
@@ -110,9 +108,8 @@ public class JsonToTemplateServiceImpl implements JsonToTemplateService {
                   .append("</textarea>\n");
           break;
 
+       // For Textbox,Checkbox,Radio,Lookup,Barcode,LookupAndBarcode
         case "TEXTBOX":
-        case "DATETIME":
-        case "FILE":
         case "CHECKBOX":
         case "RADIO":
         case "LOOKUP":
@@ -153,7 +150,6 @@ public class JsonToTemplateServiceImpl implements JsonToTemplateService {
           }
           break;
         default:
-          // Unsupported type
           break;
       }
       htmlForm.append("\t       {{/if}}\n");
@@ -171,6 +167,7 @@ public class JsonToTemplateServiceImpl implements JsonToTemplateService {
     return htmlForm.toString();
   }
 
+  //Write data in Template File
   public void writeTemplateToFile(String htmlForm) throws IOException {
     try (FileWriter fileWriter = new FileWriter("output.template")) {
       fileWriter.write(htmlForm);

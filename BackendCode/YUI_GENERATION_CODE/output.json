@@ -1,1 +1,1 @@
-[{"type":"TEXTBOX","id":"addisd","text":"Textbox","class":"","label":"AS","value":"","readOnly":true,"options":[],"mandatory":true}]
+[{"type":"TEXTBOX","id":"TID","text":"Textbox","class":"","label":"TLABEL","value":"","readOnly":true,"options":[],"mandatory":true},{"type":"BUTTON","id":"BID","text":"Button","class":"","label":"BUTlABEL","value":"BVALUE","readOnly":true,"options":[],"mandatory":true}]
