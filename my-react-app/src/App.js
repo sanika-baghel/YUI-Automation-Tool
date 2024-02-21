@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
 import DraggableItem from './components/DraggableItem';
 import DropTargetPanel from './components/DropTargetPanel';
-import NavigationBar from './components/NavigationBar'; // Import the NavigationBar component
+import NavigationBar from './NavigationBar'; // Import the NavigationBar component
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
+import axios from 'axios';
+
 
 const App = () => {
   const [hoveredItem, setHoveredItem] = useState({
@@ -41,6 +43,46 @@ const App = () => {
         alert("Download successful! ");
     }
 };
+
+
+const downloadYUITemplate = async (e)  => {
+  const confirmation = window.confirm("Are you sure you want to download the file?");
+      if (confirmation) {
+      const jsonContent = JSON.stringify(droppedItems, null, 2);
+      const blob = new Blob([jsonContent], { type: 'application/json' });
+     // const url = URL.createObjectURL(blob);
+     e.preventDefault();
+      try {
+        const formData = new FormData();
+        formData.append('jsonFile', blob, 'dropped_items.json'); // 'file' should match the key name expected by the server
+        const response = await axios.post('http://localhost:8080/convert/jsonToTemplate', formData, {
+          headers: {
+            'Content-Type': 'multipart/form-data' // Don't forget to set the content type
+          }
+        });
+
+    // Create a new Blob object using the response data of the file
+    const file = new Blob(
+      [response.data],
+      { type: response.headers['content-type'] }
+    );
+        const fileURL = URL.createObjectURL(file);
+    const link = document.createElement('a');
+    link.href = fileURL;
+    link.setAttribute('download', 'filename.template'); // or any other extension
+    document.body.appendChild(link);
+    link.click();
+    
+
+    // Clean up and remove the link
+    link.parentNode.removeChild(link);
+    URL.revokeObjectURL(fileURL); // Free up memory by releasing the object URL
+    alert("Download successful! ");
+  } catch (error) {
+    console.error("Error during file download", error);
+  }
+     }
+    };
 
   const [editedLabel, setEditedLabel] = useState('');
   const [editedClass, setEditedClass] = useState('');
@@ -98,7 +140,17 @@ const App = () => {
             <button onClick={downloadJsonFile} className="btn btn-light" style={{ color: 'black' }}>
               Download JSON
             </button>
+            <br></br>
+            <br></br>
+            <button onClick={downloadYUITemplate} className="btn btn-light" style={{ color: 'black' }}>
+              Download template
+            </button>
           </div>
+          {/* <div className="bottom left p-3" style={{ bottom: '0', left: '0', padding: '15px' }}>
+            <button onClick={downloadYUITemplate} className="btn btn-light" style={{ color: 'black' }}>
+              Download template
+            </button>
+          </div> */}
         </div>
 
         <div className="col-md-7 code-editor">
