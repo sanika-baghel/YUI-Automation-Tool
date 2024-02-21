@@ -147,16 +147,17 @@ const DropTargetPanel = ({ onHover, droppedItems, setDroppedItems,editedLabel, e
       ...updatedItems[index],
       readOnly: false, // Set readOnly to false when making the item editable again
     };
-    setDroppedItems(updatedItems);
-    const hoveredItem = droppedItems[index]; // Update the hovered item's read-only state to false without clearing other details
-    onHover(
-      hoveredItem.id,
-      hoveredItem.label,
-      hoveredItem.class,
-      false // Indicate that the item is no longer read-only
-    );
+    setDroppedItems(updatedItems, () => {
+      const hoveredItem = updatedItems[index]; // Use the updatedItems array
+      onHover(
+        hoveredItem.id,
+        hoveredItem.label,
+        hoveredItem.class,
+        false // Indicate that the item is no longer read-only
+      );
+    });
   };
-
+  
   const handleContextMenu = (e, index) => {
     e.preventDefault();
     const showAddDropdownOption = droppedItems[index]?.type === 'DROPDOWN';
