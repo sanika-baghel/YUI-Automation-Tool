@@ -1,0 +1,16 @@
+<form role="form" class="form-horizontal" id="return-info-form">
+ <div class="col-sm-12 col-md-12 col-xs-12 clearfix no-padding"> 
+  <div class="col-sm-12 clearfix no-padding"> 
+    <div class="col-sm-12 no-padding return-info-form"> 
+      <div class="col-xs-12 print-halfbox no-padding clearfix pad10-bottom">
+       <div class="panel-collapse collapse in col-xs-12 no-margin no-padding pad15-top id="">
+         <div class="col-sm-12 errorText_overFlow no-margin no-padding clearfix">
+           <div class="cc-field control-group drpDwn_cc hide">
+        </div>
+       </div>
+      </div>
+    </div>
+   </div>
+  </div>
+ </div>
+</form>
