@@ -1,5 +1,7 @@
 package com.prorigo.service;
 
+import com.prorigo.dto.Option;
+import com.prorigo.dto.OptionsGroup;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -32,6 +34,7 @@ public class TemplateToJsonServiceImpl implements TemplateToJsonService {
     List<String> labelNames = extractLabels(htmlContent);
     List<FormData> formDataList = new ArrayList<>();
     for (Element element : elements) {
+
       if (!element.toString().startsWith("<!--") && !element.toString().endsWith("-->")) {
         FormData formData = new FormData();
         String extractedContent = "";
@@ -80,7 +83,9 @@ public class TemplateToJsonServiceImpl implements TemplateToJsonService {
           formData.setText("Attachment");
         } else if ("DROPDOWN".equals(formData.getType())) {
           formData.setText("Catalog");
-          formData.setOptions(getSelectOptions(element));
+          // Call getSelectOptions method for the current select element
+          List<OptionsGroup> optionsGroups = getSelectOptions(element);
+          formData.setOptions(optionsGroups);
         }
         formDataList.add(formData);
       }
@@ -126,7 +131,7 @@ public class TemplateToJsonServiceImpl implements TemplateToJsonService {
         return "LOOKUPANDBARCODE";
       }
     } else if ("select".equals(tagName)) {
-      return "SELECT";
+      return "DROPDOWN";
     } else if ("textarea".equals(tagName)) {
       return "TEXTAREA";
     } else if ("button".equals(tagName)) {
@@ -135,20 +140,33 @@ public class TemplateToJsonServiceImpl implements TemplateToJsonService {
     return null;
   }
 
-  private List<Object> getSelectOptions(Element selectElement) {
-    List<Object> options = new ArrayList<>();
-    Elements optionElements = selectElement.select("option");
-    for (Element option : optionElements) {
-      String value = option.attr("value");
-      String text = option.text();
-      if (!value.isEmpty()) {
-        options.add(value);
-      } else {
-        options.add(text);
+  private static List<OptionsGroup> getSelectOptions(Element selectElement) {
+    List<OptionsGroup> optionsGroups = new ArrayList<>();
+
+    if (selectElement != null) {
+      // Get the options elements
+      Elements optionElements = selectElement.select("option");
+
+      // Create an OptionsGroup object
+      OptionsGroup optionsGroup = new OptionsGroup();
+      optionsGroup.setHeading("Catalog");
+
+      // Create a list of Option objects
+      List<Option> options = new ArrayList<>();
+      for (Element optionElement : optionElements) {
+        String text = optionElement.text();
+        Option option = new Option(text);
+        options.add(option);
       }
+      // Set the options list in the OptionsGroup object
+      optionsGroup.setOptions(options);
+
+      // Add the OptionsGroup to the list
+      optionsGroups.add(optionsGroup);
     }
-    return options;
+    return optionsGroups;
   }
+
 
   //Write data in Json File
   @Override

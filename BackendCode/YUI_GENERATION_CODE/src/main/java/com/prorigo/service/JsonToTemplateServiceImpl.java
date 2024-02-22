@@ -1,9 +1,13 @@
 package com.prorigo.service;
 
 import com.prorigo.dto.FormData;
+import com.prorigo.dto.Option;
+import com.prorigo.dto.OptionsGroup;
 import java.io.FileWriter;
 import java.io.IOException;
 import com.google.gson.Gson;
+import java.util.List;
+import java.util.Map;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -61,54 +65,54 @@ public class JsonToTemplateServiceImpl implements JsonToTemplateService {
 
         //For Button
         case "BUTTON":
-          htmlForm.append("   <button type=\"button\" id=\"").append(element.getId())
+          htmlForm.append("\t      <button type=\"button\" id=\"").append(element.getId())
                   .append("\" name=\"").append(element.getId())
                   .append("\" class=\"").append(element.getClassName())
                   .append("\" value=\"")
                   .append(value).append("\"")
                   .append(element.isMandatory() ? " data-mize_required" : "")
                   .append(element.isReadOnly() ? " disabled" : "").append(" >\n")
-                  .append("</button>\n");
+                  .append("\t      </button>\n");
           break;
 
-        //For Dropdown
+        // For Dropdown
         case "DROPDOWN":
-          htmlForm.append("\t<select id=\"").append(element.getId()).append("\" name=\"")
-                  .append(element.getId()).append("\" class=\"").append(element.getClassName());
-
-          htmlForm.append("\" value=\"")
+          htmlForm.append("\t      <select id=\"").append(element.getId()).append("\" name=\"")
+                  .append(element.getId()).append("\" class=\"").append(element.getClassName())
+                  .append("\" value=\"")
                   .append(value).append("\"")
                   .append(element.isMandatory() ? " data-mize_required" : "")
-                  .append(element.isReadOnly() ? " disabled" : "").append(">");
+                  .append(element.isReadOnly() ? " disabled" : "").append(">\n");
 
-          htmlForm.append("<option value=\"").append(element.getValue()).append("\">")
-                  .append(element.getText()).append("</option>");
+          for (Map<String, Object> optionsGroupMap : (List<Map<String, Object>>) element.getOptions()) {
+            String heading = (String) optionsGroupMap.get("heading");
+            List<Map<String, String>> optionsList = (List<Map<String, String>>) optionsGroupMap.get(
+                "options");
 
-//          for (OptionsGroup optionsGroup : element.getOptions()) {
-//            htmlForm.append("<optgroup label=\"").append(optionsGroup.getHeading()).append("\">");
-//            for (Option option : optionsGroup.getOptions()) {
-//              htmlForm.append("<option value=\"").append(option.getText()).append("\">").append(option.getText()).append("</option>\n");
-//            }
-//            htmlForm.append("\t</optgroup>\n");
-//          }
+            htmlForm.append("\t     <optgroup label=\"").append(heading).append("\">\n");
 
-          htmlForm.append("\t</select>\n");
-
+            for (Map<String, String> optionMap : optionsList) {
+              String text = optionMap.get("text");
+              htmlForm.append("\t   <option>").append(text).append("</option>\n");
+            }
+            htmlForm.append("\t     </optgroup>\n");
+          }
+          htmlForm.append("\t       </select>\n");
           break;
 
         //For TextArea
         case "TEXTAREA":
-          htmlForm.append("\t<textarea").append(" id=\"").append(element.getId())
+          htmlForm.append("\t    <textarea").append(" id=\"").append(element.getId())
                   .append("\" name=\"").append(element.getId()).append("\" class=\"")
                   .append(element.getClassName()).append("\" value=\"")
                   .append(value).append("\"")
                   .append(element.isMandatory() ? " data-mize_required" : "")
                   .append(element.isReadOnly() ? " disabled" : "")
                   .append(" >")
-                  .append("</textarea>\n");
+                  .append("\t   </textarea>\n");
           break;
 
-       // For Textbox,Checkbox,Radio,Lookup,Barcode,LookupAndBarcode
+        // For Textbox,Checkbox,Radio,Lookup,Barcode,LookupAndBarcode
         case "TEXTBOX":
         case "CHECKBOX":
         case "RADIO":
@@ -133,20 +137,20 @@ public class JsonToTemplateServiceImpl implements JsonToTemplateService {
 
           if (element.getType().equalsIgnoreCase("LOOKUP") || element.getType().equalsIgnoreCase(
               "LOOKUPANDBARCODE")) {
-            htmlForm.append("\t<span class=\"").append("\">")
-                    .append("\t<button type=\"button\"").append(" class=\"")
+            htmlForm.append("\t    <span class=\"").append("\">")
+                    .append("\t    <button type=\"button\"").append(" class=\"")
                     .append("\" tabindex=\"-1\"").append(">")
                     .append("<i class=\"icon-search\"></i>").append("</button>\n")
-                    .append("\t</span>\n");
+                    .append("\t    </span>\n");
           }
           if (element.getType().equalsIgnoreCase("LOOKUPANDBARCODE") || element.getType()
                                                                                .equalsIgnoreCase(
                                                                                    "BARCODE")) {
-            htmlForm.append("\t<span class=\"").append("\">")
-                    .append("\t<button type=\"button\"").append(" class=\"")
+            htmlForm.append("\t    <span class=\"").append("\">")
+                    .append("\t    <button type=\"button\"").append(" class=\"")
                     .append("\" tabindex=\"-1\"").append(" id=\"").append("\">")
                     .append("<i class=\"icon-barcode big-font\"></i>").append("</button>\n")
-                    .append("\t</span>\n");
+                    .append("\t   </span>\n");
           }
           break;
         default:

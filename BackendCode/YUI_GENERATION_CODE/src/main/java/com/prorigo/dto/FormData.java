@@ -18,7 +18,8 @@ public class FormData {
 	private String label;
 	private String value;
 	private boolean readOnly;
-	private List<Object> options = new ArrayList<>();
+	// Use a wildcard to represent both OptionsGroup and Option
+	private List<?> options = new ArrayList<>();
 	private boolean mandatory;
 
 
