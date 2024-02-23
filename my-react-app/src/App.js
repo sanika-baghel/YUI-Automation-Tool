@@ -6,7 +6,7 @@ import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
 import { Dropdown } from 'react-bootstrap';
-import logoImage from './Prorigologo.png'; 
+import logoImage from './Prorigologo.png';
 import axios from 'axios';
 
 
@@ -36,16 +36,16 @@ const App = () => {
   const downloadJsonFile = () => {
     const confirmation = window.confirm("Are you sure you want to download the file?");
     if (confirmation) {
-        const jsonContent = JSON.stringify(droppedItems, null, 2);
-        const blob = new Blob([jsonContent], { type: 'application/json' });
-        const url = URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = 'dropped_items.json';       
-        a.click();
-        alert("Download successful! ");
+      const jsonContent = JSON.stringify(droppedItems, null, 2);
+      const blob = new Blob([jsonContent], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'dropped_items.json';
+      a.click();
+      alert("Download successful! ");
     }
-};
+  };
 
   const [fileDropdownVisible, setFileDropdownVisible] = useState(false);
 
@@ -53,17 +53,17 @@ const App = () => {
     if (toolType === 'Exit') {
       // Close the window when 'Exit' is selected
       window.close();
-    } 
+    }
     setFileDropdownVisible(false); // Close dropdown after selecting an option
   };
 
-const downloadYUITemplate = async (e)  => {
-  const confirmation = window.confirm("Are you sure you want to download the file?");
-      if (confirmation) {
+  const downloadYUITemplate = async (e) => {
+    const confirmation = window.confirm("Are you sure you want to download the file?");
+    if (confirmation) {
       const jsonContent = JSON.stringify(droppedItems, null, 2);
       const blob = new Blob([jsonContent], { type: 'application/json' });
-     // const url = URL.createObjectURL(blob);
-     e.preventDefault();
+      // const url = URL.createObjectURL(blob);
+      e.preventDefault();
       try {
         const formData = new FormData();
         formData.append('jsonFile', blob, 'dropped_items.json'); // 'file' should match the key name expected by the server
@@ -73,28 +73,27 @@ const downloadYUITemplate = async (e)  => {
           }
         });
 
-    // Create a new Blob object using the response data of the file
-    const file = new Blob(
-      [response.data],
-      { type: response.headers['content-type'] }
-    );
+        // Create a new Blob object using the response data of the file
+        const file = new Blob(
+          [response.data],
+          { type: response.headers['content-type'] }
+        );
         const fileURL = URL.createObjectURL(file);
-    const link = document.createElement('a');
-    link.href = fileURL;
-    link.setAttribute('download', 'filename.template'); // or any other extension
-    document.body.appendChild(link);
-    link.click();
-    
+        const link = document.createElement('a');
+        link.href = fileURL;
+        link.setAttribute('download', 'YUIScreen.template'); // or any other extension
+        document.body.appendChild(link);
+        link.click();
 
-    // Clean up and remove the link
-    link.parentNode.removeChild(link);
-    URL.revokeObjectURL(fileURL); // Free up memory by releasing the object URL
-    alert("Download successful! ");
-  } catch (error) {
-    console.error("Error during file download", error);
-  }
-     }
-    };
+        // Clean up and remove the link
+        link.parentNode.removeChild(link);
+        URL.revokeObjectURL(fileURL); // Free up memory by releasing the object URL
+        alert("Download successful! ");
+      } catch (error) {
+        console.error("Error during file download", error);
+      }
+    }
+  };
 
   const [editedLabel, setEditedLabel] = useState('');
   const [editedClass, setEditedClass] = useState('');
@@ -111,7 +110,7 @@ const downloadYUITemplate = async (e)  => {
       updateHoveredItem();
     }
   };
-  
+
   const handleClassChange = (newClass) => {
     const updatedDroppedItems = [...droppedItems];
     const hoveredItemIndex = updatedDroppedItems.findIndex(item => item.id === hoveredItem.id);
@@ -148,44 +147,44 @@ const downloadYUITemplate = async (e)  => {
     <div className="container-fluid">
       {/* <NavigationBar /> Include the NavigationBar component here */}
       <nav className="navbar navbar-expand-lg navbar-light" style={{ backgroundColor: '#0fb6c9dc', height: '50px' }}>
-      <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-        <span className="navbar-toggler-icon"></span>
-      </button>
+        <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span className="navbar-toggler-icon"></span>
+        </button>
 
-      <div className="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul className="navbar-nav mr-auto">
-          <li className="nav-item">
-            <img src={logoImage} alt="Logo" style={{ height: '40px', marginRight: '10px' }} /> {/* Add your image here */}
-          </li>
-          <li className="nav-item dropdown">
-            <a
-              className="nav-link dropdown-toggle"
-              href="#!"
-              id="fileDropdown"
-              role="button"
-              onClick={() => setFileDropdownVisible(!fileDropdownVisible)}
-              style={navLinkStyle}
-            >
-              File
-            </a>
-            <Dropdown.Menu show={fileDropdownVisible} style={{ backgroundColor: '#bfdbdfdc' }}>
-              <Dropdown.Item onClick={() => handleToolSelect('NewFile')}>New File</Dropdown.Item>
-              <Dropdown.Item onClick={() => handleToolSelect('Save')}>Save</Dropdown.Item>
-              <Dropdown.Item onClick={() => handleToolSelect('Exit')}>Exit</Dropdown.Item>
-            </Dropdown.Menu>
-          </li>
-          <li className="nav-item active">
-            <a className="nav-link" href="#" style={navLinkStyle}>Download Protrak Screen</a>
-          </li>
-          <li className="nav-item">
-            <a className="nav-link" onClick={downloadYUITemplate} style={navLinkStyle}>Download YUI Screen</a>
-          </li>
-          <li className="nav-item">
-            <a className="nav-link" onClick={downloadJsonFile} style={navLinkStyle}>Download JSON</a>
-          </li>
-        </ul>
-      </div>
-    </nav>
+        <div className="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul className="navbar-nav mr-auto">
+            <li className="nav-item">
+              <img src={logoImage} alt="Logo" style={{ height: '40px', marginRight: '10px' }} /> {/* Add your image here */}
+            </li>
+            <li className="nav-item dropdown">
+              <a
+                className="nav-link dropdown-toggle"
+                href="#!"
+                id="fileDropdown"
+                role="button"
+                onClick={() => setFileDropdownVisible(!fileDropdownVisible)}
+                style={navLinkStyle}
+              >
+                File
+              </a>
+              <Dropdown.Menu show={fileDropdownVisible} style={{ backgroundColor: '#bfdbdfdc' }}>
+                <Dropdown.Item onClick={() => handleToolSelect('NewFile')}>New File</Dropdown.Item>
+                <Dropdown.Item onClick={() => handleToolSelect('Save')}>Save</Dropdown.Item>
+                <Dropdown.Item onClick={() => handleToolSelect('Exit')}>Exit</Dropdown.Item>
+              </Dropdown.Menu>
+            </li>
+            <li className="nav-item active">
+              <a className="nav-link" href="#" style={navLinkStyle}>Download Protrak Screen</a>
+            </li>
+            <li className="nav-item">
+              <a className="nav-link" onClick={downloadYUITemplate} style={navLinkStyle}>Download YUI Screen</a>
+            </li>
+            <li className="nav-item">
+              <a className="nav-link" onClick={downloadJsonFile} style={navLinkStyle}>Download JSON</a>
+            </li>
+          </ul>
+        </div>
+      </nav>
       <div className="row">
         <div className="col-md-2 sidebar">
           <div style={{ overflowY: 'auto', maxHeight: '380px' }}>
