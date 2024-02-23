@@ -1,9 +1,12 @@
 import React, { useState } from 'react';
 import DraggableItem from './components/DraggableItem';
 import DropTargetPanel from './components/DropTargetPanel';
-import NavigationBar from './NavigationBar'; // Import the NavigationBar component
+import 'bootstrap/dist/css/bootstrap.min.css';
+import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
+import { Dropdown } from 'react-bootstrap';
+import logoImage from './Prorigologo.png'; 
 import axios from 'axios';
 
 
@@ -44,6 +47,15 @@ const App = () => {
     }
 };
 
+  const [fileDropdownVisible, setFileDropdownVisible] = useState(false);
+
+  const handleToolSelect = (toolType) => {
+    if (toolType === 'Exit') {
+      // Close the window when 'Exit' is selected
+      window.close();
+    } 
+    setFileDropdownVisible(false); // Close dropdown after selecting an option
+  };
 
 const downloadYUITemplate = async (e)  => {
   const confirmation = window.confirm("Are you sure you want to download the file?");
@@ -122,8 +134,6 @@ const downloadYUITemplate = async (e)  => {
     }
   };
 
-
-
   const updateHoveredItem = () => {
     setHoveredItem((prevItem) => ({
       ...prevItem,
@@ -136,7 +146,46 @@ const downloadYUITemplate = async (e)  => {
 
   return (
     <div className="container-fluid">
-      <NavigationBar /> {/* Include the NavigationBar component here */}
+      {/* <NavigationBar /> Include the NavigationBar component here */}
+      <nav className="navbar navbar-expand-lg navbar-light" style={{ backgroundColor: '#0fb6c9dc', height: '50px' }}>
+      <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span className="navbar-toggler-icon"></span>
+      </button>
+
+      <div className="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul className="navbar-nav mr-auto">
+          <li className="nav-item">
+            <img src={logoImage} alt="Logo" style={{ height: '40px', marginRight: '10px' }} /> {/* Add your image here */}
+          </li>
+          <li className="nav-item dropdown">
+            <a
+              className="nav-link dropdown-toggle"
+              href="#!"
+              id="fileDropdown"
+              role="button"
+              onClick={() => setFileDropdownVisible(!fileDropdownVisible)}
+              style={navLinkStyle}
+            >
+              File
+            </a>
+            <Dropdown.Menu show={fileDropdownVisible} style={{ backgroundColor: '#bfdbdfdc' }}>
+              <Dropdown.Item onClick={() => handleToolSelect('NewFile')}>New File</Dropdown.Item>
+              <Dropdown.Item onClick={() => handleToolSelect('Save')}>Save</Dropdown.Item>
+              <Dropdown.Item onClick={() => handleToolSelect('Exit')}>Exit</Dropdown.Item>
+            </Dropdown.Menu>
+          </li>
+          <li className="nav-item active">
+            <a className="nav-link" href="#" style={navLinkStyle}>Download Protrak Screen</a>
+          </li>
+          <li className="nav-item">
+            <a className="nav-link" onClick={downloadYUITemplate} style={navLinkStyle}>Download YUI Screen</a>
+          </li>
+          <li className="nav-item">
+            <a className="nav-link" onClick={downloadJsonFile} style={navLinkStyle}>Download JSON</a>
+          </li>
+        </ul>
+      </div>
+    </nav>
       <div className="row">
         <div className="col-md-2 sidebar">
           <div style={{ overflowY: 'auto', maxHeight: '380px' }}>
@@ -155,19 +204,9 @@ const downloadYUITemplate = async (e)  => {
             <DraggableItem type="HEADER" text="Header" />
             <DraggableItem type="FOOTER" text="Footer" />
           </div>
-          <div className="bottom left p-3" style={{ position: 'fixed', bottom: '0', left: '0', padding: '15px' }}>
+          {/* <div className="bottom left p-3" style={{ position: 'fixed', bottom: '0', left: '0', padding: '15px' }}>
             <button onClick={downloadJsonFile} className="btn btn-light" style={{ color: 'black' }}>
               Download JSON
-            </button>
-            <br></br>
-            <br></br>
-            <button onClick={downloadYUITemplate} className="btn btn-light" style={{ color: 'black' }}>
-              Download template
-            </button>
-          </div>
-          {/* <div className="bottom left p-3" style={{ bottom: '0', left: '0', padding: '15px' }}>
-            <button onClick={downloadYUITemplate} className="btn btn-light" style={{ color: 'black' }}>
-              Download template
             </button>
           </div> */}
         </div>
@@ -210,4 +249,15 @@ const TableRow = ({ label, value, editable, onChange }) => (
   </tr>
 );
 
+const navLinkStyle = {
+  color: 'white',
+  textDecoration: 'none',
+  padding: '14px 16px',
+  transition: 'background-color 0.3s',
+};
+
+// Add hover effect
+navLinkStyle[':hover'] = {
+  backgroundColor: '#0fb6c9dc',
+};
 export default App;
