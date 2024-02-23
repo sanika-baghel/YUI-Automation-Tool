@@ -51,7 +51,6 @@ const App = () => {
 
   const handleToolSelect = (toolType) => {
     if (toolType === 'Exit') {
-      // Close the window when 'Exit' is selected
       window.close();
     }
     setFileDropdownVisible(false); // Close dropdown after selecting an option
@@ -60,6 +59,11 @@ const App = () => {
   const downloadYUITemplate = async (e) => {
     const confirmation = window.confirm("Are you sure you want to download the file?");
     if (confirmation) {
+      const fileName = prompt("Enter file name:", "dropped_items.json");
+
+      if (!fileName) {
+        return;
+      }
       const jsonContent = JSON.stringify(droppedItems, null, 2);
       const blob = new Blob([jsonContent], { type: 'application/json' });
       // const url = URL.createObjectURL(blob);
@@ -73,7 +77,6 @@ const App = () => {
           }
         });
 
-        // Create a new Blob object using the response data of the file
         const file = new Blob(
           [response.data],
           { type: response.headers['content-type'] }
@@ -81,20 +84,18 @@ const App = () => {
         const fileURL = URL.createObjectURL(file);
         const link = document.createElement('a');
         link.href = fileURL;
-        link.setAttribute('download', 'YUIScreen.template'); // or any other extension
+        link.setAttribute('download', fileName);
         document.body.appendChild(link);
         link.click();
 
-        // Clean up and remove the link
         link.parentNode.removeChild(link);
-        URL.revokeObjectURL(fileURL); // Free up memory by releasing the object URL
+        URL.revokeObjectURL(fileURL);
         alert("Download successful! ");
       } catch (error) {
         console.error("Error during file download", error);
       }
     }
   };
-
   const [editedLabel, setEditedLabel] = useState('');
   const [editedClass, setEditedClass] = useState('');
   const [editedValue, setEditedValue] = useState('');
@@ -216,6 +217,7 @@ const App = () => {
             <DropTargetPanel droppedItems={droppedItems} setDroppedItems={setDroppedItems} onHover={handleHover} />
           </div>
         </div>
+
 
         <div className="col-md-3 output-window">
           <h8 style={{ color: 'black' }}><b>Properties</b></h8><br /><br />
