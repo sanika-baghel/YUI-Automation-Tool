@@ -169,7 +169,7 @@ const App = () => {
                 File
               </a>
               <Dropdown.Menu show={fileDropdownVisible} style={{ backgroundColor: '#bfdbdfdc' }}>
-                <Dropdown.Item onClick={() => handleToolSelect('NewFile')}>New File</Dropdown.Item>
+                <Dropdown.Item onClick={() => handleToolSelect('NewFile')}>File</Dropdown.Item>
                 <Dropdown.Item onClick={() => handleToolSelect('Save')}>Save</Dropdown.Item>
                 <Dropdown.Item onClick={() => handleToolSelect('Exit')}>Exit</Dropdown.Item>
               </Dropdown.Menu>
