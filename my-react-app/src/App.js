@@ -9,7 +9,6 @@ import { Dropdown } from 'react-bootstrap';
 import logoImage from './Prorigologo.png';
 import axios from 'axios';
 
-
 const App = () => {
   const [hoveredItem, setHoveredItem] = useState({
     id: null,
@@ -21,6 +20,11 @@ const App = () => {
   });
 
   const [droppedItems, setDroppedItems] = useState([]);
+  const [fileDropdownVisible, setFileDropdownVisible] = useState(false);
+  const [editedLabel, setEditedLabel] = useState('');
+  const [editedClass, setEditedClass] = useState('');
+  const [editedValue, setEditedValue] = useState('');
+  const [fileName, setFileName] = useState('');
 
   const handleHover = (itemId, itemLabel, itemClass, itemReadOnly, itemMandatory, itemValue) => {
     setHoveredItem({
@@ -47,7 +51,37 @@ const App = () => {
     }
   };
 
-  const [fileDropdownVisible, setFileDropdownVisible] = useState(false);
+  const handleFileUpload = async (e) => {
+    const file = e.target.files[0];
+
+    if (file) {
+      try {
+        const fileContent = await readFileContent(file);
+        const parsedJson = JSON.parse(fileContent);
+        setDroppedItems(parsedJson);
+        alert("File uploaded successfully!");
+      } catch (error) {
+        console.error("Error reading or parsing JSON file:", error);
+        alert("Error reading or parsing JSON file. Please check the file format.");
+      }
+    }
+  };
+
+  const readFileContent = (file) => {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+
+      reader.onload = (e) => {
+        resolve(e.target.result);
+      };
+
+      reader.onerror = (error) => {
+        reject(error);
+      };
+
+      reader.readAsText(file);
+    });
+  };
 
   const handleToolSelect = (toolType) => {
     if (toolType === 'Exit') {
@@ -59,7 +93,7 @@ const App = () => {
   const downloadYUITemplate = async (e) => {
     const confirmation = window.confirm("Are you sure you want to download the file?");
     if (confirmation) {
-      const fileName = prompt("Enter file name:", "dropped_items.json");
+      const fileName = prompt("Enter file name:", ".template");
 
       if (!fileName) {
         return;
@@ -96,10 +130,6 @@ const App = () => {
       }
     }
   };
-  const [editedLabel, setEditedLabel] = useState('');
-  const [editedClass, setEditedClass] = useState('');
-  const [editedValue, setEditedValue] = useState('');
-
 
   const handleLabelChange = (newLabel) => {
     const updatedDroppedItems = [...droppedItems];
@@ -143,9 +173,9 @@ const App = () => {
     }));
   };
 
-
   return (
     <div className="container-fluid">
+      
       {/* <NavigationBar /> Include the NavigationBar component here */}
       <nav className="navbar navbar-expand-lg navbar-light" style={{ backgroundColor: '#0fb6c9dc', height: '50px' }}>
         <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -172,6 +202,7 @@ const App = () => {
                 <Dropdown.Item onClick={() => handleToolSelect('NewFile')}>File</Dropdown.Item>
                 <Dropdown.Item onClick={() => handleToolSelect('Save')}>Save</Dropdown.Item>
                 <Dropdown.Item onClick={() => handleToolSelect('Exit')}>Exit</Dropdown.Item>
+               
               </Dropdown.Menu>
             </li>
             <li className="nav-item active">
@@ -182,6 +213,9 @@ const App = () => {
             </li>
             <li className="nav-item">
               <a className="nav-link" onClick={downloadJsonFile} style={navLinkStyle}>Download JSON</a>
+            </li>
+            <li className="nav-item">
+            <input type="file" className="nav-link"  onChange={handleFileUpload}  style={navLinkStyle}/>
             </li>
           </ul>
         </div>
@@ -212,10 +246,10 @@ const App = () => {
         </div>
 
         <div className="col-md-7 code-editor">
-          <div style={{ overflowY: 'auto', maxHeight: '620px' }}>
-            <h8 style={{ color: 'black' }}>Drop Target Panel</h8>
-            <DropTargetPanel droppedItems={droppedItems} setDroppedItems={setDroppedItems} onHover={handleHover} />
-          </div>
+        <div style={{ overflowY: 'auto', maxHeight: '620px' }}>
+          <h8 style={{ color: 'black' }}>Drop Target Panel</h8>
+          <DropTargetPanel droppedItems={droppedItems} setDroppedItems={setDroppedItems} onHover={handleHover} />
+        </div>
         </div>
 
 
