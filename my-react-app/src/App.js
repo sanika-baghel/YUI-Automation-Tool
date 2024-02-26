@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import DraggableItem from './components/DraggableItem';
 import DropTargetPanel from './components/DropTargetPanel';
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -172,10 +172,16 @@ const App = () => {
       value: editedValue,
     }));
   };
+  const fileInputRef = useRef(null);
 
+  const openFileInput = () => {
+    fileInputRef.current.click();
+  };
+ 
+ 
   return (
     <div className="container-fluid">
-      
+
       {/* <NavigationBar /> Include the NavigationBar component here */}
       <nav className="navbar navbar-expand-lg navbar-light" style={{ backgroundColor: '#0fb6c9dc', height: '50px' }}>
         <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -202,7 +208,7 @@ const App = () => {
                 <Dropdown.Item onClick={() => handleToolSelect('NewFile')}>File</Dropdown.Item>
                 <Dropdown.Item onClick={() => handleToolSelect('Save')}>Save</Dropdown.Item>
                 <Dropdown.Item onClick={() => handleToolSelect('Exit')}>Exit</Dropdown.Item>
-               
+
               </Dropdown.Menu>
             </li>
             <li className="nav-item active">
@@ -215,7 +221,8 @@ const App = () => {
               <a className="nav-link" onClick={downloadJsonFile} style={navLinkStyle}>Download JSON</a>
             </li>
             <li className="nav-item">
-            <input type="file" className="nav-link"  onChange={handleFileUpload}  style={navLinkStyle}/>
+              <a className="nav-link" onClick={openFileInput} style={navLinkStyle}>JSON to UI</a>
+              <input type="file" ref={fileInputRef} className="d-none" onChange={handleFileUpload} />
             </li>
           </ul>
         </div>
@@ -246,10 +253,10 @@ const App = () => {
         </div>
 
         <div className="col-md-7 code-editor">
-        <div style={{ overflowY: 'auto', maxHeight: '620px' }}>
-          <h8 style={{ color: 'black' }}>Drop Target Panel</h8>
-          <DropTargetPanel droppedItems={droppedItems} setDroppedItems={setDroppedItems} onHover={handleHover} />
-        </div>
+          <div style={{ overflowY: 'auto', maxHeight: '620px' }}>
+            <h8 style={{ color: 'black' }}>Drop Target Panel</h8>
+            <DropTargetPanel droppedItems={droppedItems} setDroppedItems={setDroppedItems} onHover={handleHover} />
+          </div>
         </div>
 
 
