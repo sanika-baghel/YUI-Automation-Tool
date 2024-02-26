@@ -9,6 +9,7 @@ import { Dropdown } from 'react-bootstrap';
 import logoImage from './Prorigologo.png';
 import axios from 'axios';
 
+
 const App = () => {
   const [hoveredItem, setHoveredItem] = useState({
     id: null,
@@ -25,6 +26,7 @@ const App = () => {
   const [editedClass, setEditedClass] = useState('');
   const [editedValue, setEditedValue] = useState('');
   const [fileName, setFileName] = useState('');
+  const [propertiesCollapsed, setPropertiesCollapsed] = useState(false);
 
   const handleHover = (itemId, itemLabel, itemClass, itemReadOnly, itemMandatory, itemValue) => {
     setHoveredItem({
@@ -261,22 +263,36 @@ const App = () => {
 
 
         <div className="col-md-3 output-window">
-          <h8 style={{ color: 'black' }}><b>Properties</b></h8><br /><br />
-          <table className="table table-bordered" style={{ borderCollapse: 'collapse' }}>
-            <tbody>
-              <TableRow label="Field ID" value={hoveredItem.id} />
-              <TableRow label="Field Label" value={hoveredItem.label} editable onChange={handleLabelChange} />
-              <TableRow label="Is Mandatory" value={hoveredItem.mandatory.toString()} />
-              <TableRow label="Field Class" value={hoveredItem.class} editable onChange={handleClassChange} />
-              <TableRow label="Field Value" value={hoveredItem.value} editable onChange={handleValueChange} />
-              <TableRow label="Is Read Only" value={hoveredItem.readOnly.toString()} />
-            </tbody>
-          </table>
+          {/* <h8 style={{ color: 'black' }}><b>Properties</b></h8><br /><br /> */}
+
+          <button
+            className="btn btn-primary"
+            type="button"
+            onClick={() => setPropertiesCollapsed(!propertiesCollapsed)}
+          >
+            Properties
+          </button> <br></br>
+
+          <div className={`collapse ${propertiesCollapsed ? 'show' : ''}`} id="propertiesPanel">
+            <div className="table-responsive">
+              <table className="table table-bordered">
+                <tbody>
+                  <TableRow label="Field ID" value={hoveredItem.id} />
+                  <TableRow label="Field Label" value={hoveredItem.label} editable onChange={handleLabelChange} />
+                  <TableRow label="Is Mandatory" value={hoveredItem.mandatory.toString()} />
+                  <TableRow label="Field Class" value={hoveredItem.class} editable onChange={handleClassChange} />
+                  <TableRow label="Field Value" value={hoveredItem.value} editable onChange={handleValueChange} />
+                  <TableRow label="Is Read Only" value={hoveredItem.readOnly.toString()} />
+                </tbody>
+              </table>
+            </div>
+          </div>
         </div>
       </div>
     </div>
   );
 };
+
 
 const TableRow = ({ label, value, editable, onChange }) => (
   <tr>
