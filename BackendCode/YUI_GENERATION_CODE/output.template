@@ -7,11 +7,16 @@
          <div class="col-sm-12 errorText_overFlow no-margin no-padding clearfix">
            <div class="cc-field control-group drpDwn_cc hide">
 	      <div class="cc-field">
-	      <label class="">{{applbl 'addcal'}}</label>
+	      <label class="">{{applbl 'lblabel2'}}</label>
 	      <div class="controls">
 	      {{#if @viewonly}}
-	      <p class="" id="addid" name="addid">{{addid}}</p>
+	      <p class="" id="lbid2" name="lbid2">{{lbid2}}</p>
 	      {{else}}
+	      <input type="text" id="lbid2" name="lbid2" class="lbcls2" value="{{lbvalue2}}" />
+	    <span class=""><button type="button" class="" tabindex="-1"><i class="icon-search"></i></button>
+	    </span>
+	    <span class=""><button type="button" class="" tabindex="-1" id=""><i class="icon-barcode big-font"></i></button>
+	   </span>
 	       {{/if}}
 	      </div>
 	     </div>
