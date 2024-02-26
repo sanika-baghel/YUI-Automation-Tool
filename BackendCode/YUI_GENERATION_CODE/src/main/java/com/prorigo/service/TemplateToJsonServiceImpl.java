@@ -25,10 +25,9 @@ public class TemplateToJsonServiceImpl implements TemplateToJsonService {
     //Convert File to String
     String htmlContent = new String(file.getBytes());
     Document doc = Jsoup.parse(htmlContent);
-
     Elements elements = doc.select(
         "input[type=checkbox], input[type=radio], select, input[type=text],input[type=lookup],input[type=barcode],"
-            + "input[type=lookup and barcode], input[type=Calendar], textarea,button, input[type=file]");
+            + " textarea, input[type=file],button:not(span > button)");
 
     // Extract Label Names
     List<String> labelNames = extractLabels(htmlContent);
@@ -66,7 +65,7 @@ public class TemplateToJsonServiceImpl implements TemplateToJsonService {
         } else if ("CHECKBOX".equals(formData.getType())) {
           formData.setText("Checkbox");
         } else if ("RADIO".equals(formData.getType())) {
-          formData.setText("Radio Button");
+          formData.setText("radio");
         } else if ("BUTTON".equals(formData.getType())) {
           formData.setText("Button");
         } else if ("TEXTAREA".equals(formData.getType())) {
@@ -74,7 +73,7 @@ public class TemplateToJsonServiceImpl implements TemplateToJsonService {
         } else if ("LOOKUP".equals(formData.getType())) {
           formData.setText("Lookup");
         } else if ("LOOKUPANDBARCODE".equals(formData.getType())) {
-          formData.setText("text");
+          formData.setText("Lookup & Barcode");
         } else if ("BARCODE".equals(formData.getType())) {
           formData.setText("Barcode");
         } else if ("CALENDAR".equals(formData.getType())) {
@@ -118,7 +117,21 @@ public class TemplateToJsonServiceImpl implements TemplateToJsonService {
       } else if ("radio".equals(type)) {
         return "RADIO";
       } else if ("text".equals(type)) {
-        return "TEXTBOX";
+        if ("text".equals(type)) {
+          Element parent = element.parent();
+          if (parent != null && parent.hasClass("input-group")) {
+            // Check if the parent has a button with class containing "icon-calendar"
+            Elements buttons = parent.getElementsByTag("button");
+            for (Element button : buttons) {
+              if (button.getElementsByClass("icon-calendar").size() > 0) {
+                return "CALENDAR";
+              }
+            }
+          }else{
+            return "LOOKUPANDBARCODE";
+          }
+          return "TEXTBOX";
+        }
       } else if ("datetime".equals(type)) {
         return "DATETIME";
       } else if ("file".equals(type)) {
@@ -127,8 +140,6 @@ public class TemplateToJsonServiceImpl implements TemplateToJsonService {
         return "LOOKUP";
       } else if ("barcode".equals(type)) {
         return "BARCODE";
-      } else if ("lookup and barcode".equals(type)) {
-        return "LOOKUPANDBARCODE";
       }
     } else if ("select".equals(tagName)) {
       return "DROPDOWN";
@@ -176,6 +187,3 @@ public class TemplateToJsonServiceImpl implements TemplateToJsonService {
     }
   }
 }
-
-
-
