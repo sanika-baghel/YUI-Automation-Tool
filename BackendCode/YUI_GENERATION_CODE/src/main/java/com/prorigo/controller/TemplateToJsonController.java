@@ -14,7 +14,7 @@ import com.prorigo.service.TemplateToJsonService;
 import java.io.IOException;
 import java.util.List;
 
-//@RestController
+@RestController
 @CrossOrigin(origins = "http://localhost:3000")
 @RequestMapping("/convert")
 public class TemplateToJsonController {

@@ -27,13 +27,8 @@ public class TemplateToJsonServiceImpl implements TemplateToJsonService {
     Document doc = Jsoup.parse(htmlContent);
     Elements elements = doc.select(
         "input[type=checkbox], input[type=radio], select, input[type=text],input[type=lookup],input[type=barcode],"
-<<<<<<< HEAD
-            + "input[type=lookup and barcode], input[type=Calendar], textarea, input[type=file],button:not(span > button)");
-=======
             + " textarea, input[type=file],button:not(span > button)");
->>>>>>> c50e4c158a77cdc423217830cbb8c3c7d13267b2
 
-    // boolean skipButton=false;//button:not(span > button)
     // Extract Label Names
     List<String> labelNames = extractLabels(htmlContent);
     List<FormData> formDataList = new ArrayList<>();
@@ -72,19 +67,10 @@ public class TemplateToJsonServiceImpl implements TemplateToJsonService {
         } else if ("RADIO".equals(formData.getType())) {
           formData.setText("radio");
         } else if ("BUTTON".equals(formData.getType())) {
-          System.out.println("button===");
           formData.setText("Button");
-          if("BUTTON".equals(formData.getType()) ) {//&& skipButton
-            // If it's a button and we need to skip it, set the flag to skip the next button
-            //skipButton = false;
-            //continue;
-          }
-
-
         } else if ("TEXTAREA".equals(formData.getType())) {
           formData.setText("Textarea");
         } else if ("LOOKUP".equals(formData.getType())) {
-         // skipButton=true;
           formData.setText("Lookup");
         } else if ("LOOKUPANDBARCODE".equals(formData.getType())) {
           formData.setText("Lookup & Barcode");
