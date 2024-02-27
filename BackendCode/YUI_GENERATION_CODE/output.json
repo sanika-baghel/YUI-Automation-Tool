@@ -1,1 +1,0 @@
-[{"type":"TEXTAREA","id":"areaid","text":"Textarea","class":"areaclass","label":"textarealabel","value":"areavalue","readOnly":true,"options":[],"mandatory":true},{"type":"TEXTAREA","id":"areaid1","text":"Textarea","class":"areaclass1","label":"textarealabel1","value":"areavalue1","readOnly":false,"options":[],"mandatory":false}]
