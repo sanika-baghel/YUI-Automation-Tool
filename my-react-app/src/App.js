@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import DraggableItem from './components/DraggableItem';
 import DropTargetPanel from './components/DropTargetPanel';
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -8,6 +8,7 @@ import './App.css';
 import { Dropdown } from 'react-bootstrap';
 import logoImage from './Prorigologo.png';
 import axios from 'axios';
+
 
 const App = () => {
   const [hoveredItem, setHoveredItem] = useState({
@@ -25,6 +26,7 @@ const App = () => {
   const [editedClass, setEditedClass] = useState('');
   const [editedValue, setEditedValue] = useState('');
   const [fileName, setFileName] = useState('');
+  const [propertiesCollapsed, setPropertiesCollapsed] = useState(false);
 
   const handleHover = (itemId, itemLabel, itemClass, itemReadOnly, itemMandatory, itemValue) => {
     setHoveredItem({
@@ -172,10 +174,16 @@ const App = () => {
       value: editedValue,
     }));
   };
+  const fileInputRef = useRef(null);
 
+  const openFileInput = () => {
+    fileInputRef.current.click();
+  };
+ 
+ 
   return (
     <div className="container-fluid">
-      
+
       {/* <NavigationBar /> Include the NavigationBar component here */}
       <nav className="navbar navbar-expand-lg navbar-light" style={{ backgroundColor: '#0fb6c9dc', height: '50px' }}>
         <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -202,7 +210,7 @@ const App = () => {
                 <Dropdown.Item onClick={() => handleToolSelect('NewFile')}>File</Dropdown.Item>
                 <Dropdown.Item onClick={() => handleToolSelect('Save')}>Save</Dropdown.Item>
                 <Dropdown.Item onClick={() => handleToolSelect('Exit')}>Exit</Dropdown.Item>
-               
+
               </Dropdown.Menu>
             </li>
             <li className="nav-item active">
@@ -215,7 +223,8 @@ const App = () => {
               <a className="nav-link" onClick={downloadJsonFile} style={navLinkStyle}>Download JSON</a>
             </li>
             <li className="nav-item">
-            <input type="file" className="nav-link"  onChange={handleFileUpload}  style={navLinkStyle}/>
+              <a className="nav-link" onClick={openFileInput} style={navLinkStyle}>JSON to UI</a>
+              <input type="file" ref={fileInputRef} className="d-none" onChange={handleFileUpload} />
             </li>
           </ul>
         </div>
@@ -246,30 +255,44 @@ const App = () => {
         </div>
 
         <div className="col-md-7 code-editor">
-        <div style={{ overflowY: 'auto', maxHeight: '620px' }}>
-          <h8 style={{ color: 'black' }}>Drop Target Panel</h8>
-          <DropTargetPanel droppedItems={droppedItems} setDroppedItems={setDroppedItems} onHover={handleHover} />
-        </div>
+          <div style={{ overflowY: 'auto', maxHeight: '620px' }}>
+            <h8 style={{ color: 'black' }}>Drop Target Panel</h8>
+            <DropTargetPanel droppedItems={droppedItems} setDroppedItems={setDroppedItems} onHover={handleHover} />
+          </div>
         </div>
 
 
         <div className="col-md-3 output-window">
-          <h8 style={{ color: 'black' }}><b>Properties</b></h8><br /><br />
-          <table className="table table-bordered" style={{ borderCollapse: 'collapse' }}>
-            <tbody>
-              <TableRow label="Field ID" value={hoveredItem.id} />
-              <TableRow label="Field Label" value={hoveredItem.label} editable onChange={handleLabelChange} />
-              <TableRow label="Is Mandatory" value={hoveredItem.mandatory.toString()} />
-              <TableRow label="Field Class" value={hoveredItem.class} editable onChange={handleClassChange} />
-              <TableRow label="Field Value" value={hoveredItem.value} editable onChange={handleValueChange} />
-              <TableRow label="Is Read Only" value={hoveredItem.readOnly.toString()} />
-            </tbody>
-          </table>
+          {/* <h8 style={{ color: 'black' }}><b>Properties</b></h8><br /><br /> */}
+
+          <button
+            className="btn btn-primary"
+            type="button"
+            onClick={() => setPropertiesCollapsed(!propertiesCollapsed)}
+          >
+            Properties
+          </button> <br></br>
+
+          <div className={`collapse ${propertiesCollapsed ? 'show' : ''}`} id="propertiesPanel">
+            <div className="table-responsive">
+              <table className="table table-bordered">
+                <tbody>
+                  <TableRow label="Field ID" value={hoveredItem.id} />
+                  <TableRow label="Field Label" value={hoveredItem.label} editable onChange={handleLabelChange} />
+                  <TableRow label="Is Mandatory" value={hoveredItem.mandatory.toString()} />
+                  <TableRow label="Field Class" value={hoveredItem.class} editable onChange={handleClassChange} />
+                  <TableRow label="Field Value" value={hoveredItem.value} editable onChange={handleValueChange} />
+                  <TableRow label="Is Read Only" value={hoveredItem.readOnly.toString()} />
+                </tbody>
+              </table>
+            </div>
+          </div>
         </div>
       </div>
     </div>
   );
 };
+
 
 const TableRow = ({ label, value, editable, onChange }) => (
   <tr>

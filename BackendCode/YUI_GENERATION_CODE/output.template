@@ -1,1 +1,34 @@
+<<<<<<< HEAD
 <th class="minwidth-200" width="25%" data-ref="CONTAINER_ID">{{applbl 'CONTAINER_ID'}}<a class="actioncol1"><i class="icon-menu-open small-font pad5-top"></i></a></th><th class="minwidth-200" width="25%" data-ref="CONTAINER_ID">{{applbl 'CONTAINER_ID'}}<a class="actioncol1"><i class="icon-menu-open small-font pad5-top"></i></a></th><th class="minwidth-200" width="25%" data-ref="CONTAINER_ID">{{applbl 'CONTAINER_ID'}}<a class="actioncol1"><i class="icon-menu-open small-font pad5-top"></i></a></th><th class="minwidth-200" width="25%" data-ref="CONTAINER_ID">{{applbl 'CONTAINER_ID'}}<a class="actioncol1"><i class="icon-menu-open small-font pad5-top"></i></a></th>
+=======
+<form role="form" class="form-horizontal" id="return-info-form">
+ <div class="col-sm-12 col-md-12 col-xs-12 clearfix no-padding"> 
+  <div class="col-sm-12 clearfix no-padding"> 
+    <div class="col-sm-12 no-padding return-info-form"> 
+      <div class="col-xs-12 print-halfbox no-padding clearfix pad10-bottom">
+       <div class="panel-collapse collapse in col-xs-12 no-margin no-padding pad15-top id="">
+         <div class="col-sm-12 errorText_overFlow no-margin no-padding clearfix">
+           <div class="cc-field control-group drpDwn_cc hide">
+	      <div class="cc-field">
+	      <label class="">{{applbl 'lblabel2'}}</label>
+	      <div class="controls">
+	      {{#if @viewonly}}
+	      <p class="" id="lbid2" name="lbid2">{{lbid2}}</p>
+	      {{else}}
+	      <input type="text" id="lbid2" name="lbid2" class="lbcls2" value="{{lbvalue2}}" />
+	    <span class=""><button type="button" class="" tabindex="-1"><i class="icon-search"></i></button>
+	    </span>
+	    <span class=""><button type="button" class="" tabindex="-1" id=""><i class="icon-barcode big-font"></i></button>
+	   </span>
+	       {{/if}}
+	      </div>
+	     </div>
+        </div>
+       </div>
+      </div>
+    </div>
+   </div>
+  </div>
+ </div>
+</form>
+>>>>>>> c50e4c158a77cdc423217830cbb8c3c7d13267b2

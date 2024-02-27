@@ -118,12 +118,17 @@ public class JsonToTemplateServiceImpl implements JsonToTemplateService {
         case "LOOKUP":
         case "BARCODE":
         case "LOOKUPANDBARCODE":
+        case "CALENDAR":
 
           if (element.getType().equalsIgnoreCase("TEXTBOX") || element.getType().equalsIgnoreCase(
-              "LOOKUPANDBARCODE")) {
+              "LOOKUPANDBARCODE") || element.getType().equalsIgnoreCase(
+              "CALENDAR")) {
             typeName = "text";
           } else {
             typeName = element.getType().toLowerCase();
+          }
+          if(element.getType().equalsIgnoreCase("CALENDAR")){
+            htmlForm.append("\t     <div class=\"input-group\">\n");
           }
           htmlForm.append("\t      <input type=\"").append(typeName).append("\" id=\"")
                   .append(element.getId())
@@ -137,7 +142,7 @@ public class JsonToTemplateServiceImpl implements JsonToTemplateService {
           if (element.getType().equalsIgnoreCase("LOOKUP") || element.getType().equalsIgnoreCase(
               "LOOKUPANDBARCODE")) {
             htmlForm.append("\t    <span class=\"").append("\">")
-                    .append("\t    <button type=\"button\"").append(" class=\"")
+                    .append("<button type=\"button\"").append(" class=\"")
                     .append("\" tabindex=\"-1\"").append(">")
                     .append("<i class=\"icon-search\"></i>").append("</button>\n")
                     .append("\t    </span>\n");
@@ -146,10 +151,18 @@ public class JsonToTemplateServiceImpl implements JsonToTemplateService {
                                                                                .equalsIgnoreCase(
                                                                                    "BARCODE")) {
             htmlForm.append("\t    <span class=\"").append("\">")
-                    .append("\t    <button type=\"button\"").append(" class=\"")
+                    .append("<button type=\"button\"").append(" class=\"")
                     .append("\" tabindex=\"-1\"").append(" id=\"").append("\">")
                     .append("<i class=\"icon-barcode big-font\"></i>").append("</button>\n")
                     .append("\t   </span>\n");
+          }
+
+          if (element.getType().equalsIgnoreCase("CALENDAR")) {
+            htmlForm.append("\t     <span class=\"").append("\">")
+                    .append("<button type=\"button\"").append(" class=\"")
+                    .append("\" tabindex=\"-1\"").append(" id=\"").append("\">")
+                    .append("<i class=\"icon-calendar\"></i>").append("</button>\n")
+                    .append("\t     </span>\n").append("\t   </div>\n");
           }
           break;
         default:
