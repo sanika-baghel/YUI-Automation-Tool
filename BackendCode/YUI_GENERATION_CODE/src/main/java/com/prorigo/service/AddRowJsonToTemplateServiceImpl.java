@@ -15,6 +15,65 @@ public class AddRowJsonToTemplateServiceImpl implements AddRowJsonToTemplateServ
 
   private final Gson gson = new Gson();
 
+//  @Override
+//  public String convertJsonToTemplate(String jsonInput) {
+//
+//    JsonArray jsonArray = gson.fromJson(jsonInput, JsonArray.class);
+//
+//    StringBuilder htmlBuilder = new StringBuilder();
+//
+//    for (JsonElement element : jsonArray) {
+//      JsonObject jsonObject = element.getAsJsonObject();
+//
+//      String dataRef = jsonObject.get("data-ref").getAsString();
+//      String width = jsonObject.get("width").getAsString();
+//      String cssClass = jsonObject.get("class").getAsString();
+//      String label = jsonObject.get("label").getAsString();
+//
+//      htmlBuilder.append("<th");
+//      htmlBuilder.append(" class=\"").append(cssClass).append("\"");
+//      htmlBuilder.append(" width=\"").append(width).append("\"");
+//      htmlBuilder.append(" data-ref=\"").append(dataRef).append("\"");
+//      htmlBuilder.append(">");
+//      htmlBuilder.append("{{applbl ")
+//                 .append("'").append(label).append("'").append("}}");
+//      htmlBuilder.append(
+//          "<a class=\"actioncol1\"><i class=\"icon-menu-open small-font pad5-top\"></i></a>");
+//      htmlBuilder.append("</th>");
+//    }
+//
+//    return htmlBuilder.toString();
+//  }
+//@Override
+//public String convertJsonToTemplate(String jsonInput) {
+//
+//  JsonArray jsonArray = gson.fromJson(jsonInput, JsonArray.class);
+//
+//  StringBuilder htmlBuilder = new StringBuilder();
+//
+//  for (JsonElement element : jsonArray) {
+//    JsonObject jsonObject = element.getAsJsonObject();
+//
+//    String dataRef = jsonObject.get("data-ref").getAsString();
+//    String width = jsonObject.get("width").getAsString();
+//    String cssClass = jsonObject.get("class").getAsString();
+//    String label = jsonObject.get("label").getAsString();
+//
+//    htmlBuilder.append("<th class=\"").append(cssClass).append("\" width=\"").append(width).append("\" data-ref=\"").append(dataRef).append("\">\n");
+//    htmlBuilder.append("  {{applbl '").append(label).append("'}}\n");
+//    htmlBuilder.append("  <a class=\"actioncol1\"><i class=\"icon-menu-open small-font pad5-top\"></i></a>\n");
+//
+//    // Adding the conditional block with proper indentation
+//    htmlBuilder.append("  {{else}}\n");
+//    htmlBuilder.append("    <input type=\"checkbox\" id=\"selectAllParts\" class=\"selectAllParts\" disabled>\n");
+//    htmlBuilder.append("  {{/equalsIn}}\n");
+//
+//    htmlBuilder.append("</th>\n");
+//  }
+//
+//  return htmlBuilder.toString();
+//}
+
   @Override
   public String convertJsonToTemplate(String jsonInput) {
 
@@ -30,16 +89,10 @@ public class AddRowJsonToTemplateServiceImpl implements AddRowJsonToTemplateServ
       String cssClass = jsonObject.get("class").getAsString();
       String label = jsonObject.get("label").getAsString();
 
-      htmlBuilder.append("<th");
-      htmlBuilder.append(" class=\"").append(cssClass).append("\"");
-      htmlBuilder.append(" width=\"").append(width).append("\"");
-      htmlBuilder.append(" data-ref=\"").append(dataRef).append("\"");
-      htmlBuilder.append(">");
-      htmlBuilder.append("{{applbl ")
-                 .append("'").append(label).append("'").append("}}");
-      htmlBuilder.append(
-          "<a class=\"actioncol1\"><i class=\"icon-menu-open small-font pad5-top\"></i></a>");
-      htmlBuilder.append("</th>");
+      htmlBuilder.append("<th class=\"").append(cssClass).append("\" width=\"").append(width).append("\" data-ref=\"").append(dataRef).append("\">\n");
+      htmlBuilder.append("    {{applbl '").append(label).append("'}}\n");
+      htmlBuilder.append("    <a class=\"actioncol1\"><i class=\"icon-menu-open small-font pad5-top\"></i></a>\n");
+      htmlBuilder.append("</th>\n");
     }
 
     return htmlBuilder.toString();
