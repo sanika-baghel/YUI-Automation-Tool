@@ -40,9 +40,29 @@ public class JsonToTemplateServiceImpl implements JsonToTemplateService {
     htmlForm.append(
         "         <div class=\"col-sm-12 errorText_overFlow no-margin no-padding clearfix\">\n");
     htmlForm.append("           <div class=\"cc-field control-group drpDwn_cc hide\">\n");
+    String a = "collapseCoreInspectInfo";
+    htmlForm.append(
+                "           <a role=\"button\" data-toggle=\"collapse\"").append(" href=\"")
+            .append("#" + a);
+
+    htmlForm.append("\"  aria-expanded=\"false\"").append("\n      aria-controls=\"").append(a)
+            .append("\" class=\"col-xs-12 clearfix no-padding\" tabindex=\"-1\">\n");
+
+    String name="CP_INFO";
+    htmlForm.append("         <div class=\"col-xs-12 pad5-top collapsetabs border\">\n");
+    htmlForm.append("         <h5 class=\"text-uppercase\">").append("{{applbl \"");
+    htmlForm.append(name).append("\"").append("}}").append("</h5>\n");
+    htmlForm.append("         </div>\n");
+    htmlForm.append("       </a>\n");
+
+    htmlForm.append(
+        "       <div class=\"panel-collapse collapse in border\" id=\"collapseCoreInspectInfo\">\n");
+    htmlForm.append(
+        "         <div class=\"col-sm-12 errorText_overflow no-margin no-padding clearfix\">\n");
 
     for (FormData element : formElements) {
       String typeName;
+
       htmlForm.append("\t      <div class=\"cc-field\">\n");
       htmlForm.append("\t      <label class=\"\">").append("{{applbl ")
               .append("'").append(element.getLabel()).append("'").append("}}").append("</label>\n");
@@ -127,7 +147,7 @@ public class JsonToTemplateServiceImpl implements JsonToTemplateService {
           } else {
             typeName = element.getType().toLowerCase();
           }
-          if(element.getType().equalsIgnoreCase("CALENDAR")){
+          if (element.getType().equalsIgnoreCase("CALENDAR")) {
             htmlForm.append("\t     <div class=\"input-group\">\n");
           }
           htmlForm.append("\t      <input type=\"").append(typeName).append("\" id=\"")
@@ -150,28 +170,30 @@ public class JsonToTemplateServiceImpl implements JsonToTemplateService {
           if (element.getType().equalsIgnoreCase("LOOKUPANDBARCODE") || element.getType()
                                                                                .equalsIgnoreCase(
                                                                                    "BARCODE")) {
-            htmlForm.append("\t    <span class=\"").append("\">")
+            htmlForm.append("\t       <span class=\"").append("\">")
                     .append("<button type=\"button\"").append(" class=\"")
                     .append("\" tabindex=\"-1\"").append(" id=\"").append("\">")
                     .append("<i class=\"icon-barcode big-font\"></i>").append("</button>\n")
-                    .append("\t   </span>\n");
+                    .append("\t      </span>\n");
           }
 
           if (element.getType().equalsIgnoreCase("CALENDAR")) {
-            htmlForm.append("\t     <span class=\"").append("\">")
+            htmlForm.append("\t       <span class=\"").append("\">")
                     .append("<button type=\"button\"").append(" class=\"")
                     .append("\" tabindex=\"-1\"").append(" id=\"").append("\">")
                     .append("<i class=\"icon-calendar\"></i>").append("</button>\n")
-                    .append("\t     </span>\n").append("\t   </div>\n");
+                    .append("\t       </span>\n").append("\t   </div>\n");
           }
           break;
         default:
           break;
       }
-      htmlForm.append("\t       {{/if}}\n");
-      htmlForm.append("\t      </div>\n");
-      htmlForm.append("\t     </div>\n");
+      htmlForm.append("\t          {{/if}}\n");
+      htmlForm.append("\t           </div>\n");
+      htmlForm.append("\t         </div>\n");
     }
+    htmlForm.append("           </div>\n");
+    htmlForm.append("          </div>\n");
     htmlForm.append("        </div>\n");
     htmlForm.append("       </div>\n");
     htmlForm.append("      </div>\n");

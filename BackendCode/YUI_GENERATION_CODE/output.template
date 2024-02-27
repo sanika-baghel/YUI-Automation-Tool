@@ -1,16 +1,17 @@
-<th class="minwidth-200" width="25%" data-ref="CONTAINER_ID">
-    {{applbl 'CONTAINER_ID'}}
-    <a class="actioncol1"><i class="icon-menu-open small-font pad5-top"></i></a>
-</th>
-<th class="minwidth-200" width="25%" data-ref="CONTAINE_status">
-    {{applbl 'CONTAINER_status'}}
-    <a class="actioncol1"><i class="icon-menu-open small-font pad5-top"></i></a>
-</th>
-<th class="minwidth-200" width="25%" data-ref="CONTAINER_weight">
-    {{applbl 'CONTAINER_weight'}}
-    <a class="actioncol1"><i class="icon-menu-open small-font pad5-top"></i></a>
-</th>
-<th class="minwidth-200" width="25%" data-ref="CONTAINER_crt_by">
-    {{applbl 'CONTAINER_crt_by'}}
-    <a class="actioncol1"><i class="icon-menu-open small-font pad5-top"></i></a>
-</th>
+<tr id="partsRow" class="partsRow orderItems partsRow_{{@index}}" data-index="{{@index}}">
+  <td class="">
+    <div class="cc-field width100perc">
+      <div class="cc-field-12 controls">
+        <p class="" id="selectAllParts" name="selectAllParts">{{selectAllParts}}</p>
+	      <input type="checkbox" id="selectAllParts" name="selectAllParts" class="selectAllParts" value="" disabled />
+    </div>
+  </div>
+</td>
+  <td class="">
+    <div class="cc-field width100perc">
+      <div class="cc-field-12 controls">
+        <p class="" id="CONTAINER_ID" name="CONTAINER_ID">{{CONTAINER_ID}}</p>
+	      <input type="text" id="CONTAINER_ID" name="CONTAINER_ID" class="" value="" data-mize_required />
+    </div>
+  </div>
+</td>

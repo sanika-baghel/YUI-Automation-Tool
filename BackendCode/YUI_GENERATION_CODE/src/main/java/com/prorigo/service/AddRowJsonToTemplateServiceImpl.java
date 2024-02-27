@@ -4,9 +4,9 @@ import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import com.prorigo.util.TableRowData;
 import java.io.FileWriter;
 import java.io.IOException;
-
 import org.springframework.stereotype.Service;
 
 @Service
@@ -15,71 +15,20 @@ public class AddRowJsonToTemplateServiceImpl implements AddRowJsonToTemplateServ
 
   private final Gson gson = new Gson();
 
-//  @Override
-//  public String convertJsonToTemplate(String jsonInput) {
-//
-//    JsonArray jsonArray = gson.fromJson(jsonInput, JsonArray.class);
-//
-//    StringBuilder htmlBuilder = new StringBuilder();
-//
-//    for (JsonElement element : jsonArray) {
-//      JsonObject jsonObject = element.getAsJsonObject();
-//
-//      String dataRef = jsonObject.get("data-ref").getAsString();
-//      String width = jsonObject.get("width").getAsString();
-//      String cssClass = jsonObject.get("class").getAsString();
-//      String label = jsonObject.get("label").getAsString();
-//
-//      htmlBuilder.append("<th");
-//      htmlBuilder.append(" class=\"").append(cssClass).append("\"");
-//      htmlBuilder.append(" width=\"").append(width).append("\"");
-//      htmlBuilder.append(" data-ref=\"").append(dataRef).append("\"");
-//      htmlBuilder.append(">");
-//      htmlBuilder.append("{{applbl ")
-//                 .append("'").append(label).append("'").append("}}");
-//      htmlBuilder.append(
-//          "<a class=\"actioncol1\"><i class=\"icon-menu-open small-font pad5-top\"></i></a>");
-//      htmlBuilder.append("</th>");
-//    }
-//
-//    return htmlBuilder.toString();
-//  }
-//@Override
-//public String convertJsonToTemplate(String jsonInput) {
-//
-//  JsonArray jsonArray = gson.fromJson(jsonInput, JsonArray.class);
-//
-//  StringBuilder htmlBuilder = new StringBuilder();
-//
-//  for (JsonElement element : jsonArray) {
-//    JsonObject jsonObject = element.getAsJsonObject();
-//
-//    String dataRef = jsonObject.get("data-ref").getAsString();
-//    String width = jsonObject.get("width").getAsString();
-//    String cssClass = jsonObject.get("class").getAsString();
-//    String label = jsonObject.get("label").getAsString();
-//
-//    htmlBuilder.append("<th class=\"").append(cssClass).append("\" width=\"").append(width).append("\" data-ref=\"").append(dataRef).append("\">\n");
-//    htmlBuilder.append("  {{applbl '").append(label).append("'}}\n");
-//    htmlBuilder.append("  <a class=\"actioncol1\"><i class=\"icon-menu-open small-font pad5-top\"></i></a>\n");
-//
-//    // Adding the conditional block with proper indentation
-//    htmlBuilder.append("  {{else}}\n");
-//    htmlBuilder.append("    <input type=\"checkbox\" id=\"selectAllParts\" class=\"selectAllParts\" disabled>\n");
-//    htmlBuilder.append("  {{/equalsIn}}\n");
-//
-//    htmlBuilder.append("</th>\n");
-//  }
-//
-//  return htmlBuilder.toString();
-//}
-
   @Override
-  public String convertJsonToTemplate(String jsonInput) {
+  public String addRawHeading(String jsonInput) {
 
     JsonArray jsonArray = gson.fromJson(jsonInput, JsonArray.class);
 
     StringBuilder htmlBuilder = new StringBuilder();
+
+    htmlBuilder.append("<div class=\"panel-collapse collapse in border\" id=\"collapsePartsHeader\">\n");
+    htmlBuilder.append(" <div class=\"col-sm-12 errorText_overFlow no-margin no-padding clearfix\">\n");
+    htmlBuilder.append("  <div class=\"table-responsive border no-margin scrollh col-sm-12 no-padding cc-attrsTab\" id=\"attrsTable\">\n");
+    htmlBuilder.append("    <table class=\"table table-striped cc-product-table scroll no-margin auto-scrap claimReqTable\">\n");
+    htmlBuilder.append("     <thead>\n");
+    htmlBuilder.append("      <tr>\n");
+
 
     for (JsonElement element : jsonArray) {
       JsonObject jsonObject = element.getAsJsonObject();
@@ -89,13 +38,27 @@ public class AddRowJsonToTemplateServiceImpl implements AddRowJsonToTemplateServ
       String cssClass = jsonObject.get("class").getAsString();
       String label = jsonObject.get("label").getAsString();
 
-      htmlBuilder.append("<th class=\"").append(cssClass).append("\" width=\"").append(width).append("\" data-ref=\"").append(dataRef).append("\">\n");
-      htmlBuilder.append("    {{applbl '").append(label).append("'}}\n");
-      htmlBuilder.append("    <a class=\"actioncol1\"><i class=\"icon-menu-open small-font pad5-top\"></i></a>\n");
-      htmlBuilder.append("</th>\n");
+      htmlBuilder.append("      <th class=\"").append(cssClass).append("\" width=\"").append(width).append("\" data-ref=\"").append(dataRef).append("\">\n");
+      htmlBuilder.append("       {{applbl '").append(label).append("'}}\n");
+      htmlBuilder.append("       <a class=\"actioncol1\"><i class=\"icon-menu-open small-font pad5-top\"></i></a>\n");
+      htmlBuilder.append("      </th>\n");
     }
-
+    htmlBuilder.append("      </tr>\n");
+    htmlBuilder.append("      <tbody id=\"orderPartTbody\">");
+    //TO DO ADD ROW DATA
+    htmlBuilder.append("    </tbody>\n");
+    htmlBuilder.append("   </table>\n");
+    htmlBuilder.append("  </div>\n");
+    htmlBuilder.append(" </div>\n");
+    htmlBuilder.append(" </div>");
     return htmlBuilder.toString();
+  }
+
+  @Override
+  public String addDataTable(String jsonInput) {
+    TableRowData tabledata=new TableRowData();
+    String s=tabledata.addTableRowData(jsonInput);
+    return s;
   }
 
 

@@ -53,6 +53,8 @@ public class TemplateToJsonServiceImpl implements TemplateToJsonService {
         formData.setValue(extractedContent);
         formData.setClassName(element.hasAttr("class") ? element.attr("class") : "");
         formData.setReadOnly(element.hasAttr("disabled"));
+       // formData.setTemplateName(element.attr("templateName"));
+     //   formData.setTemplateName(element.attr("templateName"));
 
         if (!element.hasAttr("data-mize_required")) {
           formData.setMandatory(false);
