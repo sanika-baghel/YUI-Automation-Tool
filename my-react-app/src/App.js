@@ -18,6 +18,11 @@ const App = () => {
     value: null,
     readOnly: false,
     mandatory: false,
+    tempname: null,
+    cid: null,
+    fname: null,
+    maxLen: null,
+
   });
 
   const [droppedItems, setDroppedItems] = useState([]);
@@ -28,7 +33,7 @@ const App = () => {
   const [fileName, setFileName] = useState('');
   const [propertiesCollapsed, setPropertiesCollapsed] = useState(false);
 
-  const handleHover = (itemId, itemLabel, itemClass, itemReadOnly, itemMandatory, itemValue) => {
+  const handleHover = (itemId, itemLabel, itemClass, itemReadOnly, itemMandatory, itemValue, itemTempName, itemCid, itemFName, maxLen) => {
     setHoveredItem({
       id: itemId,
       label: itemLabel,
@@ -36,6 +41,10 @@ const App = () => {
       value: itemValue,
       readOnly: itemReadOnly,
       mandatory: itemMandatory,
+      tempname: itemTempName,
+      cid: itemCid,
+      fname: itemFName,
+      maxLen: maxLen,
     });
   };
 
@@ -179,8 +188,23 @@ const App = () => {
   const openFileInput = () => {
     fileInputRef.current.click();
   };
- 
- 
+
+  const handleReadOnlyChange = (e) => {
+    setHoveredItem({
+      ...hoveredItem,
+      readOnly: e.target.value === 'true' ? true : false,
+    });
+  };
+
+
+  const handleRadioChange = (e) => {
+    setHoveredItem({
+      ...hoveredItem,
+      mandatory: e.target.value === 'true' ? true : false,
+    });
+  };
+
+
   return (
     <div className="container-fluid">
 
@@ -263,33 +287,131 @@ const App = () => {
 
 
         <div className="col-md-3 output-window">
-          {/* <h8 style={{ color: 'black' }}><b>Properties</b></h8><br /><br /> */}
+          <h8 style={{ color: 'black' }}><b>Properties</b></h8><br /><br />
 
-          <button
+          {/* <button
             className="btn btn-primary"
             type="button"
             onClick={() => setPropertiesCollapsed(!propertiesCollapsed)}
           >
             Properties
-          </button> <br></br>
+          </button> <br></br> */}
 
-          <div className={`collapse ${propertiesCollapsed ? 'show' : ''}`} id="propertiesPanel">
-            <div className="table-responsive">
-              <table className="table table-bordered">
-                <tbody>
-                  <TableRow label="Field ID" value={hoveredItem.id} />
-                  <TableRow label="Field Label" value={hoveredItem.label} editable onChange={handleLabelChange} />
-                  <TableRow label="Is Mandatory" value={hoveredItem.mandatory.toString()} />
-                  <TableRow label="Field Class" value={hoveredItem.class} editable onChange={handleClassChange} />
-                  <TableRow label="Field Value" value={hoveredItem.value} editable onChange={handleValueChange} />
-                  <TableRow label="Is Read Only" value={hoveredItem.readOnly.toString()} />
-                </tbody>
-              </table>
-            </div>
+          {/* <div className={`collapse ${propertiesCollapsed ? 'show' : ''}`} id="propertiesPanel"> */}
+          <div className="table-responsive">
+            <table className="table table-bordered">
+              <tr>
+                <td>Template Name</td>
+                <td>
+                  <input type="text" value={hoveredItem.tempname} />
+                </td>
+              </tr>
+              <tr>
+                <td>Field ID</td>
+                <td>
+                  <input type="text" value={hoveredItem.id} editable />
+                </td>
+              </tr>
+              <tr>
+                <td>Field Label</td>
+                <td>
+                  <input type="text" value={hoveredItem.label}
+                    editable />
+                </td>
+              </tr>
+              <tr>
+                <td>Is Mandatory</td>
+                <td>
+                  <input
+                    type="radio"
+                    id="trueRadio"
+                    name="isMandatory"
+                    value="true"
+                    checked={hoveredItem.mandatory === true}
+                    onChange={handleRadioChange}
+                  />
+                  <label htmlFor="trueRadio">True</label>
+
+                  <input
+                    type="radio"
+                    id="falseRadio"
+                    name="isMandatory"
+                    value="false"
+                    checked={hoveredItem.mandatory === false}
+                    onChange={handleRadioChange}
+                  />
+                  <label htmlFor="falseRadio">False</label>
+                </td>
+              </tr>
+              <tr>
+                <td>Field Class</td>
+                <td>
+                  <input type="text" value={hoveredItem.class} />
+                </td>
+              </tr>
+              <tr>
+                <td>Field Value</td>
+                <td>
+                  <input type="text" value={hoveredItem.value} />
+                </td>
+              </tr>
+              <tr>
+                <td>Is Read Only</td>
+                <td>
+                  <input
+                    type="radio"
+                    id="readOnlyTrue"
+                    name="isReadOnly"
+                    value="true"
+                    checked={hoveredItem.readOnly === true}
+                    onChange={handleReadOnlyChange}
+                  />
+                  <label htmlFor="readOnlyTrue">True</label>
+
+                  <input
+                    type="radio"
+                    id="readOnlyFalse"
+                    name="isReadOnly"
+                    value="false"
+                    checked={hoveredItem.readOnly === false}
+                    onChange={handleReadOnlyChange}
+                  />
+                  <label htmlFor="readOnlyFalse">False</label>
+                </td>
+              </tr>
+              <tr>
+                <td>Collapse Name</td>
+                <td>
+                  <input type="text" value={hoveredItem.cid} />
+                </td>
+              </tr>
+              <tr>
+                <td>Collapse ID</td>
+                <td>
+                  <input type="text" value={hoveredItem.cid} />
+                </td>
+              </tr>
+              <tr>
+                <td>Input Field Name</td>
+                <td>
+                  <input type="text" value={hoveredItem.fname} />
+                </td>
+              </tr>
+              <tr>
+                <td>Max Length</td>
+                <td>
+                  <input type="text" value={hoveredItem.maxLen} />
+                </td>
+              </tr>
+
+            </table>
           </div>
         </div>
       </div>
     </div>
+    // </div>
+
+
   );
 };
 
