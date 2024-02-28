@@ -5,18 +5,49 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Form, InputGroup } from 'react-bootstrap';
 import { faBarcode, faCalendarDays, faSearch } from '@fortawesome/free-solid-svg-icons';
 import axios from 'axios';
+import { Modal, Button } from 'react-bootstrap';
+import { Form as BootstrapForm, Row, Col } from 'react-bootstrap';
 
-const CustomContextMenu = ({ visible, x, y, options, onSelect, readOnly, editable }) => {
+const CustomContextMenu = ({ visible, x, y, options, onSelect, readOnly, editable, onAddAllDetails }) => {
   let filteredOptions = options;
-  if (readOnly) {
-    filteredOptions = options.filter(
-      (option) => option.value !== "makeReadOnly"
-    );
-  } else if (editable) {
-    filteredOptions = options.filter(
-      (option) => option.value !== "makeEditable"
-    );
-  }
+  const [showModal, setShowModal] = useState(false);
+  const [formData, setFormData] = useState({ id: '', class: '', value: '' });
+
+  const handleShowModal = () => setShowModal(true);
+  const handleCloseModal = () => setShowModal(false);
+
+  const handleFormChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
+  };
+
+  const handleAddAllDetails = () => {
+    onAddAllDetails(formData);
+    setFormData({ id: '', class: '', value: '' });
+    handleCloseModal();
+  };
+
+  const handleCheckboxMandatory = (e) => {
+    const { checked } = e.target;
+    setFormData((prevData) => ({
+      ...prevData,
+      isMandatory: checked,
+    }));
+  };
+
+  const handleCheckboxChange = (e) => {
+    const { checked } = e.target;
+    setFormData((prevData) => ({
+      ...prevData,
+      readOnly: checked,
+    }));
+  };
+
+
+
   return (
     <div
       className="custom-context-menu"
@@ -31,6 +62,7 @@ const CustomContextMenu = ({ visible, x, y, options, onSelect, readOnly, editabl
         zIndex: 1000,
       }}
     >
+      {/* Existing options */}
       {filteredOptions.map((option) => (
         <div
           key={option.label}
@@ -40,11 +72,172 @@ const CustomContextMenu = ({ visible, x, y, options, onSelect, readOnly, editabl
           {option.label}
         </div>
       ))}
+
+      <div
+        onClick={() => handleShowModal()}
+        className="context-menu-option"
+      >
+        Add All Details
+      </div>
+
+
+      <Modal show={showModal} onHide={handleCloseModal}>
+        <Modal.Header closeButton>
+          <Modal.Title>Add Details</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <Form>
+            <Row>
+              <Col md={5}>
+                <Form.Group controlId="formId">
+                  <Form.Label>Field ID</Form.Label>
+                  <Form.Control
+                    type="text"
+                    placeholder="Enter ID"
+                    name="id"
+                    value={formData.id}
+                    onChange={handleFormChange}
+                  />
+                </Form.Group>
+              </Col>
+              <Col md={5}>
+                <Form.Group controlId="formClass">
+                  <Form.Label>Class</Form.Label>
+                  <Form.Control
+                    type="text"
+                    placeholder="Enter Class"
+                    name="class"
+                    value={formData.class}
+                    onChange={handleFormChange}
+                  />
+                </Form.Group>
+              </Col>
+              <Col md={5}>
+                <Form.Group controlId="formTemplateName">
+                  <Form.Label>Template Name</Form.Label>
+                  <Form.Control
+                    type="text"
+                    placeholder="Enter Template Name"
+                    name="TemplateName"
+                    value={formData.templateName}
+                    onChange={handleFormChange}
+                  />
+                </Form.Group>
+              </Col>
+              <Col md={5}>
+                <Form.Group controlId="formlabel">
+                  <Form.Label>Field Label</Form.Label>
+                  <Form.Control
+                    type="text"
+                    placeholder="Enter Label"
+                    name="label"
+                    value={formData.label}
+                    onChange={handleFormChange}
+                  />
+                </Form.Group>
+              </Col>
+              <Col md={5}>
+                <Form.Group controlId="value">
+                  <Form.Label>Value</Form.Label>
+                  <Form.Control
+                    type="text"
+                    placeholder="Enter Value"
+                    name="value"
+                    value={formData.value}
+                    onChange={handleFormChange}
+                  />
+                </Form.Group>
+              </Col>
+              <Col md={5}>
+                <Form.Group controlId="formCName">
+                  <Form.Label>Collapse Name</Form.Label>
+                  <Form.Control
+                    type="text"
+                    placeholder="Enter Collapse Name"
+                    name="CName"
+                    value={formData.CName}
+                    onChange={handleFormChange}
+                  />
+                </Form.Group>
+              </Col>
+              <Col md={5}>
+                <Form.Group controlId="formCID">
+                  <Form.Label>Collapse ID</Form.Label>
+                  <Form.Control
+                    type="text"
+                    placeholder="Enter Collapse ID"
+                    name="CID"
+                    value={formData.CID}
+                    onChange={handleFormChange}
+                  />
+                </Form.Group>
+              </Col>
+              <Col md={5}>
+                <Form.Group controlId="formFName">
+                  <Form.Label>Input Field Name</Form.Label>
+                  <Form.Control
+                    type="text"
+                    placeholder="Enter Field"
+                    name="FName"
+                    value={formData.FName}
+                    onChange={handleFormChange}
+                  />
+                </Form.Group>
+              </Col>
+              <Col md={5}>
+                <Form.Group controlId="formMaxlen">
+                  <Form.Label>Max Length</Form.Label>
+                  <Form.Control
+                    type="text"
+                    placeholder="Enter length"
+                    name="Maxlen"
+                    value={formData.maxLen}
+                    onChange={handleFormChange}
+                  />
+                </Form.Group>
+              </Col>
+              <Col md={5}>
+                <Form.Label></Form.Label>
+                <Form.Group controlId="formIsMandatory">
+                  <Form.Check
+                    type="checkbox"
+                    label="isMandatory?"
+                    name="isMandatory"
+                    id="isMandatoryCheckbox"
+                    onChange={handleCheckboxMandatory}
+                  />
+                </Form.Group>
+              </Col>
+              <Col md={5}>
+                <Form.Label></Form.Label>
+                <Form.Group controlId="formReadOnly">
+                  <Form.Check
+                    type="checkbox"
+                    label="ReadOnly"
+                    name="readOnly"
+                    id="readOnlyCheckbox"
+                    onChange={handleCheckboxChange}
+                  />
+                </Form.Group>
+              </Col>
+            </Row>
+          </Form>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="primary" onClick={handleAddAllDetails}>
+            Save
+          </Button>
+          <Button variant="secondary" onClick={handleCloseModal}>
+            Close
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </div>
+
   );
 };
 
-const DropTargetPanel = ({ onHover, droppedItems, setDroppedItems,editedLabel, editedClass, editedValue  }) => {
+const DropTargetPanel = ({ onHover, droppedItems, setDroppedItems, editedLabel, editedClass, editedValue }) => {
   const [contextMenu, setContextMenu] = useState({ visible: false, index: -1, x: 0, y: 0 });
   const [showLabelIdOptions, setShowLabelIdOptions] = useState(Array(droppedItems.length).fill(true));
 
@@ -77,12 +270,12 @@ const DropTargetPanel = ({ onHover, droppedItems, setDroppedItems,editedLabel, e
       document.removeEventListener('click', handleClickOutside);
     };
   }, [contextMenu, editedLabel, editedClass, editedValue]);
-  
+
 
   const handleDrop = (item, monitor) => {
     const offset = monitor.getSourceClientOffset();
     let newItem;
- 
+
     if (item.type === 'RADIO' || item.type === 'CHECKBOX') {
       const count = prompt('Enter the number of radio buttons to create:');
       if (count && !isNaN(count)) {
@@ -103,7 +296,7 @@ const DropTargetPanel = ({ onHover, droppedItems, setDroppedItems,editedLabel, e
           };
           radioButtons.push(radioButton);
         }
-    
+
         setDroppedItems([...droppedItems, ...radioButtons]);
         setShowLabelIdOptions([...showLabelIdOptions, ...Array(parseInt(count)).fill(true)]);
       }
@@ -121,10 +314,23 @@ const DropTargetPanel = ({ onHover, droppedItems, setDroppedItems,editedLabel, e
         options: [],
         mandatory: false,
       };
- 
+
       setDroppedItems([...droppedItems, newItem]);
       setShowLabelIdOptions([...showLabelIdOptions, true]);
     }
+  };
+
+  const handleAddAllDetails = (formData) => {
+    const updatedItems = droppedItems.map((item) => {
+      if (item.id === contextMenu.index) {
+        return {
+          ...item,
+          ...formData,
+        };
+      }
+      return item;
+    });
+    setDroppedItems(updatedItems);
   };
 
   const handleMakeReadOnly = (index) => {
@@ -157,7 +363,7 @@ const DropTargetPanel = ({ onHover, droppedItems, setDroppedItems,editedLabel, e
       );
     });
   };
-  
+
   const handleContextMenu = (e, index) => {
     e.preventDefault();
     const showAddDropdownOption = droppedItems[index]?.type === 'DROPDOWN';
@@ -196,24 +402,24 @@ const DropTargetPanel = ({ onHover, droppedItems, setDroppedItems,editedLabel, e
   const handleAddLabelId = (index, value) => {
     const inputValue = prompt(`Enter ${value}`);
     if (inputValue !== null) {
-        const updatedItems = [...droppedItems];
-        // Check if the entered label already exists
-        const isDuplicateLabel = updatedItems.some(item => item.label === inputValue);
-        if (!isDuplicateLabel) {
-            if (value === 'addClass') {
-                updatedItems[index]['class'] = inputValue;
-            } else if (value === 'addValue') {
-                updatedItems[index]['value'] = inputValue;
-            } else {
-                updatedItems[index][value === 'addLabel' ? 'label' : 'id'] = inputValue;
-            }
-            setDroppedItems(updatedItems);
-            setContextMenu({ visible: false, index: -1, x: 0, y: 0, showAddDropdownOption: false });
+      const updatedItems = [...droppedItems];
+      // Check if the entered label already exists
+      const isDuplicateLabel = updatedItems.some(item => item.label === inputValue);
+      if (!isDuplicateLabel) {
+        if (value === 'addClass') {
+          updatedItems[index]['class'] = inputValue;
+        } else if (value === 'addValue') {
+          updatedItems[index]['value'] = inputValue;
         } else {
-            alert(`Label "${inputValue}" already exists. Please enter a different label.`);
+          updatedItems[index][value === 'addLabel' ? 'label' : 'id'] = inputValue;
         }
+        setDroppedItems(updatedItems);
+        setContextMenu({ visible: false, index: -1, x: 0, y: 0, showAddDropdownOption: false });
+      } else {
+        alert(`Label "${inputValue}" already exists. Please enter a different label.`);
+      }
     }
-};
+  };
 
 
   const handleAddAstrikMark = (index) => {
@@ -259,6 +465,12 @@ const DropTargetPanel = ({ onHover, droppedItems, setDroppedItems,editedLabel, e
     }
     setContextMenu({ visible: false, index: -1, x: 0, y: 0, showAddDropdownOption: false });
   };
+
+  const [showModal, setShowModal] = useState(false);
+
+  const handleShowModal = () => setShowModal(true);
+  const handleCloseModal = () => setShowModal(false);
+
   return (
     <div ref={drop} className="col-lg-3 " style={panelStyle}>
       <CustomContextMenu
@@ -299,11 +511,13 @@ const DropTargetPanel = ({ onHover, droppedItems, setDroppedItems,editedLabel, e
             handleMakeEditable(contextMenu.index);
           } else if (value === 'deleteLabel') {
             handleDeleteLabel(contextMenu.index);
+          } else if (value === 'onAddAllDetails') {
+            handleAddAllDetails(contextMenu.index);
           }
-
         }}
         readOnly={droppedItems[contextMenu.index]?.readOnly}
         editable={!droppedItems[contextMenu.index]?.readOnly}
+        onAddAllDetails={() => handleAddAllDetails()}
       />
       {droppedItems.map((item, index) => (
         <Draggable key={item.id} bounds=".code-editor">
@@ -344,7 +558,7 @@ const DropTargetPanel = ({ onHover, droppedItems, setDroppedItems,editedLabel, e
                 style={{ backgroundColor: item.readOnly ? item.color : '' }}
               />
             )}
-            {item.type === 'RADIO' && <input type="radio" name="radioGroup"/>}
+            {item.type === 'RADIO' && <input type="radio" name="radioGroup" />}
             {item.type === 'CHECKBOX' && <input type="checkbox" />}
             {item.type === 'DROPDOWN' && (
               <select className="form-select">

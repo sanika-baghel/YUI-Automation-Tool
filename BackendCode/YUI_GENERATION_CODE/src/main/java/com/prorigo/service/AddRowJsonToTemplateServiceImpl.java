@@ -15,12 +15,18 @@ public class AddRowJsonToTemplateServiceImpl implements AddRowJsonToTemplateServ
 
   private final Gson gson = new Gson();
 
+
+
+
+
+
+
   @Override
   public String addRawHeading(String jsonInput) {
 
     JsonArray jsonArray = gson.fromJson(jsonInput, JsonArray.class);
 
-    StringBuilder htmlBuilder = new StringBuilder();
+    StringBuilder        htmlBuilder = new StringBuilder();
 
     htmlBuilder.append("<div class=\"panel-collapse collapse in border\" id=\"collapsePartsHeader\">\n");
     htmlBuilder.append(" <div class=\"col-sm-12 errorText_overFlow no-margin no-padding clearfix\">\n");
@@ -56,9 +62,8 @@ public class AddRowJsonToTemplateServiceImpl implements AddRowJsonToTemplateServ
 
   @Override
   public String addDataTable(String jsonInput) {
-    TableRowData tabledata=new TableRowData();
-    String s=tabledata.addTableRowData(jsonInput);
-    return s;
+    TableRowData tableRawData=new TableRowData();
+    return tableRawData.addTableRowData(jsonInput);
   }
 
 
