@@ -54,7 +54,6 @@ public class TemplateToJsonServiceImpl implements TemplateToJsonService {
         formData.setClassName(element.hasAttr("class") ? element.attr("class") : "");
         formData.setReadOnly(element.hasAttr("disabled"));
 
-
         if (!element.hasAttr("data-mize_required")) {
           formData.setMandatory(false);
         } else {
@@ -119,15 +118,18 @@ public class TemplateToJsonServiceImpl implements TemplateToJsonService {
         return "RADIO";
       } else if ("text".equals(type)) {
           Element parent = element.parent();
-//          if (parent != null && parent.hasClass("input-group")) {
-//            // Check if the parent has a button with class containing "icon-calendar"
-//            Elements buttons = parent.getElementsByTag("button");
-//            for (Element button : buttons) {
-//              if (button.getElementsByClass("icon-calendar").size() > 0) {
-//                return "CALENDAR";
-//              }
-//            }
-//          }
+         // && parent.hasClass("input-group")
+          if (parent != null ) {
+            // Check if the parent has a button with class containing "icon-calendar"
+            Elements buttons = parent.getElementsByTag("button");
+            for (Element button : buttons) {
+              if (!button.getElementsByClass("icon-calendar").isEmpty()) {
+                return "CALENDAR";
+              }else if(!button.getElementsByClass("icon-barcode").isEmpty()){
+                return "LOOKUPANDBARCODE";
+              }
+            }
+          }
           return "TEXTBOX";
       } else if ("datetime".equals(type)) {
         return "DATETIME";
