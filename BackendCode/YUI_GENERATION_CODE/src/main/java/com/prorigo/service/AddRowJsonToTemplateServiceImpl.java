@@ -56,9 +56,8 @@ public class AddRowJsonToTemplateServiceImpl implements AddRowJsonToTemplateServ
 
   @Override
   public String addDataTable(String jsonInput) {
-    TableRowData tabledata=new TableRowData();
-    String s=tabledata.addTableRowData(jsonInput);
-    return s;
+    TableRowData tableRawData=new TableRowData();
+    return tableRawData.addTableRowData(jsonInput);
   }
 
 
