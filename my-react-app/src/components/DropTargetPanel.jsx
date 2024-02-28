@@ -118,7 +118,7 @@ const CustomContextMenu = ({ visible, x, y, options, onSelect, readOnly, editabl
                   <Form.Control
                     type="text"
                     placeholder="Enter Template Name"
-                    name="value"
+                    name="TemplateName"
                     value={formData.templateName}
                     onChange={handleFormChange}
                   />
@@ -130,8 +130,20 @@ const CustomContextMenu = ({ visible, x, y, options, onSelect, readOnly, editabl
                   <Form.Control
                     type="text"
                     placeholder="Enter Label"
-                    name="value"
+                    name="label"
                     value={formData.label}
+                    onChange={handleFormChange}
+                  />
+                </Form.Group>
+              </Col>
+              <Col md={5}>
+                <Form.Group controlId="value">
+                  <Form.Label>Value</Form.Label>
+                  <Form.Control
+                    type="text"
+                    placeholder="Enter Value"
+                    name="value"
+                    value={formData.value}
                     onChange={handleFormChange}
                   />
                 </Form.Group>
@@ -142,7 +154,7 @@ const CustomContextMenu = ({ visible, x, y, options, onSelect, readOnly, editabl
                   <Form.Control
                     type="text"
                     placeholder="Enter Collapse Name"
-                    name="value"
+                    name="CName"
                     value={formData.CName}
                     onChange={handleFormChange}
                   />
@@ -154,7 +166,7 @@ const CustomContextMenu = ({ visible, x, y, options, onSelect, readOnly, editabl
                   <Form.Control
                     type="text"
                     placeholder="Enter Collapse ID"
-                    name="value"
+                    name="CID"
                     value={formData.CID}
                     onChange={handleFormChange}
                   />
@@ -166,7 +178,7 @@ const CustomContextMenu = ({ visible, x, y, options, onSelect, readOnly, editabl
                   <Form.Control
                     type="text"
                     placeholder="Enter Field"
-                    name="value"
+                    name="FName"
                     value={formData.FName}
                     onChange={handleFormChange}
                   />
@@ -178,7 +190,7 @@ const CustomContextMenu = ({ visible, x, y, options, onSelect, readOnly, editabl
                   <Form.Control
                     type="text"
                     placeholder="Enter length"
-                    name="value"
+                    name="Maxlen"
                     value={formData.maxLen}
                     onChange={handleFormChange}
                   />
@@ -210,14 +222,13 @@ const CustomContextMenu = ({ visible, x, y, options, onSelect, readOnly, editabl
               </Col>
             </Row>
           </Form>
-
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="secondary" onClick={handleCloseModal}>
-            Close
-          </Button>
           <Button variant="primary" onClick={handleAddAllDetails}>
             Save
+          </Button>
+          <Button variant="secondary" onClick={handleCloseModal}>
+            Close
           </Button>
         </Modal.Footer>
       </Modal>
