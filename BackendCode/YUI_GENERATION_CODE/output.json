@@ -1,1 +1,0 @@
-[{"type":"LOOKUPANDBARCODE","id":"lbid2","text":"Lookup \u0026 Barcode","class":"lbcls2","label":"lblabel2","value":"lbvalue2","readOnly":false,"options":[],"mandatory":false},{"type":"LOOKUPANDBARCODE","id":"lbid1","text":"Lookup \u0026 Barcode","class":"lbcls","label":"lblabel2","value":"lbvalue","readOnly":true,"options":[],"mandatory":true}]
