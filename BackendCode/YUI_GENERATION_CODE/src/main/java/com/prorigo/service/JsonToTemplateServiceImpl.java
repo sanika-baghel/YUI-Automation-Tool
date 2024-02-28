@@ -29,6 +29,7 @@ public class JsonToTemplateServiceImpl implements JsonToTemplateService {
     // Generate Template form
     StringBuilder htmlForm = new StringBuilder();
 
+
     htmlForm.append("<form role=\"form\" class=\"form-horizontal\" id=\"return-info-form\">\n");
     htmlForm.append(" <div class=\"col-sm-12 col-md-12 col-xs-12 clearfix no-padding\"> \n");
     htmlForm.append("  <div class=\"col-sm-12 clearfix no-padding\"> \n");
@@ -40,18 +41,19 @@ public class JsonToTemplateServiceImpl implements JsonToTemplateService {
     htmlForm.append(
         "         <div class=\"col-sm-12 errorText_overFlow no-margin no-padding clearfix\">\n");
     htmlForm.append("           <div class=\"cc-field control-group drpDwn_cc hide\">\n");
-    String a = "collapseCoreInspectInfo";
+    FormData formData=new FormData();
+    formData.getCollapseId();
+
     htmlForm.append(
                 "           <a role=\"button\" data-toggle=\"collapse\"").append(" href=\"")
-            .append("#" + a);
+            .append("#" + formData.getCollapseId());
 
-    htmlForm.append("\"  aria-expanded=\"false\"").append("\n      aria-controls=\"").append(a)
+    htmlForm.append("\"  aria-expanded=\"false\"").append("\n      aria-controls=\"").append(formData.getCollapseId())
             .append("\" class=\"col-xs-12 clearfix no-padding\" tabindex=\"-1\">\n");
 
-    String name="CP_INFO";
     htmlForm.append("         <div class=\"col-xs-12 pad5-top collapsetabs border\">\n");
     htmlForm.append("         <h5 class=\"text-uppercase\">").append("{{applbl \"");
-    htmlForm.append(name).append("\"").append("}}").append("</h5>\n");
+    htmlForm.append(formData.getCollapseName()).append("\"").append("}}").append("</h5>\n");
     htmlForm.append("         </div>\n");
     htmlForm.append("       </a>\n");
 
@@ -154,10 +156,12 @@ public class JsonToTemplateServiceImpl implements JsonToTemplateService {
                   .append(element.getId())
                   .append("\" name=\"").append(element.getId()).append("\" class=\"")
                   .append(element.getClassName()).append("\" value=\"")
-                  .append(value).append("\"")
-                  .append(element.isMandatory() ? " data-mize_required" : "")
-                  .append(element.isReadOnly() ? " disabled" : "")
-                  .append(" />\n");
+                  .append(value).append("\"");
+                 if(element.getMaxLength()!=null){
+                   htmlForm .append("  max-length=\"").append(element.getMaxLength()).append("\"");
+                 }
+          htmlForm.append(element.isMandatory() ? " data-mize_required" : "")
+                  .append(element.isReadOnly() ? " disabled" : "").append(" />\n");
 
           if (element.getType().equalsIgnoreCase("LOOKUP") || element.getType().equalsIgnoreCase(
               "LOOKUPANDBARCODE")) {
