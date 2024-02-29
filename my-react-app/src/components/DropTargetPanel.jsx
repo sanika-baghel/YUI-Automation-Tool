@@ -241,8 +241,40 @@ const DropTargetPanel = ({ onHover, droppedItems, setDroppedItems, editedLabel, 
   const [contextMenu, setContextMenu] = useState({ visible: false, index: -1, x: 0, y: 0 });
   const [showLabelIdOptions, setShowLabelIdOptions] = useState(Array(droppedItems.length).fill(true));
 
+  {/* New Added Code for add row and header*/}
+  let headerCount = 1;
+  let numberOfColumns = 0;
+  const [inputTypes, setInputTypes] = useState(Array.from({ length: 4 }, () => ''));
+
+  // Handler function to update the input type for a specific select element
+  const handleInputChange = (index, value) => {
+    setInputTypes(prevInputTypes => {
+      const newInputTypes = [...prevInputTypes];
+      newInputTypes[index] = value;
+      return newInputTypes;
+    });
+  };
+  const [rowCount, setRowCount] = useState(1); // Initial row count is 1
+
+  // Function to handle adding a row
+  const handleAddRow = () => {
+    setRowCount(rowCount + 1); // Increment row count by 1
+  };
+
+  const handleDeleteRow = () => {
+    setRowCount(rowCount - 1); // Increment row count by 1
+  };
+  
+  const handleHeaderInput = () => {
+    const headerCount = parseInt(prompt('Enter the number of table headers (th):'));
+    if (!isNaN(headerCount)) {
+      setInputTypes(Array.from({ length: headerCount }, () => ''));
+    }
+  };
+ {/* New Added Code for add row and header*/}
+
   const [, drop] = useDrop({
-    accept: ['BUTTON', 'TEXTBOX', 'RADIO', 'CHECKBOX', 'DROPDOWN', 'LOOKUP', 'TEXTAREA', 'CALENDAR', 'BARCODE', 'LOOKUPANDBARCODE', 'ATTACHMENT', 'HEADER', 'FOOTER'],
+    accept: ['BUTTON', 'TEXTBOX', 'RADIO', 'CHECKBOX', 'DROPDOWN', 'LOOKUP', 'TEXTAREA', 'CALENDAR', 'BARCODE', 'LOOKUPANDBARCODE', 'ATTACHMENT', 'HEADER', 'FOOTER', 'ADDROWHEADER', 'OLDADDROWS', 'ADDROWS'],
     drop: (item, monitor) => handleDrop(item, monitor),
   });
 
@@ -301,6 +333,46 @@ const DropTargetPanel = ({ onHover, droppedItems, setDroppedItems, editedLabel, 
         setShowLabelIdOptions([...showLabelIdOptions, ...Array(parseInt(count)).fill(true)]);
       }
     }
+    else if (item.type === 'ADDROWHEADER') {
+      {/* New Added Code for add row and header*/}
+      const count = prompt('Enter the number header:');
+      headerCount = count;
+      if (count && !isNaN(count)) {
+        const headers = [];
+        let headerGroup = {
+          type: item.type,
+          id: '',
+          value: '',
+          text: '',
+          class: '',
+          label: '',
+          readOnly: false,
+          options: [],
+          mandatory: false,
+        };
+        for (let i = 0; i < parseInt(count); i++) {
+          // Assign default label or empty label to the radio button
+          //const label = ''; // You can change this to assign default label if needed
+
+          const headerText = prompt(`Enter header text ${i + 1}:`);
+          if (headerText !== null) {
+            headers.push({
+              data_ref: '',
+              width: '',
+              class: '',
+              label: headerText,
+            })
+          }
+        }
+        headerGroup.value = headers;
+
+        setDroppedItems([...droppedItems, headerGroup]);
+        setShowLabelIdOptions([...showLabelIdOptions, ...Array(parseInt(count)).fill(true)]);
+
+      }
+
+    }
+
     else {
       newItem = {
         type: item.type,
@@ -659,6 +731,103 @@ const DropTargetPanel = ({ onHover, droppedItems, setDroppedItems, editedLabel, 
                 </InputGroup>
               </>
             )}
+            {/* New Added Code for add row and header*/}
+            {item.type === 'ADDROWHEADER' && (
+              <>
+                <div
+                  onDrop={handleDrop}
+                  onDragOver={(e) => e.preventDefault()}
+                  style={{ width: '450%', height: '10%' }}
+                >
+                  {item.value.length > 0 && (
+                    <table className="table">
+                      <thead>
+                        <tr>
+                          {/* Mapping over the dropped headers */}
+                          {item.value.map((header, index) => (
+                            <th key={index} style={{ border: '1px solid black' }}>{header.label}</th>
+                          ))}
+                        </tr>
+                      </thead>
+                    </table>
+                  )}
+                </div>
+
+              </>
+            )}
+            {/* New Added Code for add row and header*/}
+            {item.type === 'OLDADDROWS' && (
+              <div style={{ width: '450%', height: '10%' }}>
+                <table className="table">
+                  <thead>
+                    
+                    <tr>
+                      {inputTypes.map((inputType, index) => (
+                        <th key={index}>
+                          <div>
+                            <select onChange={(e) => handleInputChange(index, e.target.value)} value={inputTypes[index]}>
+                              <option value=""></option>
+                              <option value="inputGroup">Lookup</option>
+                              <option value="inputType">TextInput</option>
+                            </select>
+                          </div>
+                        </th>
+                      ))}
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {[...Array(rowCount)].map((_, rowIndex) => ( // Map over rows using rowCount state
+                      <tr key={rowIndex}>
+                        {inputTypes.map((inputType, index) => (
+                          <td key={index}>
+                            {inputType === 'inputGroup' && (
+                              <InputGroup className="mb-3" readOnly={item.readOnly} style={{ backgroundColor: item.readOnly ? item.color : '' }}>
+                                <Form.Control
+                                  placeholder="Search..."
+                                  aria-label="Search"
+                                  aria-describedby="search-icon"
+                                  readOnly={item.readOnly}
+                                  style={{ backgroundColor: item.readOnly ? item.color : '' }}
+                                />
+                                <InputGroup.Text id="search-icon" readOnly={item.readOnly} style={{ backgroundColor: item.readOnly ? item.color : '' }}>
+                                  <FontAwesomeIcon icon={faSearch} />
+                                </InputGroup.Text>
+                              </InputGroup>
+                            )}
+                            {inputType === 'inputType' && (
+                              <input
+                                type="text"
+                                placeholder={item.text}
+                                readOnly={item.readOnly}
+                                style={{ backgroundColor: item.readOnly ? item.color : '' }}
+                              />
+                            )}
+                          </td>
+                        ))}
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+                <button onClick={handleAddRow} style={{
+                  padding: '5px 10px',
+                  marginRight: '10px', // Add margin-right for space
+                  backgroundColor: '#007bff',
+                  color: '#fff',
+                  border: 'none',
+                  borderRadius: '4px',
+                  cursor: 'pointer'
+                }}>+</button>
+                <button onClick={handleDeleteRow} style={{
+                  padding: '5px 10px',
+                  backgroundColor: '#007bff',
+                  color: '#fff',
+                  border: 'none',
+                  borderRadius: '4px',
+                  cursor: 'pointer'
+                }}>-</button>
+              </div>
+            )}
+            {/* New Added Code for add row and header*/}
           </div>
         </Draggable>
       ))}
