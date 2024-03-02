@@ -272,8 +272,8 @@ const App = () => {
             <DraggableItem type="FOOTER" text="Footer" />
              {/* New Added Code for add row and header*/}
              <DraggableItem type="ADDROWHEADER" text="Add Table Header" />
-            <DraggableItem type="OLDADDROWS" text="Old Add Rows" />
-            <DraggableItem type="ADDROWS" text="Add Rows" />
+            <DraggableItem type="OLDADDROWS" text="Add Rows" />
+          
              {/* New Added Code for add row and header*/}
           </div>
           {/* <div className="bottom left p-3" style={{ position: 'fixed', bottom: '0', left: '0', padding: '15px' }}>
