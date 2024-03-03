@@ -255,8 +255,8 @@ const App = () => {
       </nav>
       <div className="row">
         <div className="col-md-2 sidebar">
-          <div style={{ overflowY: 'auto', maxHeight: '380px' }}>
-            <h8 style={{ color: 'black' }}><b>ToolBox</b></h8>
+        <h8 style={{ color: 'black' }}><b>ToolBox</b></h8>
+          <div style={{ overflowY: 'auto', maxHeight: '440px' }}>
             <DraggableItem type="BUTTON" text="Button" />
             <DraggableItem type="TEXTBOX" text="Textbox" />
             <DraggableItem type="RADIO" text="Radio Button" />

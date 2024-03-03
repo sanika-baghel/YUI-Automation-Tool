@@ -7,7 +7,9 @@ import { faBarcode, faCalendarDays, faSearch } from '@fortawesome/free-solid-svg
 import { Modal, Button } from 'react-bootstrap';
 import { Form as BootstrapForm, Row, Col } from 'react-bootstrap';
 
-const CustomContextMenu = ({ visible, x, y, options, onSelect, readOnly, editable, onAddAllDetails }) => {
+const CustomContextMenu = ({ visible, x, y, options, onSelect, readOnly, editable, onAddAllDetails, formData,
+  setFormData, // Assuming setFormData is passed as a prop
+}) => {
   let filteredOptions = options;
 
   return (
@@ -26,14 +28,11 @@ const CustomContextMenu = ({ visible, x, y, options, onSelect, readOnly, editabl
     >
       {/* Existing options */}
       {filteredOptions.map((option) => (
-        <div
-          key={option.label}
-          onClick={() => onSelect(option.value)}
-          className="context-menu-option"
-        >
+        <div key={option.label} onClick={() => onSelect(option.value)} className="context-menu-option">
           {option.label}
         </div>
       ))}
+
     </div>
 
   );
@@ -59,7 +58,7 @@ const DropTargetPanel = ({ onHover, droppedItems, setDroppedItems, editedLabel, 
   const handleInputChange = (index, value) => {
     setInputTypes(prevInputTypes => {
       const newInputTypes = [...prevInputTypes];
-      newInputTypes.push(value);
+      newInputTypes[index] = value;
       return newInputTypes;
     });
   };
@@ -83,7 +82,7 @@ const DropTargetPanel = ({ onHover, droppedItems, setDroppedItems, editedLabel, 
   {/* New Added Code for add row and header*/ }
 
   const [, drop] = useDrop({
-    accept: ['BUTTON', 'TEXTBOX', 'RADIO', 'CHECKBOX', 'DROPDOWN', 'LOOKUP', 'TEXTAREA', 'CALENDAR', 'BARCODE', 'LOOKUPANDBARCODE', 'ATTACHMENT', 'HEADER', 'FOOTER', 'ADDROWHEADER', 'OLDADDROWS'],
+    accept: ['BUTTON', 'TEXTBOX', 'RADIO', 'CHECKBOX', 'DROPDOWN', 'LOOKUP', 'TEXTAREA', 'CALENDAR', 'BARCODE', 'LOOKUPANDBARCODE', 'ATTACHMENT', 'HEADER', 'FOOTER', 'ADDROWHEADER', 'OLDADDROWS', 'ADDROWS'],
     drop: (item, monitor) => handleDrop(item, monitor),
   });
 
@@ -200,9 +199,10 @@ const DropTargetPanel = ({ onHover, droppedItems, setDroppedItems, editedLabel, 
       setShowLabelIdOptions([...showLabelIdOptions, true]);
     }
   };
-
   const handleShowModal = () => setShowModal(true);
+
   const handleCloseModal = () => setShowModal(false);
+
   const handleFormChange = (e) => {
     const { name, value } = e.target;
     setFormData((prevData) => ({
@@ -228,14 +228,12 @@ const DropTargetPanel = ({ onHover, droppedItems, setDroppedItems, editedLabel, 
       setShowModal(false); // Close the modal after updating the details
     }
   };
-
   const handleCheckboxChange = (name, value) => {
     setFormData((prevData) => ({
       ...prevData,
       [name]: value,
     }));
   };
-
   const handleMakeReadOnly = (index) => {
     const confirmed = window.confirm('Do you want this field Readonly?');
     if (confirmed) {
@@ -371,6 +369,8 @@ const DropTargetPanel = ({ onHover, droppedItems, setDroppedItems, editedLabel, 
 
   const [showModal, setShowModal] = useState(false);
 
+
+
   return (
     <div ref={drop} className="col-lg-3 " style={panelStyle}>
       <CustomContextMenu
@@ -393,7 +393,7 @@ const DropTargetPanel = ({ onHover, droppedItems, setDroppedItems, editedLabel, 
             ? [{ label: 'Add Dropdown Option', value: 'addDropdownOption' }]
             : []),
           { label: 'Delete', value: 'delete' },
-          { label: 'Add All Details', value: 'addAllDetails' },
+          { label: 'Add All Details', value: 'addAllDetails' }, // Added option for "Add All Details"
         ]}
         onSelect={(value) => {
           if (value === 'addLabel' || value === 'addID' || value === 'addClass' || value === 'addValue') {
@@ -432,7 +432,6 @@ const DropTargetPanel = ({ onHover, droppedItems, setDroppedItems, editedLabel, 
                 <BootstrapForm.Control
                   type="text"
                   name="label"
-                  placeholder="Enter label"
                   value={formData.label}
                   onChange={handleFormChange}
                 />
@@ -442,7 +441,6 @@ const DropTargetPanel = ({ onHover, droppedItems, setDroppedItems, editedLabel, 
                 <BootstrapForm.Control
                   type="text"
                   name="id"
-                  placeholder="Enter ID"
                   value={formData.id}
                   onChange={handleFormChange}
                 />
@@ -454,7 +452,6 @@ const DropTargetPanel = ({ onHover, droppedItems, setDroppedItems, editedLabel, 
                 <BootstrapForm.Control
                   type="text"
                   name="value"
-                  placeholder="Enter Value"
                   value={formData.value}
                   onChange={handleFormChange}
                 />
@@ -464,52 +461,7 @@ const DropTargetPanel = ({ onHover, droppedItems, setDroppedItems, editedLabel, 
                 <BootstrapForm.Control
                   type="text"
                   name="class"
-                  placeholder="Enter Class"
                   value={formData.class}
-                  onChange={handleFormChange}
-                />
-              </Col>
-            </Row>
-            <Row>
-              <Col>
-                <BootstrapForm.Label>Collapse Name:</BootstrapForm.Label>
-                <BootstrapForm.Control
-                  type="text"
-                  name="CName"
-                  placeholder="Enter Collapse Name"
-                  value={formData.CName}
-                  onChange={handleFormChange}
-                />
-              </Col>
-              <Col>
-                <BootstrapForm.Label>Collapse ID:</BootstrapForm.Label>
-                <BootstrapForm.Control
-                  type="text"
-                  name="CID"
-                  placeholder="Enter Collapse ID"
-                  value={formData.CID}
-                  onChange={handleFormChange}
-                />
-              </Col>
-            </Row>
-            <Row>
-              <Col>
-                <BootstrapForm.Label>Input Field:</BootstrapForm.Label>
-                <BootstrapForm.Control
-                  type="text"
-                  name="FName"
-                  placeholder="Enter Input Field Name"
-                  value={formData.FName}
-                  onChange={handleFormChange}
-                />
-              </Col>
-              <Col>
-                <BootstrapForm.Label>Max Length:</BootstrapForm.Label>
-                <BootstrapForm.Control
-                  type="text"
-                  name="MLen"
-                  placeholder="Enter Max length"
-                  value={formData.MLen}
                   onChange={handleFormChange}
                 />
               </Col>
@@ -537,6 +489,7 @@ const DropTargetPanel = ({ onHover, droppedItems, setDroppedItems, editedLabel, 
           </BootstrapForm>
         </Modal.Body>
         <Modal.Footer>
+
           <Button variant="primary" onClick={handleAddAllDetails}>
             Save
           </Button>
@@ -545,8 +498,6 @@ const DropTargetPanel = ({ onHover, droppedItems, setDroppedItems, editedLabel, 
           </Button>
         </Modal.Footer>
       </Modal>
-
-
       {droppedItems.map((item, index) => (
         <Draggable key={item.id} bounds=".code-editor">
           <div
@@ -713,127 +664,161 @@ const DropTargetPanel = ({ onHover, droppedItems, setDroppedItems, editedLabel, 
             )}
             {/* New Added Code for add row and header*/}
             {item.type === 'OLDADDROWS' && (
-              <div style={{ display: 'flex', flexDirection: 'column', msOverflowY: 'auto', height: '10%' }}>
-                <div>
-                  <select onChange={(e) => handleInputChange(index, e.target.value)} value={inputTypes[index]}>
-                    <option value="">select option...</option>
-                    <option value="inputGroup">Lookup</option>
-                    <option value="inputType">TextInput</option>
-                    <option value="checkbox">Checkbox</option>
-                    <option value="barcode">BarCode</option>
-                    <option value="attachment">Attachment</option>
-                    <option value="lookupandbarcode">LookupAndBarcode</option>
-                  </select>
-                </div>
-                <br></br>
-                <div>
-                  <table className="table" style={{ width: '450%', height: '10%', overflow: 'auto' }}>
-                    <tbody>
-                      {[...Array(rowCount)].map((_, rowIndex) => ( // Map over rows using rowCount state
+              <div style={{ width: '450%', height: '10%' }}>
+                <table className="table">
+                  <thead>
 
-                        <tr key={rowIndex}  >
-                          <td>
-                            <input type="checkbox" />
-                          </td>
-                          {inputTypes.map((inputType, index) => (
-                            <td key={index}>
-                              {inputType === 'inputGroup' && (
-                                <InputGroup className="mb-3" readOnly={item.readOnly} style={{ backgroundColor: item.readOnly ? item.color : '', minWidth: '10rem' }}>
-                                  <Form.Control
-                                    placeholder="Search..."
-                                    aria-label="Search"
-                                    aria-describedby="search-icon"
-                                    readOnly={item.readOnly}
-                                    style={{ backgroundColor: item.readOnly ? item.color : '' }}
-                                  />
-                                  <InputGroup.Text id="search-icon" readOnly={item.readOnly} style={{ backgroundColor: item.readOnly ? item.color : '' }}>
-                                    <FontAwesomeIcon icon={faSearch} />
-                                  </InputGroup.Text>
-                                </InputGroup>
-                              )}
-                              {inputType === 'inputType' && (
-                                <input
-                                  type="text"
-                                  placeholder={item.text}
+                    <tr>
+                      {inputTypes.map((inputType, index) => (
+                        <th key={index}>
+                          <div>
+                            <select onChange={(e) => handleInputChange(index, e.target.value)} value={inputTypes[index]}>
+                              <option value=""></option>
+                              <option value="inputGroup">Lookup</option>
+                              <option value="inputType">TextInput</option>
+                            </select>
+                          </div>
+                        </th>
+                      ))}
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {[...Array(rowCount)].map((_, rowIndex) => ( // Map over rows using rowCount state
+                      <tr key={rowIndex}>
+                        {inputTypes.map((inputType, index) => (
+                          <td key={index}>
+                            {inputType === 'inputGroup' && (
+                              <InputGroup className="mb-3" readOnly={item.readOnly} style={{ backgroundColor: item.readOnly ? item.color : '' }}>
+                                <Form.Control
+                                  placeholder="Search..."
+                                  aria-label="Search"
+                                  aria-describedby="search-icon"
                                   readOnly={item.readOnly}
                                   style={{ backgroundColor: item.readOnly ? item.color : '' }}
                                 />
-                              )}
-                              {inputType === 'checkbox' && (
-                                <input type="checkbox" />
-                              )}
-                              {inputType === 'barcode' && (
-
-                                <InputGroup className="mb-3" readOnly={item.readOnly}
-                                  style={{ backgroundColor: item.readOnly ? item.color : '', minWidth: '10rem' }} >
-                                  <Form.Control
-                                    aria-label="Search"
-                                    aria-describedby="search-icon"
-                                    readOnly={item.readonly}
-                                    style={{ backgroundColor: item.readonly ? item.color : '' }}
-                                  />
-                                  <InputGroup.Text id="search-icon" readOnly={item.readOnly}
-                                    style={{ backgroundColor: item.readOnly ? item.color : '' }}>
-                                    <FontAwesomeIcon icon={faBarcode} />
-                                  </InputGroup.Text>
-                                </InputGroup>
-
-                              )}
-                              {inputType === 'lookupandbarcode' && (
-                                <InputGroup className="mb-3" readOnly={item.readOnly}
-                                  style={{ backgroundColor: item.readOnly ? item.color : '', minWidth: '10rem' }} >
-                                  <Form.Control
-                                    aria-label="Search"
-                                    aria-describedby="search-icon"
-                                    readOnly={item.readonly}
-                                    style={{ backgroundColor: item.readonly ? item.color : '' }}
-                                  />
-                                  <InputGroup.Text id="search-icon" readOnly={item.readOnly}
-                                    style={{ backgroundColor: item.readOnly ? item.color : '' }}>
-                                    <FontAwesomeIcon icon={faSearch} />
-                                  </InputGroup.Text>
-                                  <InputGroup.Text id="search-icon" readOnly={item.readOnly}
-                                    style={{ backgroundColor: item.readOnly ? item.color : '' }}>
-                                    <FontAwesomeIcon icon={faBarcode} />
-                                  </InputGroup.Text>
-                                </InputGroup>
-                              )}
-                              {inputType === 'attachment' && (
-                                <div>
-                                  <input type="file" onChange={handleFileUpload} />
-                                </div>
-                              )}
-                            </td>
-                          ))}
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
-                </div>
-                <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                  <button onClick={handleAddRow} style={{
-                    padding: '5px 10px',
-                    marginRight: '10px', // Add margin-right for space
-                    backgroundColor: '#007bff',
-                    color: '#fff',
-                    border: 'none',
-                    borderRadius: '4px',
-                    cursor: 'pointer'
-                  }}>Add Row</button>
-                  <button onClick={handleDeleteRow} style={{
-                    width: 'max-content',
-                    padding: '5px 10px',
-                    marginLeft: '570px',
-                    backgroundColor: '#007bff',
-                    color: '#fff',
-                    border: 'none',
-                    borderRadius: '4px',
-                    cursor: 'pointer'
-                  }}>Delete Row</button>
-                </div>
+                                <InputGroup.Text id="search-icon" readOnly={item.readOnly} style={{ backgroundColor: item.readOnly ? item.color : '' }}>
+                                  <FontAwesomeIcon icon={faSearch} />
+                                </InputGroup.Text>
+                              </InputGroup>
+                            )}
+                            {inputType === 'inputType' && (
+                              <input
+                                type="text"
+                                placeholder={item.text}
+                                readOnly={item.readOnly}
+                                style={{ backgroundColor: item.readOnly ? item.color : '' }}
+                              />
+                            )}
+                          </td>
+                        ))}
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+                <button onClick={handleAddRow} style={{
+                  padding: '5px 10px',
+                  marginRight: '10px', // Add margin-right for space
+                  backgroundColor: '#007bff',
+                  color: '#fff',
+                  border: 'none',
+                  borderRadius: '4px',
+                  cursor: 'pointer'
+                }}>+</button>
+                <button onClick={handleDeleteRow} style={{
+                  padding: '5px 10px',
+                  backgroundColor: '#007bff',
+                  color: '#fff',
+                  border: 'none',
+                  borderRadius: '4px',
+                  cursor: 'pointer'
+                }}>-</button>
               </div>
             )}
+            {/* New Added Code for add row and header*/}
+            {item.type === 'ADDROWS' && (
+              <div style={{ display: 'flex', flexDirection: 'column' }}>
+                {inputTypes.map((inputType, index) => (
+                  <div key={index} style={{ marginBottom: '10px' }}>
+                    <select onChange={(e) => handleInputChange(index, e.target.value)} value={inputTypes[index]}>
+                      <option value=""></option>
+                      <option value="inputGroup">Lookup</option>
+                      <option value="inputType">TextInput</option>
+                      <option value="checkbox">Checkbox</option>
+                      <option value="barcode">BarCode</option>
+                      <option value="attachment">Attachment</option>
+                      <option value="lookupandbarcode">LookupAndBarcode</option>
+                    </select>
+                    {inputType === 'inputGroup' && (
+                      <InputGroup className="mb-3" readOnly={item.readOnly} style={{ backgroundColor: item.readOnly ? item.color : '' }}>
+                        <Form.Control
+                          placeholder="Search..."
+                          aria-label="Search"
+                          aria-describedby="search-icon"
+                          readOnly={item.readOnly}
+                          style={{ backgroundColor: item.readOnly ? item.color : '' }}
+                        />
+                        <InputGroup.Text id="search-icon" readOnly={item.readOnly} style={{ backgroundColor: item.readOnly ? item.color : '' }}>
+                          <FontAwesomeIcon icon={faSearch} />
+                        </InputGroup.Text>
+                      </InputGroup>
+                    )}
+                    {inputType === 'inputType' && (
+                      <input
+                        type="text"
+                        placeholder={item.text}
+                        readOnly={item.readOnly}
+                        style={{ backgroundColor: item.readOnly ? item.color : '' }}
+                      />
+                    )}
+                    {inputType === 'checkbox' && (
+                      <input type="checkbox" />
+                    )}
+                    {inputType === 'barcode' && (
 
+                      <InputGroup className="mb-3" readOnly={item.readOnly}
+                        style={{ backgroundColor: item.readOnly ? item.color : '' }} >
+                        <Form.Control
+                          aria-label="Search"
+                          aria-describedby="search-icon"
+                          readOnly={item.readonly}
+                          style={{ backgroundColor: item.readonly ? item.color : '' }}
+                        />
+                        <InputGroup.Text id="search-icon" readOnly={item.readOnly}
+                          style={{ backgroundColor: item.readOnly ? item.color : '' }}>
+                          <FontAwesomeIcon icon={faBarcode} />
+                        </InputGroup.Text>
+                      </InputGroup>
+
+                    )}
+                    {inputType === 'lookupandbarcode' && (
+                      <InputGroup className="mb-3" readOnly={item.readOnly}
+                        style={{ backgroundColor: item.readOnly ? item.color : '' }} >
+                        <Form.Control
+                          aria-label="Search"
+                          aria-describedby="search-icon"
+                          readOnly={item.readonly}
+                          style={{ backgroundColor: item.readonly ? item.color : '' }}
+                        />
+                        <InputGroup.Text id="search-icon" readOnly={item.readOnly}
+                          style={{ backgroundColor: item.readOnly ? item.color : '' }}>
+                          <FontAwesomeIcon icon={faSearch} />
+                        </InputGroup.Text>
+                        <InputGroup.Text id="search-icon" readOnly={item.readOnly}
+                          style={{ backgroundColor: item.readOnly ? item.color : '' }}>
+                          <FontAwesomeIcon icon={faBarcode} />
+                        </InputGroup.Text>
+                      </InputGroup>
+                    )}
+                    {inputType === 'attachment' && (
+                      <div>
+                        <input type="file" onChange={handleFileUpload} />
+                      </div>
+                    )}
+                  </div>
+                ))}
+
+              </div>
+            )}
 
           </div>
         </Draggable>
