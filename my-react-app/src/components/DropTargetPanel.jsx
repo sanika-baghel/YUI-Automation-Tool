@@ -6,8 +6,9 @@ import { Form, InputGroup } from 'react-bootstrap';
 import { faBarcode, faCalendarDays, faSearch } from '@fortawesome/free-solid-svg-icons';
 import { Modal, Button } from 'react-bootstrap';
 import { Form as BootstrapForm, Row, Col } from 'react-bootstrap';
+import { faAngleDown, faAngleUp } from '@fortawesome/free-solid-svg-icons';
 
-const CustomContextMenu = ({ visible, x, y, options, onSelect, readOnly, editable, onAddAllDetails }) => {
+const CustomContextMenu = ({ visible, x, y, options, onSelect }) => {
   let filteredOptions = options;
 
   return (
@@ -47,6 +48,8 @@ const DropTargetPanel = ({ onHover, droppedItems, setDroppedItems, editedLabel, 
     id: '',
     class: '',
     value: '',
+    cid: '',
+    cname: '',
     readOnly: false,
     mandatory: false,
   });
@@ -83,7 +86,7 @@ const DropTargetPanel = ({ onHover, droppedItems, setDroppedItems, editedLabel, 
   {/* New Added Code for add row and header*/ }
 
   const [, drop] = useDrop({
-    accept: ['BUTTON', 'TEXTBOX', 'RADIO', 'CHECKBOX', 'DROPDOWN', 'LOOKUP', 'TEXTAREA', 'CALENDAR', 'BARCODE', 'LOOKUPANDBARCODE', 'ATTACHMENT', 'HEADER', 'FOOTER', 'ADDROWHEADER', 'OLDADDROWS'],
+    accept: ['BUTTON', 'TEXTBOX', 'RADIO', 'CHECKBOX', 'DROPDOWN', 'LOOKUP', 'TEXTAREA', 'CALENDAR', 'BARCODE', 'LOOKUPANDBARCODE', 'ATTACHMENT', 'HEADER', 'FOOTER', 'ADDROWHEADER', 'OLDADDROWS', 'COLLAPSE'],
     drop: (item, monitor) => handleDrop(item, monitor),
   });
 
@@ -98,9 +101,9 @@ const DropTargetPanel = ({ onHover, droppedItems, setDroppedItems, editedLabel, 
       if (item.id === contextMenu.index) {
         return {
           ...item,
-          label: editedLabel,
-          class: editedClass,
-          value: editedValue,
+          // label: editedLabel,
+          // class: editedClass,
+          // value: editedValue,
         };
       }
       return item;
@@ -131,6 +134,8 @@ const DropTargetPanel = ({ onHover, droppedItems, setDroppedItems, editedLabel, 
             text: label,
             class: '',
             label: '',
+            cid: '',
+            cname: '',
             readOnly: false,
             options: [],
             mandatory: false,
@@ -155,6 +160,8 @@ const DropTargetPanel = ({ onHover, droppedItems, setDroppedItems, editedLabel, 
           text: '',
           class: '',
           label: '',
+          cid: '',
+          cname: '',
           readOnly: false,
           options: [],
           mandatory: false,
@@ -191,6 +198,8 @@ const DropTargetPanel = ({ onHover, droppedItems, setDroppedItems, editedLabel, 
         class: '',
         label: '',
         id: '',
+        cid: '',
+        cname: '',
         readOnly: false,
         options: [],
         mandatory: false,
@@ -220,6 +229,8 @@ const DropTargetPanel = ({ onHover, droppedItems, setDroppedItems, editedLabel, 
           id: formData.id || '',
           class: formData.class || '',
           value: formData.value || '',
+          cid: formData.cid || '',
+          cname: formData.cname || '',
           readOnly: formData.readOnly || false,
           mandatory: formData.mandatory || false,
         };
@@ -275,7 +286,7 @@ const DropTargetPanel = ({ onHover, droppedItems, setDroppedItems, editedLabel, 
 
   const handleMouseEnter = (index) => {
     const currentItem = droppedItems[index];
-    onHover(currentItem.id, currentItem.label, currentItem.class, currentItem.readOnly, currentItem.mandatory, currentItem.value);
+    onHover(currentItem.id, currentItem.label, currentItem.class, currentItem.readOnly, currentItem.mandatory, currentItem.value, currentItem.cid, currentItem.cname);
   };
 
   const handleAddDropdownOption = (index) => {
@@ -311,8 +322,12 @@ const DropTargetPanel = ({ onHover, droppedItems, setDroppedItems, editedLabel, 
       if (!isDuplicateLabel) {
         if (value === 'addClass') {
           updatedItems[index]['class'] = inputValue;
+        } else if (value === 'cid') {
+          updatedItems[index]['cid'] = inputValue;
         } else if (value === 'addValue') {
           updatedItems[index]['value'] = inputValue;
+        } else if (value === 'cname') {
+          updatedItems[index]['cname'] = inputValue;
         } else {
           updatedItems[index][value === 'addLabel' ? 'label' : 'id'] = inputValue;
         }
@@ -370,7 +385,11 @@ const DropTargetPanel = ({ onHover, droppedItems, setDroppedItems, editedLabel, 
   };
 
   const [showModal, setShowModal] = useState(false);
+  const [isCollapsed, setIsCollapsed] = useState(true);
 
+  const toggleCollapse = () => {
+    setIsCollapsed(!isCollapsed);
+  };
   return (
     <div ref={drop} className="col-lg-3 " style={panelStyle}>
       <CustomContextMenu
@@ -378,20 +397,20 @@ const DropTargetPanel = ({ onHover, droppedItems, setDroppedItems, editedLabel, 
         x={contextMenu.x}
         y={contextMenu.y}
         options={[
-          ...(droppedItems[contextMenu.index]?.label
-            ? [{ label: 'Delete Label', value: 'deleteLabel' }]
-            : [{ label: 'Add Label', value: 'addLabel' }]),
-          { label: 'Add ID', value: 'addID' },
-          { label: 'Add Class', value: 'addClass' },
-          { label: 'Add Value', value: 'addValue' },
-          { label: 'Make ReadOnly', value: 'makeReadOnly' },
-          { label: 'Make Editable', value: 'makeEditable' },
-          ...(droppedItems[contextMenu.index]?.mandatory
-            ? [{ label: 'Remove Asterisk Mark', value: 'removeAsteriskMark' }]
-            : [{ label: 'Add Asterisk Mark', value: 'addAsteriskMark' }]),
-          ...(contextMenu.showAddDropdownOption
-            ? [{ label: 'Add Dropdown Option', value: 'addDropdownOption' }]
-            : []),
+          // ...(droppedItems[contextMenu.index]?.label
+          //   ? [{ label: 'Delete Label', value: 'deleteLabel' }]
+          //   : [{ label: 'Add Label', value: 'addLabel' }]),
+          // { label: 'Add ID', value: 'addID' },
+          // { label: 'Add Class', value: 'addClass' },
+          // { label: 'Add Value', value: 'addValue' },
+          // { label: 'Make ReadOnly', value: 'makeReadOnly' },
+          // { label: 'Make Editable', value: 'makeEditable' },
+          // ...(droppedItems[contextMenu.index]?.mandatory
+          //   ? [{ label: 'Remove Asterisk Mark', value: 'removeAsteriskMark' }]
+          //   : [{ label: 'Add Asterisk Mark', value: 'addAsteriskMark' }]),
+          // ...(contextMenu.showAddDropdownOption
+          //   ? [{ label: 'Add Dropdown Option', value: 'addDropdownOption' }]
+          //   : []),
           { label: 'Delete', value: 'delete' },
           { label: 'Add All Details', value: 'addAllDetails' },
         ]}
@@ -475,9 +494,9 @@ const DropTargetPanel = ({ onHover, droppedItems, setDroppedItems, editedLabel, 
                 <BootstrapForm.Label>Collapse Name:</BootstrapForm.Label>
                 <BootstrapForm.Control
                   type="text"
-                  name="CName"
+                  name="cname"
                   placeholder="Enter Collapse Name"
-                  value={formData.CName}
+                  value={formData.cname}
                   onChange={handleFormChange}
                 />
               </Col>
@@ -485,9 +504,9 @@ const DropTargetPanel = ({ onHover, droppedItems, setDroppedItems, editedLabel, 
                 <BootstrapForm.Label>Collapse ID:</BootstrapForm.Label>
                 <BootstrapForm.Control
                   type="text"
-                  name="CID"
+                  name="cid"
                   placeholder="Enter Collapse ID"
-                  value={formData.CID}
+                  value={formData.cid}
                   onChange={handleFormChange}
                 />
               </Col>
@@ -687,6 +706,22 @@ const DropTargetPanel = ({ onHover, droppedItems, setDroppedItems, editedLabel, 
                 </InputGroup>
               </>
             )}
+            {item.type === 'COLLAPSE' && (
+              <div>
+                <div onClick={toggleCollapse} className="table" style={{ cursor: 'pointer', width: '450%', height: '10%', overflow: 'auto' }}>
+                <table className="table" style={{ width: '450%', height: '10%', overflow: 'auto' }}>    
+                    <tbody>
+                        <tr>
+                          <td>
+                          <FontAwesomeIcon icon={isCollapsed ? faAngleDown : faAngleUp} /> COLLAPSE
+                          </td>
+                        </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            )}
+
             {/* New Added Code for add row and header*/}
             {item.type === 'ADDROWHEADER' && (
               <>
@@ -810,7 +845,7 @@ const DropTargetPanel = ({ onHover, droppedItems, setDroppedItems, editedLabel, 
                     </tbody>
                   </table>
                 </div>
-                <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                {/* <div style={{ display: 'flex', justifyContent: 'space-between' }}>
                   <button onClick={handleAddRow} style={{
                     padding: '5px 10px',
                     marginRight: '10px', // Add margin-right for space
@@ -830,7 +865,7 @@ const DropTargetPanel = ({ onHover, droppedItems, setDroppedItems, editedLabel, 
                     borderRadius: '4px',
                     cursor: 'pointer'
                   }}>Delete Row</button>
-                </div>
+                </div> */}
               </div>
             )}
 

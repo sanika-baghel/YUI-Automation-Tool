@@ -20,6 +20,7 @@ const App = () => {
     mandatory: false,
     tempname: null,
     cid: null,
+    cname:null,
     fname: null,
     maxLen: null,
 
@@ -27,13 +28,13 @@ const App = () => {
 
   const [droppedItems, setDroppedItems] = useState([]);
   const [fileDropdownVisible, setFileDropdownVisible] = useState(false);
-  const [editedLabel, setEditedLabel] = useState('');
-  const [editedClass, setEditedClass] = useState('');
-  const [editedValue, setEditedValue] = useState('');
+  // const [editedLabel, setEditedLabel] = useState('');
+  // const [editedClass, setEditedClass] = useState('');
+  // const [editedValue, setEditedValue] = useState('');
   const [fileName, setFileName] = useState('');
   const [propertiesCollapsed, setPropertiesCollapsed] = useState(false);
 
-  const handleHover = (itemId, itemLabel, itemClass, itemReadOnly, itemMandatory, itemValue, itemTempName, itemCid, itemFName, maxLen) => {
+  const handleHover = (itemId, itemLabel, itemClass, itemReadOnly, itemMandatory, itemValue, itemCid,itemCname, itemFName, maxLen) => {
     setHoveredItem({
       id: itemId,
       label: itemLabel,
@@ -41,8 +42,8 @@ const App = () => {
       value: itemValue,
       readOnly: itemReadOnly,
       mandatory: itemMandatory,
-      tempname: itemTempName,
       cid: itemCid,
+      cname: itemCname,
       fname: itemFName,
       maxLen: maxLen,
     });
@@ -142,47 +143,50 @@ const App = () => {
     }
   };
 
-  const handleLabelChange = (newLabel) => {
-    const updatedDroppedItems = [...droppedItems];
-    const hoveredItemIndex = updatedDroppedItems.findIndex(item => item.id === hoveredItem.id);
-    if (hoveredItemIndex !== -1) {
-      updatedDroppedItems[hoveredItemIndex].label = newLabel;
-      setDroppedItems(updatedDroppedItems);
-      setEditedLabel(newLabel);
-      updateHoveredItem();
-    }
-  };
+  // const handleLabelChange = (newLabel) => {
+  //   const updatedDroppedItems = [...droppedItems];
+  //   const hoveredItemIndex = updatedDroppedItems.findIndex(item => item.id === hoveredItem.id);
+  //   if (hoveredItemIndex !== -1) {
+  //     updatedDroppedItems[hoveredItemIndex].label = newLabel;
+  //     setDroppedItems(updatedDroppedItems);
+  //     setEditedLabel(newLabel);
+  //     updateHoveredItem();
+  //   }
+  // };
 
-  const handleClassChange = (newClass) => {
-    const updatedDroppedItems = [...droppedItems];
-    const hoveredItemIndex = updatedDroppedItems.findIndex(item => item.id === hoveredItem.id);
-    if (hoveredItemIndex !== -1) {
-      updatedDroppedItems[hoveredItemIndex].class = newClass;
-      setDroppedItems(updatedDroppedItems);
-      setEditedClass(newClass);
-      updateHoveredItem();
-    }
-  };
+  // const handleClassChange = (newClass) => {
+  //   const updatedDroppedItems = [...droppedItems];
+  //   const hoveredItemIndex = updatedDroppedItems.findIndex(item => item.id === hoveredItem.id);
+  //   if (hoveredItemIndex !== -1) {
+  //     updatedDroppedItems[hoveredItemIndex].class = newClass;
+  //     setDroppedItems(updatedDroppedItems);
+  //     setEditedClass(newClass);
+  //     updateHoveredItem();
+  //   }
+  // };
 
-  const handleValueChange = (newValue) => {
-    const updatedDroppedItems = [...droppedItems];
-    const hoveredItemIndex = updatedDroppedItems.findIndex(item => item.id === hoveredItem.id);
-    if (hoveredItemIndex !== -1) {
-      updatedDroppedItems[hoveredItemIndex].value = newValue;
-      setDroppedItems(updatedDroppedItems);
-      setEditedValue(newValue);
-      updateHoveredItem();
-    }
-  };
+  // const handleValueChange = (newValue) => {
+  //   const updatedDroppedItems = [...droppedItems];
+  //   const hoveredItemIndex = updatedDroppedItems.findIndex(item => item.id === hoveredItem.id);
+  //   if (hoveredItemIndex !== -1) {
+  //     updatedDroppedItems[hoveredItemIndex].value = newValue;
+  //     setDroppedItems(updatedDroppedItems);
+  //     setEditedValue(newValue);
+  //     updateHoveredItem();
+  //   }
+  // };
 
-  const updateHoveredItem = () => {
-    setHoveredItem((prevItem) => ({
-      ...prevItem,
-      label: editedLabel,
-      class: editedClass,
-      value: editedValue,
-    }));
-  };
+  // const updateHoveredItem = () => {
+  //   setHoveredItem((prevItem) => ({
+  //     ...prevItem,
+  //     label: editedLabel,
+  //     class: editedClass,
+  //     value: editedValue,
+  //     cname: editedCname,
+  //     cid  : editedcid, 
+
+  //   }));
+  // };
   const fileInputRef = useRef(null);
 
   const openFileInput = () => {
@@ -268,10 +272,10 @@ const App = () => {
             <DraggableItem type="BARCODE" text="Barcode" />
             <DraggableItem type="ATTACHMENT" text="Attachment" />
             <DraggableItem type="LOOKUPANDBARCODE" text="Lookup & Barcode" />
+            <DraggableItem type="COLLAPSE" text="Collapse" />
             <DraggableItem type="HEADER" text="Header" />
             <DraggableItem type="FOOTER" text="Footer" />
-             {/* New Added Code for add row and header*/}
-             <DraggableItem type="ADDROWHEADER" text="Add Table Header" />
+            <DraggableItem type="ADDROWHEADER" text="Add Table Header" />
             <DraggableItem type="OLDADDROWS" text="Add Rows" />
           
              {/* New Added Code for add row and header*/}
@@ -387,7 +391,7 @@ const App = () => {
               <tr>
                 <td>Collapse Name</td>
                 <td>
-                  <input type="text" value={hoveredItem.cid} />
+                  <input type="text" value={hoveredItem.cname} />
                 </td>
               </tr>
               <tr>
@@ -421,18 +425,18 @@ const App = () => {
 };
 
 
-const TableRow = ({ label, value, editable, onChange }) => (
-  <tr>
-    <td><b>{label}</b></td>
-    <td>
-      {editable ? (
-        <input type="text" value={value} onChange={(e) => onChange(e.target.value)} />
-      ) : (
-        value
-      )}
-    </td>
-  </tr>
-);
+// const TableRow = ({ label, value, editable, onChange }) => (
+//   <tr>
+//     <td><b>{label}</b></td>
+//     <td>
+//       {editable ? (
+//         <input type="text" value={value} onChange={(e) => onChange(e.target.value)} />
+//       ) : (
+//         value
+//       )}
+//     </td>
+//   </tr>
+// );
 
 const navLinkStyle = {
   color: 'white',
