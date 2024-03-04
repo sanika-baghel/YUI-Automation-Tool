@@ -411,7 +411,7 @@ const DropTargetPanel = ({ onHover, droppedItems, setDroppedItems, editedLabel, 
           // ...(contextMenu.showAddDropdownOption
           //   ? [{ label: 'Add Dropdown Option', value: 'addDropdownOption' }]
           //   : []),
-          { label: 'Edit', value: 'addAllDetails' },
+          { label: 'Add/Edit', value: 'addAllDetails' },
           { label: 'Delete', value: 'delete' },
         ]}
         onSelect={(value) => {
