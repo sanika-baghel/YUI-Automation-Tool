@@ -11,4 +11,10 @@ public interface TemplateToJsonService {
 	 
 	 public void writeToJsonFile(String json) throws IOException ;
 
+	 //Table heading
+	public String headTemplateToJson(String jsonInput);
+
+
+
+
 }

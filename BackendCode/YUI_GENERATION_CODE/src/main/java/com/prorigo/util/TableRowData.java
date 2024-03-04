@@ -12,14 +12,14 @@ public class TableRowData {
     htmlForm.append("<tr id=\"partsRow\" class=\"partsRow orderItems partsRow_{{@index}}\" data-index=\"{{@index}}\">\n");
     for (FormData element : formElements) {
       htmlForm.append("  <td class=\"\">\n");
-      htmlForm.append("    <div class=\"cc-field width100perc\">\n");
-      htmlForm.append("      <div class=\"cc-field-12 controls\">\n");
+      htmlForm.append("    <div class=\"container clearfix form-group control-group input controls minwidth-75\">\n");
+      htmlForm.append("     {{#if @viewonly}}\n");
       htmlForm.append("        <p class=\"").append("\" id=\"").append(element.getId())
               .append("\" name=\"").append(element.getId()).append("\">").append("{{")
               .append(element.getId()).append("}}").append("</p>\n");
-
+      htmlForm.append("     {{else}}\n");
       htmlForm.append(TemplateCreateUtil.generateComponentHTML(element));
-      htmlForm.append("    </div>\n");
+      htmlForm.append("    {{/if}}\n");
       htmlForm.append("  </div>\n");
       htmlForm.append("  </td>\n");
     }

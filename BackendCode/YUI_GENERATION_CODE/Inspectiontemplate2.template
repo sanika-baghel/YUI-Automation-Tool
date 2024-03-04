@@ -1,0 +1,56 @@
+<form role="form" class="form-horizontal" id="return-info-form">
+ <div class="col-sm-12 col-md-12 col-xs-12 clearfix no-padding"> 
+  <div class="col-sm-12 clearfix no-padding"> 
+    <div class="col-sm-12 no-padding return-info-form"> 
+      <div class="col-xs-12 print-halfbox no-padding clearfix pad10-bottom">
+       <div class="panel-collapse collapse in col-xs-12 no-margin no-padding pad15-top id="">
+         <div class="col-sm-12 errorText_overFlow no-margin no-padding clearfix">
+           <div class="cc-field control-group drpDwn_cc hide">
+           <a role="button" data-toggle="collapse" href="#"  aria-expanded="false"
+      aria-controls="" class="col-xs-12 clearfix no-padding" tabindex="-1">
+         <div class="col-xs-12 pad5-top collapsetabs border">
+         <h5 class="text-uppercase">{{applbl "Container Adjustment"}}</h5>
+         </div>
+       </a>
+       <div class="panel-collapse collapse in border" id="collapseCoreInspectInfo">
+         <div class="col-sm-12 errorText_overflow no-margin no-padding clearfix">
+	      <div class="cc-field">
+	      <label class="">{{applbl 'lblabel2'}}</label>
+	      <div class="controls">
+	      {{#if @viewonly}}
+	      <p class="" id="lbid2" name="lbid2">{{lbid2}}</p>
+	      {{else}}
+	    <input type="text" id="lbid2" name="lbid2" class="lbcls2" value="{{lbvalue2}}" />
+	    <span class="">
+	      <button type="button" class="" tabindex="-1">
+	        <i class="icon-search"></i>
+	      </button>
+	    </span>
+	    <span class="">
+	      <button type="button" class="" tabindex="-1">
+	        <i class="icon-barcode big-font"></i>
+	      </button>
+	    </span>
+           {{/if}}
+          </div>
+        </div>
+	      <div class="cc-field">
+	      <label class="">{{applbl 'textlabel'}}</label>
+	      <div class="controls">
+	      {{#if @viewonly}}
+	      <p class="" id="textId" name="textId">{{textId}}</p>
+	      {{else}}
+	    <input type="text" id="textId" name="textId" class="textClass" value="{{textValue}}" />
+           {{/if}}
+          </div>
+        </div>
+          </div>
+        </div>
+       </div>
+      </div>
+     </div>
+    </div>
+   </div>
+  </div>
+ </div>
+</form>

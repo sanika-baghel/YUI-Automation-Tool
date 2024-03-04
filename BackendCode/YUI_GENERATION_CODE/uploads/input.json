@@ -1,8 +1,0 @@
-[
-  {
-    "data-ref":"CONTAINER_ID",
-    "width":"25%",
-    "class": "minwidth-200",
-    "label": "{{applbl 'CONTAINER_ID'}}"
-  }
-]
