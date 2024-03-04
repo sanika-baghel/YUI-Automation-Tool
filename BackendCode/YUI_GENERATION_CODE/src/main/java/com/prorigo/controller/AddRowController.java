@@ -1,6 +1,7 @@
 package com.prorigo.controller;
 
 import com.prorigo.service.AddRowJsonToTemplateService;
+import com.prorigo.service.TemplateToJsonService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -15,8 +16,11 @@ public class AddRowController {
 
   private final AddRowJsonToTemplateService addRowJsonToTemplateService;
 
-  public AddRowController(AddRowJsonToTemplateService addRowJsonToTemplateService) {
+  private final TemplateToJsonService templateToJsonService;
+
+  public AddRowController(AddRowJsonToTemplateService addRowJsonToTemplateService,TemplateToJsonService templateToJsonService) {
     this.addRowJsonToTemplateService = addRowJsonToTemplateService;
+    this.templateToJsonService=templateToJsonService;
   }
 
 //Table Raw Heading
@@ -58,6 +62,26 @@ public class AddRowController {
       return ResponseEntity.status(500).body("Error processing file".getBytes());
     }
   }
+
+  //Template to json for Table heading
+  @PostMapping("/convertHeadTemplateToJson")
+  public ResponseEntity<byte[]> convertHeadTemplateToJson(
+      @RequestParam("templateFile") MultipartFile jsonFile) {
+    try {
+      String jsonInput = new String(jsonFile.getBytes());
+      String htmlForm = templateToJsonService.headTemplateToJson(jsonInput);
+      addRowJsonToTemplateService.writeTemplateToFile(htmlForm);
+      // Read the file
+      Path path = Paths.get("output.template");
+      byte[] content = Files.readAllBytes(path);
+
+      return ResponseEntity.ok().body(content);
+    } catch (IOException e) {
+      e.printStackTrace();
+      return ResponseEntity.status(500).body("Error processing file".getBytes());
+    }
+  }
+
 
 }
 

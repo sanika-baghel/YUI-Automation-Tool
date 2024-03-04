@@ -2,6 +2,9 @@ package com.prorigo.service;
 
 import com.prorigo.dto.Option;
 import com.prorigo.dto.OptionsGroup;
+import com.prorigo.dto.TableHeader;
+import java.util.HashMap;
+import java.util.Map;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -184,5 +187,27 @@ public class TemplateToJsonServiceImpl implements TemplateToJsonService {
     try (FileWriter fileWriter = new FileWriter("output.json")) {
       fileWriter.write(json);
     }
+  }
+
+  //Heading Template to json
+  @Override
+  public String headTemplateToJson(String jsonInput) {
+    Document doc = Jsoup.parse(jsonInput);
+    Elements thElements = doc.select("th[data-ref]");
+    String json="";
+    List<TableHeader> headers = new ArrayList<>();
+    for (Element th : thElements) {
+      String dataRef = th.attr("data-ref");
+      String width = th.attr("width");
+      String className = th.className();
+      String label = th.text();
+      String regex = "'(.*?)'";
+      String extractedLabelName = label.replaceAll("\\{\\{applbl\\s*" + regex + "}}",
+          "$1").trim();
+      headers.add(new TableHeader(dataRef, width, className, extractedLabelName));
+      Gson gson = new Gson();
+      json = gson.toJson(headers);
+    }
+    return json;
   }
 }
