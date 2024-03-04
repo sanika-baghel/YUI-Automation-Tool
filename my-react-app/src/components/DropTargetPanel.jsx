@@ -411,8 +411,8 @@ const DropTargetPanel = ({ onHover, droppedItems, setDroppedItems, editedLabel, 
           // ...(contextMenu.showAddDropdownOption
           //   ? [{ label: 'Add Dropdown Option', value: 'addDropdownOption' }]
           //   : []),
-          { label: 'Delete', value: 'delete' },
           { label: 'Add All Details', value: 'addAllDetails' },
+          { label: 'Delete', value: 'delete' },
         ]}
         onSelect={(value) => {
           if (value === 'addLabel' || value === 'addID' || value === 'addClass' || value === 'addValue') {
@@ -709,7 +709,7 @@ const DropTargetPanel = ({ onHover, droppedItems, setDroppedItems, editedLabel, 
             {item.type === 'COLLAPSE' && (
               <div>
                 <div onClick={toggleCollapse} className="table" style={{ cursor: 'pointer', width: '450%', height: '10%', overflow: 'auto' }}>
-                <table className="table" style={{ width: '450%', height: '10%', overflow: 'auto' }}>    
+                <table className="table">    
                     <tbody>
                         <tr>
                           <td>
