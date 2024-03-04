@@ -4,49 +4,11 @@ import Draggable from 'react-draggable';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Form, InputGroup } from 'react-bootstrap';
 import { faBarcode, faCalendarDays, faSearch } from '@fortawesome/free-solid-svg-icons';
-import axios from 'axios';
 import { Modal, Button } from 'react-bootstrap';
 import { Form as BootstrapForm, Row, Col } from 'react-bootstrap';
 
 const CustomContextMenu = ({ visible, x, y, options, onSelect, readOnly, editable, onAddAllDetails }) => {
   let filteredOptions = options;
-  const [showModal, setShowModal] = useState(false);
-  const [formData, setFormData] = useState({ id: '', class: '', value: '' });
-
-  const handleShowModal = () => setShowModal(true);
-  const handleCloseModal = () => setShowModal(false);
-
-  const handleFormChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((prevData) => ({
-      ...prevData,
-      [name]: value,
-    }));
-  };
-
-  const handleAddAllDetails = () => {
-    onAddAllDetails(formData);
-    setFormData({ id: '', class: '', value: '' });
-    handleCloseModal();
-  };
-
-  const handleCheckboxMandatory = (e) => {
-    const { checked } = e.target;
-    setFormData((prevData) => ({
-      ...prevData,
-      isMandatory: checked,
-    }));
-  };
-
-  const handleCheckboxChange = (e) => {
-    const { checked } = e.target;
-    setFormData((prevData) => ({
-      ...prevData,
-      readOnly: checked,
-    }));
-  };
-
-
 
   return (
     <div
@@ -72,166 +34,6 @@ const CustomContextMenu = ({ visible, x, y, options, onSelect, readOnly, editabl
           {option.label}
         </div>
       ))}
-
-      <div
-        onClick={() => handleShowModal()}
-        className="context-menu-option"
-      >
-        Add All Details
-      </div>
-
-
-      <Modal show={showModal} onHide={handleCloseModal}>
-        <Modal.Header closeButton>
-          <Modal.Title>Add Details</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <Form>
-            <Row>
-              <Col md={5}>
-                <Form.Group controlId="formId">
-                  <Form.Label>Field ID</Form.Label>
-                  <Form.Control
-                    type="text"
-                    placeholder="Enter ID"
-                    name="id"
-                    value={formData.id}
-                    onChange={handleFormChange}
-                  />
-                </Form.Group>
-              </Col>
-              <Col md={5}>
-                <Form.Group controlId="formClass">
-                  <Form.Label>Class</Form.Label>
-                  <Form.Control
-                    type="text"
-                    placeholder="Enter Class"
-                    name="class"
-                    value={formData.class}
-                    onChange={handleFormChange}
-                  />
-                </Form.Group>
-              </Col>
-              <Col md={5}>
-                <Form.Group controlId="formTemplateName">
-                  <Form.Label>Template Name</Form.Label>
-                  <Form.Control
-                    type="text"
-                    placeholder="Enter Template Name"
-                    name="TemplateName"
-                    value={formData.templateName}
-                    onChange={handleFormChange}
-                  />
-                </Form.Group>
-              </Col>
-              <Col md={5}>
-                <Form.Group controlId="formlabel">
-                  <Form.Label>Field Label</Form.Label>
-                  <Form.Control
-                    type="text"
-                    placeholder="Enter Label"
-                    name="label"
-                    value={formData.label}
-                    onChange={handleFormChange}
-                  />
-                </Form.Group>
-              </Col>
-              <Col md={5}>
-                <Form.Group controlId="value">
-                  <Form.Label>Value</Form.Label>
-                  <Form.Control
-                    type="text"
-                    placeholder="Enter Value"
-                    name="value"
-                    value={formData.value}
-                    onChange={handleFormChange}
-                  />
-                </Form.Group>
-              </Col>
-              <Col md={5}>
-                <Form.Group controlId="formCName">
-                  <Form.Label>Collapse Name</Form.Label>
-                  <Form.Control
-                    type="text"
-                    placeholder="Enter Collapse Name"
-                    name="CName"
-                    value={formData.CName}
-                    onChange={handleFormChange}
-                  />
-                </Form.Group>
-              </Col>
-              <Col md={5}>
-                <Form.Group controlId="formCID">
-                  <Form.Label>Collapse ID</Form.Label>
-                  <Form.Control
-                    type="text"
-                    placeholder="Enter Collapse ID"
-                    name="CID"
-                    value={formData.CID}
-                    onChange={handleFormChange}
-                  />
-                </Form.Group>
-              </Col>
-              <Col md={5}>
-                <Form.Group controlId="formFName">
-                  <Form.Label>Input Field Name</Form.Label>
-                  <Form.Control
-                    type="text"
-                    placeholder="Enter Field"
-                    name="FName"
-                    value={formData.FName}
-                    onChange={handleFormChange}
-                  />
-                </Form.Group>
-              </Col>
-              <Col md={5}>
-                <Form.Group controlId="formMaxlen">
-                  <Form.Label>Max Length</Form.Label>
-                  <Form.Control
-                    type="text"
-                    placeholder="Enter length"
-                    name="Maxlen"
-                    value={formData.maxLen}
-                    onChange={handleFormChange}
-                  />
-                </Form.Group>
-              </Col>
-              <Col md={5}>
-                <Form.Label></Form.Label>
-                <Form.Group controlId="formIsMandatory">
-                  <Form.Check
-                    type="checkbox"
-                    label="isMandatory?"
-                    name="isMandatory"
-                    id="isMandatoryCheckbox"
-                    onChange={handleCheckboxMandatory}
-                  />
-                </Form.Group>
-              </Col>
-              <Col md={5}>
-                <Form.Label></Form.Label>
-                <Form.Group controlId="formReadOnly">
-                  <Form.Check
-                    type="checkbox"
-                    label="ReadOnly"
-                    name="readOnly"
-                    id="readOnlyCheckbox"
-                    onChange={handleCheckboxChange}
-                  />
-                </Form.Group>
-              </Col>
-            </Row>
-          </Form>
-        </Modal.Body>
-        <Modal.Footer>
-          <Button variant="primary" onClick={handleAddAllDetails}>
-            Save
-          </Button>
-          <Button variant="secondary" onClick={handleCloseModal}>
-            Close
-          </Button>
-        </Modal.Footer>
-      </Modal>
     </div>
 
   );
@@ -240,7 +42,14 @@ const CustomContextMenu = ({ visible, x, y, options, onSelect, readOnly, editabl
 const DropTargetPanel = ({ onHover, droppedItems, setDroppedItems, editedLabel, editedClass, editedValue }) => {
   const [contextMenu, setContextMenu] = useState({ visible: false, index: -1, x: 0, y: 0 });
   const [showLabelIdOptions, setShowLabelIdOptions] = useState(Array(droppedItems.length).fill(true));
-
+  const [formData, setFormData] = useState({
+    label: '',
+    id: '',
+    class: '',
+    value: '',
+    readOnly: false,
+    mandatory: false,
+  });
   {/* New Added Code for add row and header*/ }
   let headerCount = 1;
   let numberOfColumns = 0;
@@ -250,7 +59,7 @@ const DropTargetPanel = ({ onHover, droppedItems, setDroppedItems, editedLabel, 
   const handleInputChange = (index, value) => {
     setInputTypes(prevInputTypes => {
       const newInputTypes = [...prevInputTypes];
-      newInputTypes[index] = value;
+      newInputTypes.push(value);
       return newInputTypes;
     });
   };
@@ -274,7 +83,7 @@ const DropTargetPanel = ({ onHover, droppedItems, setDroppedItems, editedLabel, 
   {/* New Added Code for add row and header*/ }
 
   const [, drop] = useDrop({
-    accept: ['BUTTON', 'TEXTBOX', 'RADIO', 'CHECKBOX', 'DROPDOWN', 'LOOKUP', 'TEXTAREA', 'CALENDAR', 'BARCODE', 'LOOKUPANDBARCODE', 'ATTACHMENT', 'HEADER', 'FOOTER', 'ADDROWHEADER', 'OLDADDROWS', 'ADDROWS'],
+    accept: ['BUTTON', 'TEXTBOX', 'RADIO', 'CHECKBOX', 'DROPDOWN', 'LOOKUP', 'TEXTAREA', 'CALENDAR', 'BARCODE', 'LOOKUPANDBARCODE', 'ATTACHMENT', 'HEADER', 'FOOTER', 'ADDROWHEADER', 'OLDADDROWS'],
     drop: (item, monitor) => handleDrop(item, monitor),
   });
 
@@ -392,17 +201,39 @@ const DropTargetPanel = ({ onHover, droppedItems, setDroppedItems, editedLabel, 
     }
   };
 
-  const handleAddAllDetails = (formData) => {
-    const updatedItems = droppedItems.map((item) => {
-      if (item.id === contextMenu.index) {
-        return {
-          ...item,
-          ...formData,
+  const handleShowModal = () => setShowModal(true);
+  const handleCloseModal = () => setShowModal(false);
+  const handleFormChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
+  };
+  const handleAddAllDetails = () => {
+    if (contextMenu.index !== -1 && droppedItems[contextMenu.index]) {
+      setDroppedItems((prevItems) => {
+        const updatedItems = [...prevItems];
+        updatedItems[contextMenu.index] = {
+          ...updatedItems[contextMenu.index],
+          label: formData.label || '',
+          id: formData.id || '',
+          class: formData.class || '',
+          value: formData.value || '',
+          readOnly: formData.readOnly || false,
+          mandatory: formData.mandatory || false,
         };
-      }
-      return item;
-    });
-    setDroppedItems(updatedItems);
+        return updatedItems;
+      });
+      setShowModal(false); // Close the modal after updating the details
+    }
+  };
+
+  const handleCheckboxChange = (name, value) => {
+    setFormData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
   };
 
   const handleMakeReadOnly = (index) => {
@@ -540,9 +371,6 @@ const DropTargetPanel = ({ onHover, droppedItems, setDroppedItems, editedLabel, 
 
   const [showModal, setShowModal] = useState(false);
 
-  const handleShowModal = () => setShowModal(true);
-  const handleCloseModal = () => setShowModal(false);
-
   return (
     <div ref={drop} className="col-lg-3 " style={panelStyle}>
       <CustomContextMenu
@@ -550,21 +378,22 @@ const DropTargetPanel = ({ onHover, droppedItems, setDroppedItems, editedLabel, 
         x={contextMenu.x}
         y={contextMenu.y}
         options={[
-          ...(droppedItems[contextMenu.index]?.label ?
-            [{ label: 'Delete Label', value: 'deleteLabel' }] :
-            [{ label: 'Add Label', value: 'addLabel' }]
-          ),
+          ...(droppedItems[contextMenu.index]?.label
+            ? [{ label: 'Delete Label', value: 'deleteLabel' }]
+            : [{ label: 'Add Label', value: 'addLabel' }]),
           { label: 'Add ID', value: 'addID' },
           { label: 'Add Class', value: 'addClass' },
           { label: 'Add Value', value: 'addValue' },
           { label: 'Make ReadOnly', value: 'makeReadOnly' },
           { label: 'Make Editable', value: 'makeEditable' },
-          ...(droppedItems[contextMenu.index]?.mandatory ?
-            [{ label: 'Remove Asterisk Mark', value: 'removeAsteriskMark' }] :
-            [{ label: 'Add Asterisk Mark', value: 'addAsteriskMark' }]
-          ),
-          ...(contextMenu.showAddDropdownOption ? [{ label: 'Add Dropdown Option', value: 'addDropdownOption' }] : []),
+          ...(droppedItems[contextMenu.index]?.mandatory
+            ? [{ label: 'Remove Asterisk Mark', value: 'removeAsteriskMark' }]
+            : [{ label: 'Add Asterisk Mark', value: 'addAsteriskMark' }]),
+          ...(contextMenu.showAddDropdownOption
+            ? [{ label: 'Add Dropdown Option', value: 'addDropdownOption' }]
+            : []),
           { label: 'Delete', value: 'delete' },
+          { label: 'Add All Details', value: 'addAllDetails' },
         ]}
         onSelect={(value) => {
           if (value === 'addLabel' || value === 'addID' || value === 'addClass' || value === 'addValue') {
@@ -583,14 +412,141 @@ const DropTargetPanel = ({ onHover, droppedItems, setDroppedItems, editedLabel, 
             handleMakeEditable(contextMenu.index);
           } else if (value === 'deleteLabel') {
             handleDeleteLabel(contextMenu.index);
-          } else if (value === 'onAddAllDetails') {
-            handleAddAllDetails(contextMenu.index);
+          } else if (value === 'addAllDetails') {
+            handleShowModal();
           }
         }}
         readOnly={droppedItems[contextMenu.index]?.readOnly}
         editable={!droppedItems[contextMenu.index]?.readOnly}
-        onAddAllDetails={() => handleAddAllDetails()}
       />
+      <Modal show={showModal} onHide={handleCloseModal}>
+        <Modal.Header closeButton>
+          <Modal.Title>Add All Details</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <BootstrapForm>
+            {/* Add form fields for label, id, class, value, readOnly, mandatory */}
+            <Row>
+              <Col>
+                <BootstrapForm.Label>Label:</BootstrapForm.Label>
+                <BootstrapForm.Control
+                  type="text"
+                  name="label"
+                  placeholder="Enter label"
+                  value={formData.label}
+                  onChange={handleFormChange}
+                />
+              </Col>
+              <Col>
+                <BootstrapForm.Label>ID:</BootstrapForm.Label>
+                <BootstrapForm.Control
+                  type="text"
+                  name="id"
+                  placeholder="Enter ID"
+                  value={formData.id}
+                  onChange={handleFormChange}
+                />
+              </Col>
+            </Row>
+            <Row>
+              <Col>
+                <BootstrapForm.Label>Value:</BootstrapForm.Label>
+                <BootstrapForm.Control
+                  type="text"
+                  name="value"
+                  placeholder="Enter Value"
+                  value={formData.value}
+                  onChange={handleFormChange}
+                />
+              </Col>
+              <Col>
+                <BootstrapForm.Label>Class:</BootstrapForm.Label>
+                <BootstrapForm.Control
+                  type="text"
+                  name="class"
+                  placeholder="Enter Class"
+                  value={formData.class}
+                  onChange={handleFormChange}
+                />
+              </Col>
+            </Row>
+            <Row>
+              <Col>
+                <BootstrapForm.Label>Collapse Name:</BootstrapForm.Label>
+                <BootstrapForm.Control
+                  type="text"
+                  name="CName"
+                  placeholder="Enter Collapse Name"
+                  value={formData.CName}
+                  onChange={handleFormChange}
+                />
+              </Col>
+              <Col>
+                <BootstrapForm.Label>Collapse ID:</BootstrapForm.Label>
+                <BootstrapForm.Control
+                  type="text"
+                  name="CID"
+                  placeholder="Enter Collapse ID"
+                  value={formData.CID}
+                  onChange={handleFormChange}
+                />
+              </Col>
+            </Row>
+            <Row>
+              <Col>
+                <BootstrapForm.Label>Input Field:</BootstrapForm.Label>
+                <BootstrapForm.Control
+                  type="text"
+                  name="FName"
+                  placeholder="Enter Input Field Name"
+                  value={formData.FName}
+                  onChange={handleFormChange}
+                />
+              </Col>
+              <Col>
+                <BootstrapForm.Label>Max Length:</BootstrapForm.Label>
+                <BootstrapForm.Control
+                  type="text"
+                  name="MLen"
+                  placeholder="Enter Max length"
+                  value={formData.MLen}
+                  onChange={handleFormChange}
+                />
+              </Col>
+            </Row>
+            <Row>
+              <Col>
+                <Form.Check
+                  type="checkbox"
+                  id="readOnlyCheckbox"
+                  label="Read Only"
+                  checked={formData.readOnly}
+                  onChange={(e) => handleCheckboxChange('readOnly', e.target.checked)}
+                />
+              </Col>
+              <Col>
+                <Form.Check
+                  type="checkbox"
+                  id="mandatoryCheckbox"
+                  label="Mandatory"
+                  checked={formData.mandatory}
+                  onChange={(e) => handleCheckboxChange('mandatory', e.target.checked)}
+                />
+              </Col>
+            </Row>
+          </BootstrapForm>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="primary" onClick={handleAddAllDetails}>
+            Save
+          </Button>
+          <Button variant="secondary" onClick={handleCloseModal}>
+            Close
+          </Button>
+        </Modal.Footer>
+      </Modal>
+
+
       {droppedItems.map((item, index) => (
         <Draggable key={item.id} bounds=".code-editor">
           <div
@@ -757,161 +713,127 @@ const DropTargetPanel = ({ onHover, droppedItems, setDroppedItems, editedLabel, 
             )}
             {/* New Added Code for add row and header*/}
             {item.type === 'OLDADDROWS' && (
-              <div style={{ width: '450%', height: '10%' }}>
-                <table className="table">
-                  <thead>
+              <div style={{ display: 'flex', flexDirection: 'column', msOverflowY: 'auto', height: '10%' }}>
+                <div>
+                  <select onChange={(e) => handleInputChange(index, e.target.value)} value={inputTypes[index]}>
+                    <option value="">select option...</option>
+                    <option value="inputGroup">Lookup</option>
+                    <option value="inputType">TextInput</option>
+                    <option value="checkbox">Checkbox</option>
+                    <option value="barcode">BarCode</option>
+                    <option value="attachment">Attachment</option>
+                    <option value="lookupandbarcode">LookupAndBarcode</option>
+                  </select>
+                </div>
+                <br></br>
+                <div>
+                  <table className="table" style={{ width: '450%', height: '10%', overflow: 'auto' }}>
+                    <tbody>
+                      {[...Array(rowCount)].map((_, rowIndex) => ( // Map over rows using rowCount state
 
-                    <tr>
-                      {inputTypes.map((inputType, index) => (
-                        <th key={index}>
-                          <div>
-                            <select onChange={(e) => handleInputChange(index, e.target.value)} value={inputTypes[index]}>
-                              <option value=""></option>
-                              <option value="inputGroup">Lookup</option>
-                              <option value="inputType">TextInput</option>
-                            </select>
-                          </div>
-                        </th>
-                      ))}
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {[...Array(rowCount)].map((_, rowIndex) => ( // Map over rows using rowCount state
-                      <tr key={rowIndex}>
-                        {inputTypes.map((inputType, index) => (
-                          <td key={index}>
-                            {inputType === 'inputGroup' && (
-                              <InputGroup className="mb-3" readOnly={item.readOnly} style={{ backgroundColor: item.readOnly ? item.color : '' }}>
-                                <Form.Control
-                                  placeholder="Search..."
-                                  aria-label="Search"
-                                  aria-describedby="search-icon"
+                        <tr key={rowIndex}  >
+                          <td>
+                            <input type="checkbox" />
+                          </td>
+                          {inputTypes.map((inputType, index) => (
+                            <td key={index}>
+                              {inputType === 'inputGroup' && (
+                                <InputGroup className="mb-3" readOnly={item.readOnly} style={{ backgroundColor: item.readOnly ? item.color : '', minWidth: '10rem' }}>
+                                  <Form.Control
+                                    placeholder="Search..."
+                                    aria-label="Search"
+                                    aria-describedby="search-icon"
+                                    readOnly={item.readOnly}
+                                    style={{ backgroundColor: item.readOnly ? item.color : '' }}
+                                  />
+                                  <InputGroup.Text id="search-icon" readOnly={item.readOnly} style={{ backgroundColor: item.readOnly ? item.color : '' }}>
+                                    <FontAwesomeIcon icon={faSearch} />
+                                  </InputGroup.Text>
+                                </InputGroup>
+                              )}
+                              {inputType === 'inputType' && (
+                                <input
+                                  type="text"
+                                  placeholder={item.text}
                                   readOnly={item.readOnly}
                                   style={{ backgroundColor: item.readOnly ? item.color : '' }}
                                 />
-                                <InputGroup.Text id="search-icon" readOnly={item.readOnly} style={{ backgroundColor: item.readOnly ? item.color : '' }}>
-                                  <FontAwesomeIcon icon={faSearch} />
-                                </InputGroup.Text>
-                              </InputGroup>
-                            )}
-                            {inputType === 'inputType' && (
-                              <input
-                                type="text"
-                                placeholder={item.text}
-                                readOnly={item.readOnly}
-                                style={{ backgroundColor: item.readOnly ? item.color : '' }}
-                              />
-                            )}
-                          </td>
-                        ))}
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-                <button onClick={handleAddRow} style={{
-                  padding: '5px 10px',
-                  marginRight: '10px', // Add margin-right for space
-                  backgroundColor: '#007bff',
-                  color: '#fff',
-                  border: 'none',
-                  borderRadius: '4px',
-                  cursor: 'pointer'
-                }}>+</button>
-                <button onClick={handleDeleteRow} style={{
-                  padding: '5px 10px',
-                  backgroundColor: '#007bff',
-                  color: '#fff',
-                  border: 'none',
-                  borderRadius: '4px',
-                  cursor: 'pointer'
-                }}>-</button>
+                              )}
+                              {inputType === 'checkbox' && (
+                                <input type="checkbox" />
+                              )}
+                              {inputType === 'barcode' && (
+
+                                <InputGroup className="mb-3" readOnly={item.readOnly}
+                                  style={{ backgroundColor: item.readOnly ? item.color : '', minWidth: '10rem' }} >
+                                  <Form.Control
+                                    aria-label="Search"
+                                    aria-describedby="search-icon"
+                                    readOnly={item.readonly}
+                                    style={{ backgroundColor: item.readonly ? item.color : '' }}
+                                  />
+                                  <InputGroup.Text id="search-icon" readOnly={item.readOnly}
+                                    style={{ backgroundColor: item.readOnly ? item.color : '' }}>
+                                    <FontAwesomeIcon icon={faBarcode} />
+                                  </InputGroup.Text>
+                                </InputGroup>
+
+                              )}
+                              {inputType === 'lookupandbarcode' && (
+                                <InputGroup className="mb-3" readOnly={item.readOnly}
+                                  style={{ backgroundColor: item.readOnly ? item.color : '', minWidth: '10rem' }} >
+                                  <Form.Control
+                                    aria-label="Search"
+                                    aria-describedby="search-icon"
+                                    readOnly={item.readonly}
+                                    style={{ backgroundColor: item.readonly ? item.color : '' }}
+                                  />
+                                  <InputGroup.Text id="search-icon" readOnly={item.readOnly}
+                                    style={{ backgroundColor: item.readOnly ? item.color : '' }}>
+                                    <FontAwesomeIcon icon={faSearch} />
+                                  </InputGroup.Text>
+                                  <InputGroup.Text id="search-icon" readOnly={item.readOnly}
+                                    style={{ backgroundColor: item.readOnly ? item.color : '' }}>
+                                    <FontAwesomeIcon icon={faBarcode} />
+                                  </InputGroup.Text>
+                                </InputGroup>
+                              )}
+                              {inputType === 'attachment' && (
+                                <div>
+                                  <input type="file" onChange={handleFileUpload} />
+                                </div>
+                              )}
+                            </td>
+                          ))}
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+                <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                  <button onClick={handleAddRow} style={{
+                    padding: '5px 10px',
+                    marginRight: '10px', // Add margin-right for space
+                    backgroundColor: '#007bff',
+                    color: '#fff',
+                    border: 'none',
+                    borderRadius: '4px',
+                    cursor: 'pointer'
+                  }}>Add Row</button>
+                  <button onClick={handleDeleteRow} style={{
+                    width: 'max-content',
+                    padding: '5px 10px',
+                    marginLeft: '570px',
+                    backgroundColor: '#007bff',
+                    color: '#fff',
+                    border: 'none',
+                    borderRadius: '4px',
+                    cursor: 'pointer'
+                  }}>Delete Row</button>
+                </div>
               </div>
             )}
-            {/* New Added Code for add row and header*/}
-            {item.type === 'ADDROWS' && (
-              <div style={{ display: 'flex', flexDirection: 'column' }}>
-                {inputTypes.map((inputType, index) => (
-                  <div key={index} style={{ marginBottom: '10px' }}>
-                    <select onChange={(e) => handleInputChange(index, e.target.value)} value={inputTypes[index]}>
-                      <option value=""></option>
-                      <option value="inputGroup">Lookup</option>
-                      <option value="inputType">TextInput</option>
-                      <option value="checkbox">Checkbox</option>
-                      <option value="barcode">BarCode</option>
-                      <option value="attachment">Attachment</option>
-                      <option value="lookupandbarcode">LookupAndBarcode</option>
-                    </select>
-                    {inputType === 'inputGroup' && (
-                      <InputGroup className="mb-3" readOnly={item.readOnly} style={{ backgroundColor: item.readOnly ? item.color : '' }}>
-                        <Form.Control
-                          placeholder="Search..."
-                          aria-label="Search"
-                          aria-describedby="search-icon"
-                          readOnly={item.readOnly}
-                          style={{ backgroundColor: item.readOnly ? item.color : '' }}
-                        />
-                        <InputGroup.Text id="search-icon" readOnly={item.readOnly} style={{ backgroundColor: item.readOnly ? item.color : '' }}>
-                          <FontAwesomeIcon icon={faSearch} />
-                        </InputGroup.Text>
-                      </InputGroup>
-                    )}
-                    {inputType === 'inputType' && (
-                      <input
-                        type="text"
-                        placeholder={item.text}
-                        readOnly={item.readOnly}
-                        style={{ backgroundColor: item.readOnly ? item.color : '' }}
-                      />
-                    )}
-                    {inputType === 'checkbox' && (
-                      <input type="checkbox" />
-                    )}
-                    {inputType === 'barcode' && (
 
-                      <InputGroup className="mb-3" readOnly={item.readOnly}
-                        style={{ backgroundColor: item.readOnly ? item.color : '' }} >
-                        <Form.Control
-                          aria-label="Search"
-                          aria-describedby="search-icon"
-                          readOnly={item.readonly}
-                          style={{ backgroundColor: item.readonly ? item.color : '' }}
-                        />
-                        <InputGroup.Text id="search-icon" readOnly={item.readOnly}
-                          style={{ backgroundColor: item.readOnly ? item.color : '' }}>
-                          <FontAwesomeIcon icon={faBarcode} />
-                        </InputGroup.Text>
-                      </InputGroup>
-
-                    )}
-                    {inputType === 'lookupandbarcode' && (
-                      <InputGroup className="mb-3" readOnly={item.readOnly}
-                        style={{ backgroundColor: item.readOnly ? item.color : '' }} >
-                        <Form.Control
-                          aria-label="Search"
-                          aria-describedby="search-icon"
-                          readOnly={item.readonly}
-                          style={{ backgroundColor: item.readonly ? item.color : '' }}
-                        />
-                        <InputGroup.Text id="search-icon" readOnly={item.readOnly}
-                          style={{ backgroundColor: item.readOnly ? item.color : '' }}>
-                          <FontAwesomeIcon icon={faSearch} />
-                        </InputGroup.Text>
-                        <InputGroup.Text id="search-icon" readOnly={item.readOnly}
-                          style={{ backgroundColor: item.readOnly ? item.color : '' }}>
-                          <FontAwesomeIcon icon={faBarcode} />
-                        </InputGroup.Text>
-                      </InputGroup>
-                    )}
-                    {inputType === 'attachment' && (
-                      <div>
-                        <input type="file" onChange={handleFileUpload} />
-                      </div>
-                    )}
-                  </div>
-                ))}
-
-              </div>
-            )}
 
           </div>
         </Draggable>

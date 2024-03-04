@@ -255,8 +255,8 @@ const App = () => {
       </nav>
       <div className="row">
         <div className="col-md-2 sidebar">
-          <div style={{ overflowY: 'auto', maxHeight: '380px' }}>
-            <h8 style={{ color: 'black' }}><b>ToolBox</b></h8>
+        <h8 style={{ color: 'black' }}><b>ToolBox</b></h8>
+          <div style={{ overflowY: 'auto', maxHeight: '440px' }}>
             <DraggableItem type="BUTTON" text="Button" />
             <DraggableItem type="TEXTBOX" text="Textbox" />
             <DraggableItem type="RADIO" text="Radio Button" />
@@ -272,8 +272,8 @@ const App = () => {
             <DraggableItem type="FOOTER" text="Footer" />
              {/* New Added Code for add row and header*/}
              <DraggableItem type="ADDROWHEADER" text="Add Table Header" />
-            <DraggableItem type="OLDADDROWS" text="Old Add Rows" />
-            <DraggableItem type="ADDROWS" text="Add Rows" />
+            <DraggableItem type="OLDADDROWS" text="Add Rows" />
+          
              {/* New Added Code for add row and header*/}
           </div>
           {/* <div className="bottom left p-3" style={{ position: 'fixed', bottom: '0', left: '0', padding: '15px' }}>
