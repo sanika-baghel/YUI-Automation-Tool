@@ -411,7 +411,7 @@ const DropTargetPanel = ({ onHover, droppedItems, setDroppedItems, editedLabel, 
           // ...(contextMenu.showAddDropdownOption
           //   ? [{ label: 'Add Dropdown Option', value: 'addDropdownOption' }]
           //   : []),
-          { label: 'Add All Details', value: 'addAllDetails' },
+          { label: 'Edit', value: 'addAllDetails' },
           { label: 'Delete', value: 'delete' },
         ]}
         onSelect={(value) => {
@@ -576,7 +576,7 @@ const DropTargetPanel = ({ onHover, droppedItems, setDroppedItems, editedLabel, 
             {showLabelIdOptions[index] && item.label && (
               <div style={{ marginBottom: '4px' }}>
                 {item.mandatory && <span style={{ color: 'red' }}>*</span>}
-                {item.type !== 'BUTTON' && item.label}   {/* Conditionally hide label for BUTTON type */}
+                {item.type !== 'BUTTON' && item.type !== 'COLLAPSE' && item.label} 
               </div>
             )}
             {showLabelIdOptions[index] && item.id && (
@@ -709,13 +709,23 @@ const DropTargetPanel = ({ onHover, droppedItems, setDroppedItems, editedLabel, 
             {item.type === 'COLLAPSE' && (
               <div>
                 <div onClick={toggleCollapse} className="table" style={{ cursor: 'pointer', width: '450%', height: '10%', overflow: 'auto' }}>
-                <table className="table">    
+                  <table className="table">
                     <tbody>
-                        <tr>
-                          <td>
-                          <FontAwesomeIcon icon={isCollapsed ? faAngleDown : faAngleUp} /> COLLAPSE
-                          </td>
-                        </tr>
+                      <tr>
+                        <td>
+                          <FontAwesomeIcon icon={isCollapsed ? faAngleDown : faAngleUp} />
+                          {item.label ? (
+                            // If label is provided, display the label instead of text
+                            <>
+                              {item.label}
+                              {item.text && <span style={{ display: 'none' }}>{item.text}</span>}
+                            </>
+                          ) : (
+                            // If no label is provided, display the text
+                            item.text
+                          )}
+                        </td>
+                      </tr>
                     </tbody>
                   </table>
                 </div>
