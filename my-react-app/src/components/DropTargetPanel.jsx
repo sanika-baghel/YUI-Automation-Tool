@@ -236,8 +236,8 @@ const DropTargetPanel = ({ onHover, droppedItems, setDroppedItems, editedLabel, 
         };
         return updatedItems;
       });
-      setShowModal(false); // Close the modal after updating the details
     }
+    setShowModal(false); // Close the modal after updating the details
   };
 
   const handleCheckboxChange = (name, value) => {
