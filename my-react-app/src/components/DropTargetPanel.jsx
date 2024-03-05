@@ -709,10 +709,10 @@ const DropTargetPanel = ({ onHover, droppedItems, setDroppedItems, editedLabel, 
             {item.type === 'COLLAPSE' && (
               <div>
                 <div onClick={toggleCollapse} className="table" style={{ cursor: 'pointer', width: '450%', height: '10%', overflow: 'auto' }}>
-                  <table className="table">
+                  <table className="table" >
                     <tbody>
                       <tr>
-                        <td>
+                        <td style={{backgroundColor: 'lightgray'}}>
                           <FontAwesomeIcon icon={isCollapsed ? faAngleDown : faAngleUp} />
                           {item.label ? (
                             // If label is provided, display the label instead of text

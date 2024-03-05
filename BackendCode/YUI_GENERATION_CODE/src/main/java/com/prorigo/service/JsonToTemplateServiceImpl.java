@@ -102,6 +102,7 @@ public class JsonToTemplateServiceImpl implements JsonToTemplateService {
 
     // Parse JSON input into FormData array
     FormData[] formElements = gson.fromJson(jsonInput, FormData[].class);
+    System.out.println("formElements=="+formElements);
     if (formElements == null) {
       return "Error parsing JSON input.";
     }
