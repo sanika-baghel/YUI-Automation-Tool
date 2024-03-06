@@ -729,11 +729,7 @@ const DropTargetPanel = ({ onHover, droppedItems, setDroppedItems, editedLabel, 
                   <table className="table" >
                     <tbody>
                       <tr>
-<<<<<<< HEAD
-                        <td style={{ backgroundColor: 'lightgray' }}>
-=======
                         <td style={{backgroundColor: '#daeef4'}}>
->>>>>>> 5e0caff7a87435f6bae68464df35c90d2eda2853
                           <FontAwesomeIcon icon={isCollapsed ? faAngleDown : faAngleUp} />
                           {item.label ? (
                             // If label is provided, display the label instead of text
