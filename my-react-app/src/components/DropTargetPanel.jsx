@@ -461,7 +461,7 @@ const DropTargetPanel = ({ onHover, droppedItems, setDroppedItems, editedLabel, 
             {/* Add form fields for label, id, class, value, readOnly, mandatory */}
             <Row>
               <Col>
-                <BootstrapForm.Label>Label:</BootstrapForm.Label>
+                <BootstrapForm.Label style={{ fontWeight: 'bold' }}>Label:</BootstrapForm.Label>
                 <BootstrapForm.Control
                   type="text"
                   name="label"
@@ -471,7 +471,7 @@ const DropTargetPanel = ({ onHover, droppedItems, setDroppedItems, editedLabel, 
                 />
               </Col>
               <Col>
-                <BootstrapForm.Label>ID:</BootstrapForm.Label>
+                <BootstrapForm.Label style={{ fontWeight: 'bold' }}>ID:</BootstrapForm.Label>
                 <BootstrapForm.Control
                   type="text"
                   name="id"
@@ -483,7 +483,7 @@ const DropTargetPanel = ({ onHover, droppedItems, setDroppedItems, editedLabel, 
             </Row>
             <Row>
               <Col>
-                <BootstrapForm.Label>Value:</BootstrapForm.Label>
+                <BootstrapForm.Label style={{ fontWeight: 'bold' }}>Value:</BootstrapForm.Label>
                 <BootstrapForm.Control
                   type="text"
                   name="value"
@@ -493,7 +493,7 @@ const DropTargetPanel = ({ onHover, droppedItems, setDroppedItems, editedLabel, 
                 />
               </Col>
               <Col>
-                <BootstrapForm.Label>Class:</BootstrapForm.Label>
+                <BootstrapForm.Label style={{ fontWeight: 'bold' }}>Class:</BootstrapForm.Label>
                 <BootstrapForm.Control
                   type="text"
                   name="class"
@@ -505,7 +505,7 @@ const DropTargetPanel = ({ onHover, droppedItems, setDroppedItems, editedLabel, 
             </Row>
             <Row>
               <Col>
-                <BootstrapForm.Label>Collapse Name:</BootstrapForm.Label>
+                <BootstrapForm.Label style={{ fontWeight: 'bold' }}>Collapse Name:</BootstrapForm.Label>
                 <BootstrapForm.Control
                   type="text"
                   name="cname"
@@ -515,7 +515,7 @@ const DropTargetPanel = ({ onHover, droppedItems, setDroppedItems, editedLabel, 
                 />
               </Col>
               <Col>
-                <BootstrapForm.Label>Collapse ID:</BootstrapForm.Label>
+                <BootstrapForm.Label style={{ fontWeight: 'bold' }}>Collapse ID:</BootstrapForm.Label>
                 <BootstrapForm.Control
                   type="text"
                   name="cid"
@@ -527,7 +527,7 @@ const DropTargetPanel = ({ onHover, droppedItems, setDroppedItems, editedLabel, 
             </Row>
             <Row>
               <Col>
-                <BootstrapForm.Label>Input Field:</BootstrapForm.Label>
+                <BootstrapForm.Label style={{ fontWeight: 'bold' }}>Input Field:</BootstrapForm.Label>
                 <BootstrapForm.Control
                   type="text"
                   name="fname"
@@ -537,13 +537,14 @@ const DropTargetPanel = ({ onHover, droppedItems, setDroppedItems, editedLabel, 
                 />
               </Col>
               <Col>
-                <BootstrapForm.Label>Max Length:</BootstrapForm.Label>
+                <BootstrapForm.Label style={{ fontWeight: 'bold' }}>Max Length:</BootstrapForm.Label>
                 <BootstrapForm.Control
                   type="text"
                   name="maxLen"
                   placeholder="Enter Max length"
                   value={formData.maxLen}
                   onChange={handleFormChange}
+                  maxLength={50} 
                 />
               </Col>
             </Row>
@@ -555,6 +556,7 @@ const DropTargetPanel = ({ onHover, droppedItems, setDroppedItems, editedLabel, 
                   label="Read Only"
                   checked={formData.readOnly}
                   onChange={(e) => handleCheckboxChange('readOnly', e.target.checked)}
+                  style={{ fontWeight: 'bold' }}
                 />
               </Col>
               <Col>
@@ -564,6 +566,7 @@ const DropTargetPanel = ({ onHover, droppedItems, setDroppedItems, editedLabel, 
                   label="Mandatory"
                   checked={formData.mandatory}
                   onChange={(e) => handleCheckboxChange('mandatory', e.target.checked)}
+                  style={{ fontWeight: 'bold' }}
                 />
               </Col>
             </Row>
@@ -726,7 +729,11 @@ const DropTargetPanel = ({ onHover, droppedItems, setDroppedItems, editedLabel, 
                   <table className="table" >
                     <tbody>
                       <tr>
+<<<<<<< HEAD
                         <td style={{ backgroundColor: 'lightgray' }}>
+=======
+                        <td style={{backgroundColor: '#daeef4'}}>
+>>>>>>> 5e0caff7a87435f6bae68464df35c90d2eda2853
                           <FontAwesomeIcon icon={isCollapsed ? faAngleDown : faAngleUp} />
                           {item.label ? (
                             // If label is provided, display the label instead of text
