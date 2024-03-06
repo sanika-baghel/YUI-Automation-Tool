@@ -34,7 +34,7 @@ const App = () => {
   const [fileName, setFileName] = useState('');
   const [propertiesCollapsed, setPropertiesCollapsed] = useState(false);
 
-  const handleHover = (itemId, itemLabel, itemClass, itemReadOnly, itemMandatory, itemValue, itemCid,itemCname, itemFName, maxLen) => {
+  const handleHover = (itemId, itemLabel, itemClass, itemReadOnly, itemMandatory, itemValue, itemCid,itemCname, itemFName, itemMaxLen) => {
     setHoveredItem({
       id: itemId,
       label: itemLabel,
@@ -45,7 +45,7 @@ const App = () => {
       cid: itemCid,
       cname: itemCname,
       fname: itemFName,
-      maxLen: maxLen,
+      maxLen: itemMaxLen,
     });
   };
 

@@ -50,6 +50,8 @@ const DropTargetPanel = ({ onHover, droppedItems, setDroppedItems, editedLabel, 
     value: '',
     cid: '',
     cname: '',
+    fname: '',
+    maxLen: '',
     readOnly: false,
     mandatory: false,
   });
@@ -136,6 +138,8 @@ const DropTargetPanel = ({ onHover, droppedItems, setDroppedItems, editedLabel, 
             label: '',
             cid: '',
             cname: '',
+            fname: '',
+            maxLen: '',
             readOnly: false,
             options: [],
             mandatory: false,
@@ -162,6 +166,8 @@ const DropTargetPanel = ({ onHover, droppedItems, setDroppedItems, editedLabel, 
           label: '',
           cid: '',
           cname: '',
+          fname: '',
+          maxLen: '',
           readOnly: false,
           options: [],
           mandatory: false,
@@ -200,6 +206,8 @@ const DropTargetPanel = ({ onHover, droppedItems, setDroppedItems, editedLabel, 
         id: '',
         cid: '',
         cname: '',
+        fname: '',
+        maxLen: '',
         readOnly: false,
         options: [],
         mandatory: false,
@@ -231,6 +239,8 @@ const DropTargetPanel = ({ onHover, droppedItems, setDroppedItems, editedLabel, 
           value: formData.value || '',
           cid: formData.cid || '',
           cname: formData.cname || '',
+          fname: formData.fname || '',
+          maxLen: formData.maxLen || '',
           readOnly: formData.readOnly || false,
           mandatory: formData.mandatory || false,
         };
@@ -286,7 +296,7 @@ const DropTargetPanel = ({ onHover, droppedItems, setDroppedItems, editedLabel, 
 
   const handleMouseEnter = (index) => {
     const currentItem = droppedItems[index];
-    onHover(currentItem.id, currentItem.label, currentItem.class, currentItem.readOnly, currentItem.mandatory, currentItem.value, currentItem.cid, currentItem.cname);
+    onHover(currentItem.id, currentItem.label, currentItem.class, currentItem.readOnly, currentItem.mandatory, currentItem.value, currentItem.cid, currentItem.cname, currentItem.fname, currentItem.maxLen);
   };
 
   const handleAddDropdownOption = (index) => {
@@ -328,6 +338,10 @@ const DropTargetPanel = ({ onHover, droppedItems, setDroppedItems, editedLabel, 
           updatedItems[index]['value'] = inputValue;
         } else if (value === 'cname') {
           updatedItems[index]['cname'] = inputValue;
+        }else if (value === 'fname') {
+          updatedItems[index]['fname'] = inputValue;
+        }else if (value === 'maxLen') {
+          updatedItems[index]['maxLen'] = inputValue;
         } else {
           updatedItems[index][value === 'addLabel' ? 'label' : 'id'] = inputValue;
         }
@@ -516,9 +530,9 @@ const DropTargetPanel = ({ onHover, droppedItems, setDroppedItems, editedLabel, 
                 <BootstrapForm.Label>Input Field:</BootstrapForm.Label>
                 <BootstrapForm.Control
                   type="text"
-                  name="FName"
+                  name="fname"
                   placeholder="Enter Input Field Name"
-                  value={formData.FName}
+                  value={formData.fname}
                   onChange={handleFormChange}
                 />
               </Col>
@@ -526,9 +540,9 @@ const DropTargetPanel = ({ onHover, droppedItems, setDroppedItems, editedLabel, 
                 <BootstrapForm.Label>Max Length:</BootstrapForm.Label>
                 <BootstrapForm.Control
                   type="text"
-                  name="MLen"
+                  name="maxLen"
                   placeholder="Enter Max length"
-                  value={formData.MLen}
+                  value={formData.maxLen}
                   onChange={handleFormChange}
                 />
               </Col>
@@ -576,7 +590,7 @@ const DropTargetPanel = ({ onHover, droppedItems, setDroppedItems, editedLabel, 
             {showLabelIdOptions[index] && item.label && (
               <div style={{ marginBottom: '4px' }}>
                 {item.mandatory && <span style={{ color: 'red' }}>*</span>}
-                {item.type !== 'BUTTON' && item.type !== 'COLLAPSE' && item.label} 
+                {item.type !== 'BUTTON' && item.type !== 'COLLAPSE' && item.label}
               </div>
             )}
             {showLabelIdOptions[index] && item.id && (
@@ -712,7 +726,7 @@ const DropTargetPanel = ({ onHover, droppedItems, setDroppedItems, editedLabel, 
                   <table className="table" >
                     <tbody>
                       <tr>
-                        <td style={{backgroundColor: 'lightgray'}}>
+                        <td style={{ backgroundColor: 'lightgray' }}>
                           <FontAwesomeIcon icon={isCollapsed ? faAngleDown : faAngleUp} />
                           {item.label ? (
                             // If label is provided, display the label instead of text
