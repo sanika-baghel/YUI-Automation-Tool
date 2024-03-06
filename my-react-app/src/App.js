@@ -276,7 +276,7 @@ const App = () => {
             <DraggableItem type="HEADER" text="Header" />
             <DraggableItem type="FOOTER" text="Footer" />
             <DraggableItem type="ADDROWHEADER" text="Add Table Header" />
-            <DraggableItem type="OLDADDROWS" text="Add Rows" />
+            <DraggableItem type="ADDROWS" text="Add Rows" />
           
              {/* New Added Code for add row and header*/}
           </div>

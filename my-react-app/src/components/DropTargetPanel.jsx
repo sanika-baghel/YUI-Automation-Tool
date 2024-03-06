@@ -88,7 +88,7 @@ const DropTargetPanel = ({ onHover, droppedItems, setDroppedItems, editedLabel, 
   {/* New Added Code for add row and header*/ }
 
   const [, drop] = useDrop({
-    accept: ['BUTTON', 'TEXTBOX', 'RADIO', 'CHECKBOX', 'DROPDOWN', 'LOOKUP', 'TEXTAREA', 'CALENDAR', 'BARCODE', 'LOOKUPANDBARCODE', 'ATTACHMENT', 'HEADER', 'FOOTER', 'ADDROWHEADER', 'OLDADDROWS', 'COLLAPSE'],
+    accept: ['BUTTON', 'TEXTBOX', 'RADIO', 'CHECKBOX', 'DROPDOWN', 'LOOKUP', 'TEXTAREA', 'CALENDAR', 'BARCODE', 'LOOKUPANDBARCODE', 'ATTACHMENT', 'HEADER', 'FOOTER', 'ADDROWHEADER', 'ADDROWS', 'COLLAPSE'],
     drop: (item, monitor) => handleDrop(item, monitor),
   });
 
@@ -774,7 +774,7 @@ const DropTargetPanel = ({ onHover, droppedItems, setDroppedItems, editedLabel, 
               </>
             )}
             {/* New Added Code for add row and header*/}
-            {item.type === 'OLDADDROWS' && (
+            {item.type === 'ADDROWS' && (
               <div style={{ display: 'flex', flexDirection: 'column', msOverflowY: 'auto', height: '10%' }}>
                 <div>
                   <select onChange={(e) => handleInputChange(index, e.target.value)} value={inputTypes[index]}>
