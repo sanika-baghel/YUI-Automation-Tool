@@ -94,7 +94,7 @@ const DropTargetPanel = ({ onHover, droppedItems, setDroppedItems, editedLabel, 
 
   const handleClickOutside = (e) => {
     if (contextMenu.visible && !e.target.closest('.custom-context-menu')) {
-      setContextMenu({ visible: false, index: -1, x: 0, y: 0 });
+      setContextMenu({ visible: false, index: contextMenu.index, x: 0, y: 0 });
     }
   };
 
@@ -287,7 +287,7 @@ const DropTargetPanel = ({ onHover, droppedItems, setDroppedItems, editedLabel, 
       );
     });
   };
-
+  //after riight click dropdown option should visible majorly for right click
   const handleContextMenu = (e, index) => {
     e.preventDefault();
     const showAddDropdownOption = droppedItems[index]?.type === 'DROPDOWN';
@@ -414,8 +414,8 @@ const DropTargetPanel = ({ onHover, droppedItems, setDroppedItems, editedLabel, 
           // ...(droppedItems[contextMenu.index]?.label
           //   ? [{ label: 'Delete Label', value: 'deleteLabel' }]
           //   : [{ label: 'Add Label', value: 'addLabel' }]),
-          // { label: 'Add ID', value: 'addID' },
-          // { label: 'Add Class', value: 'addClass' },
+           //{ label: 'Add ID', value: 'addID' },
+           //{ label: 'Add Class', value: 'addClass' },
           // { label: 'Add Value', value: 'addValue' },
           // { label: 'Make ReadOnly', value: 'makeReadOnly' },
           // { label: 'Make Editable', value: 'makeEditable' },
@@ -584,7 +584,7 @@ const DropTargetPanel = ({ onHover, droppedItems, setDroppedItems, editedLabel, 
 
 
       {droppedItems.map((item, index) => (
-        <Draggable key={item.id} bounds=".code-editor">
+        <Draggable bounds=".code-editor">
           <div
             style={{ marginBottom: '8px', position: 'relative' }}
             onContextMenu={(e) => handleContextMenu(e, index)}
