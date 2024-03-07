@@ -23,6 +23,8 @@ const App = () => {
     cname:null,
     fname: null,
     maxLen: null,
+    addrowheaderkey: null,
+    addrowkey: null,
 
   });
 
@@ -34,7 +36,7 @@ const App = () => {
   const [fileName, setFileName] = useState('');
   const [propertiesCollapsed, setPropertiesCollapsed] = useState(false);
 
-  const handleHover = (itemId, itemLabel, itemClass, itemReadOnly, itemMandatory, itemValue, itemCid,itemCname, itemFName, itemMaxLen) => {
+  const handleHover = (itemId, itemLabel, itemClass, itemReadOnly, itemMandatory, itemValue, itemCid,itemCname, itemFName, itemMaxLen, itemAddrowheaderkey, itemAddrowkey) => {
     setHoveredItem({
       id: itemId,
       label: itemLabel,
@@ -46,6 +48,8 @@ const App = () => {
       cname: itemCname,
       fname: itemFName,
       maxLen: itemMaxLen,
+      addrowheaderkey: itemAddrowheaderkey,
+      addrowkey: itemAddrowkey,
     });
   };
 

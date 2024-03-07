@@ -52,6 +52,8 @@ const DropTargetPanel = ({ onHover, droppedItems, setDroppedItems, editedLabel, 
     cname: '',
     fname: '',
     maxLen: '',
+    addrowheaderkey: '',
+    addrowkey: '',
     readOnly: false,
     mandatory: false,
   });
@@ -140,6 +142,8 @@ const DropTargetPanel = ({ onHover, droppedItems, setDroppedItems, editedLabel, 
             cname: '',
             fname: '',
             maxLen: '',
+            addrowheaderkey: '',
+            addrowkey: '',
             readOnly: false,
             options: [],
             mandatory: false,
@@ -168,6 +172,8 @@ const DropTargetPanel = ({ onHover, droppedItems, setDroppedItems, editedLabel, 
           cname: '',
           fname: '',
           maxLen: '',
+          addrowheaderkey: '',
+          addrowkey: '',
           readOnly: false,
           options: [],
           mandatory: false,
@@ -186,7 +192,7 @@ const DropTargetPanel = ({ onHover, droppedItems, setDroppedItems, editedLabel, 
             })
           }
         }
-        headerGroup.value = headers;
+        headerGroup.addrowheaderkey = headers;
 
         setDroppedItems([...droppedItems, headerGroup]);
         setShowLabelIdOptions([...showLabelIdOptions, ...Array(parseInt(count)).fill(true)]);
@@ -208,6 +214,8 @@ const DropTargetPanel = ({ onHover, droppedItems, setDroppedItems, editedLabel, 
         cname: '',
         fname: '',
         maxLen: '',
+        addrowheaderkey: '',
+        addrowkey: '',
         readOnly: false,
         options: [],
         mandatory: false,
@@ -757,12 +765,12 @@ const DropTargetPanel = ({ onHover, droppedItems, setDroppedItems, editedLabel, 
                   onDragOver={(e) => e.preventDefault()}
                   style={{ width: '450%', height: '10%' }}
                 >
-                  {item.value.length > 0 && (
+                  {item.addrowheaderkey.length > 0 && (
                     <table className="table">
                       <thead>
                         <tr>
                           {/* Mapping over the dropped headers */}
-                          {item.value.map((header, index) => (
+                          {item.addrowheaderkey.map((header, index) => (
                             <th key={index} style={{ border: '1px solid black' }}>{header.label}</th>
                           ))}
                         </tr>
@@ -779,8 +787,8 @@ const DropTargetPanel = ({ onHover, droppedItems, setDroppedItems, editedLabel, 
                 <div>
                   <select onChange={(e) => handleInputChange(index, e.target.value)} value={inputTypes[index]}>
                     <option value="">select option...</option>
-                    <option value="inputGroup">Lookup</option>
-                    <option value="inputType">TextInput</option>
+                    <option value="lookup">Lookup</option>
+                    <option value="textbox">TextInput</option>
                     <option value="checkbox">Checkbox</option>
                     <option value="barcode">BarCode</option>
                     <option value="attachment">Attachment</option>
@@ -790,7 +798,7 @@ const DropTargetPanel = ({ onHover, droppedItems, setDroppedItems, editedLabel, 
                 <br></br>
                 <div>
                   <table className="table" style={{ width: '450%', height: '10%', overflow: 'auto' }}>
-                    <tbody>
+                  <tbody>
                       {[...Array(rowCount)].map((_, rowIndex) => ( // Map over rows using rowCount state
 
                         <tr key={rowIndex}  >
@@ -799,7 +807,7 @@ const DropTargetPanel = ({ onHover, droppedItems, setDroppedItems, editedLabel, 
                           </td>
                           {inputTypes.map((inputType, index) => (
                             <td key={index}>
-                              {inputType === 'inputGroup' && (
+                              {inputType === 'lookup' && (
                                 <InputGroup className="mb-3" readOnly={item.readOnly} style={{ backgroundColor: item.readOnly ? item.color : '', minWidth: '10rem' }}>
                                   <Form.Control
                                     placeholder="Search..."
