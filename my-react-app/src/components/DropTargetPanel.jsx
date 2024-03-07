@@ -142,8 +142,8 @@ const DropTargetPanel = ({ onHover, droppedItems, setDroppedItems, editedLabel, 
             cname: '',
             fname: '',
             maxLen: '',
-            addrowheaderkey: '',
-            addrowkey: '',
+            addrowheaderkey: [],
+            addrowkey: [],
             readOnly: false,
             options: [],
             mandatory: false,
@@ -172,8 +172,8 @@ const DropTargetPanel = ({ onHover, droppedItems, setDroppedItems, editedLabel, 
           cname: '',
           fname: '',
           maxLen: '',
-          addrowheaderkey: '',
-          addrowkey: '',
+          addrowheaderkey: [],
+          addrowkey: [],
           readOnly: false,
           options: [],
           mandatory: false,
@@ -214,8 +214,8 @@ const DropTargetPanel = ({ onHover, droppedItems, setDroppedItems, editedLabel, 
         cname: '',
         fname: '',
         maxLen: '',
-        addrowheaderkey: '',
-        addrowkey: '',
+        addrowheaderkey: [],
+        addrowkey: [],
         readOnly: false,
         options: [],
         mandatory: false,
@@ -799,9 +799,10 @@ const DropTargetPanel = ({ onHover, droppedItems, setDroppedItems, editedLabel, 
                 <div>
                   <table className="table" style={{ width: '450%', height: '10%', overflow: 'auto' }}>
                   <tbody>
-                      {[...Array(rowCount)].map((_, rowIndex) => ( // Map over rows using rowCount state
+                      {/* {[...Array(rowCount)].map((_, rowIndex) => ( // Map over rows using rowCount state */}
 
-                        <tr key={rowIndex}  >
+                        {/* // <tr key={rowIndex}  > */}
+                        <tr>
                           <td>
                             <input type="checkbox" />
                           </td>
@@ -821,10 +822,10 @@ const DropTargetPanel = ({ onHover, droppedItems, setDroppedItems, editedLabel, 
                                   </InputGroup.Text>
                                 </InputGroup>
                               )}
-                              {inputType === 'inputType' && (
+                              {inputType === 'textbox' && (
                                 <input
                                   type="text"
-                                  placeholder={item.text}
+                                  placeholder={"Enter text"}
                                   readOnly={item.readOnly}
                                   style={{ backgroundColor: item.readOnly ? item.color : '' }}
                                 />
@@ -875,8 +876,9 @@ const DropTargetPanel = ({ onHover, droppedItems, setDroppedItems, editedLabel, 
                               )}
                             </td>
                           ))}
-                        </tr>
-                      ))}
+                          </tr>
+                        {/* </tr> */}
+                      {/* // ))} */}
                     </tbody>
                   </table>
                 </div>
