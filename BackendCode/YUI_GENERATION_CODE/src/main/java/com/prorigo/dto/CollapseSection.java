@@ -5,7 +5,7 @@ import lombok.Data;
 
 @Data
 public class CollapseSection {
-  private String collapseName;
-  private String collapseId;
+  private String cname; //Collapse Name
+  private String cid;   //Collapse Id
   private List<FormData> fields;
 }

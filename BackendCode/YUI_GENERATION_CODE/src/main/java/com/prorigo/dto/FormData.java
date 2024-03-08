@@ -21,11 +21,15 @@ public class FormData {
 	// Use a wildcard to represent both OptionsGroup and Option
 	private List<?> options = new ArrayList<>();
 	private boolean mandatory;
-	private String maxLength;
+	private String maxLen;
 	private String templateName;
 	private String tabName;
 	private String width;
 	private List<CollapseSection> collapse;
+	private String cname; //Collapse Name
+	private String cid;   //Collapse Id
+	private List<RowHeader> addrowheaderkey ;
+	private List<FormData> addrowkey ;
 
 
 }

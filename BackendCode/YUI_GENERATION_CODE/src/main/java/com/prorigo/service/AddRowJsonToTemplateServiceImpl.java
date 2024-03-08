@@ -35,22 +35,20 @@ public class AddRowJsonToTemplateServiceImpl implements AddRowJsonToTemplateServ
     for (JsonElement element : jsonArray) {
       JsonObject jsonObject = element.getAsJsonObject();
 
-      String dataRef = jsonObject.get("data-ref").getAsString();
-      String width = jsonObject.get("width").getAsString();
-      String cssClass = jsonObject.get("class").getAsString();
+      String className = jsonObject.get("class").getAsString();
       String label = jsonObject.get("label").getAsString();
 
-      htmlBuilder.append("      <th class=\"").append(cssClass).append("\" width=\"").append(width)
-                 .append("\" data-ref=\"").append(dataRef).append("\">\n");
+      htmlBuilder.append("      <th class=\"").append(className).append("\" width=\"").append("25%")
+                 .append("\" data-ref=\"").append(label).append("\">\n");
       htmlBuilder.append("       {{applbl '").append(label).append("'}}\n");
       htmlBuilder.append(
           "       <a class=\"actioncol1\"><i class=\"icon-menu-open small-font pad5-top\"></i></a>\n");
       htmlBuilder.append("      </th>\n");
     }
-    htmlBuilder.append("      </tr>\n");
-    htmlBuilder.append("      <tbody id=\"orderPartTbody\">");
+    htmlBuilder.append("       </tr>\n");
+    htmlBuilder.append("       <tbody id=\"orderPartTbody\">");
     //TO DO ADD ROW DATA
-    htmlBuilder.append("  </tbody>\n");
+    htmlBuilder.append("    </tbody>\n");
     htmlBuilder.append("   </table>\n");
     htmlBuilder.append("  </div>\n");
     htmlBuilder.append(" </div>\n");
