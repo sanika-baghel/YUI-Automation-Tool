@@ -264,7 +264,7 @@ const App = () => {
       <div className="row">
         <div className="col-md-2 sidebar">
         <h8 style={{ color: 'black' }}><b>Tool Box</b></h8>
-          <div style={{ overflowY: 'auto', maxHeight: '440px' }}>
+          <div style={{ overflowY: 'auto', maxHeight: '468px' }}>
             <DraggableItem type="COLLAPSE" text="Collapse" />
             <DraggableItem type="BUTTON" text="Button" />
             <DraggableItem type="TEXTBOX" text="Textbox" />
