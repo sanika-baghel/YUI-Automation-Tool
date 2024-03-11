@@ -263,20 +263,20 @@ const App = () => {
       </nav>
       <div className="row">
         <div className="col-md-2 sidebar">
-        <h8 style={{ color: 'black' }}><b>ToolBox</b></h8>
+        <h8 style={{ color: 'black' }}><b>Tool Box</b></h8>
           <div style={{ overflowY: 'auto', maxHeight: '440px' }}>
+            <DraggableItem type="COLLAPSE" text="Collapse" />
             <DraggableItem type="BUTTON" text="Button" />
             <DraggableItem type="TEXTBOX" text="Textbox" />
+            <DraggableItem type="TEXTAREA" text="Textarea" />
             <DraggableItem type="RADIO" text="Radio Button" />
             <DraggableItem type="CHECKBOX" text="Checkbox" />
             <DraggableItem type="DROPDOWN" text="Catalog" />
             <DraggableItem type="LOOKUP" text="Lookup" />
-            <DraggableItem type="TEXTAREA" text="Textarea" />
             <DraggableItem type="CALENDAR" text="Calendar" />
             <DraggableItem type="BARCODE" text="Barcode" />
-            <DraggableItem type="ATTACHMENT" text="Attachment" />
             <DraggableItem type="LOOKUPANDBARCODE" text="Lookup & Barcode" />
-            <DraggableItem type="COLLAPSE" text="Collapse" />
+            <DraggableItem type="ATTACHMENT" text="Attachment" />
             <DraggableItem type="HEADER" text="Header" />
             <DraggableItem type="FOOTER" text="Footer" />
             <DraggableItem type="ADDROWHEADER" text="Add Table Header" />
