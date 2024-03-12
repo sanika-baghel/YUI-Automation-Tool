@@ -322,8 +322,8 @@ const App = () => {
                 style={{ fontSize: '17px', color: 'blue', cursor: 'pointer' }}
               />
             )}
-            <DropTargetPanel droppedItems={droppedItems} setDroppedItems={setDroppedItems} onHover={handleHover} />
           </div>
+          <DropTargetPanel droppedItems={droppedItems} setDroppedItems={setDroppedItems} onHover={handleHover} />
         </div>
 
         <div className="col-md-3 output-window">
