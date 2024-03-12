@@ -8,7 +8,8 @@ import './App.css';
 import { Dropdown } from 'react-bootstrap';
 import logoImage from './Prorigologo.png';
 import axios from 'axios';
-
+import { faPencilAlt } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 const App = () => {
   const [hoveredItem, setHoveredItem] = useState({
@@ -20,7 +21,7 @@ const App = () => {
     mandatory: false,
     tempname: null,
     cid: null,
-    cname:null,
+    cname: null,
     fname: null,
     maxLen: null,
     addrowheaderkey: null,
@@ -36,7 +37,7 @@ const App = () => {
   const [fileName, setFileName] = useState('');
   const [propertiesCollapsed, setPropertiesCollapsed] = useState(false);
 
-  const handleHover = (itemId, itemLabel, itemClass, itemReadOnly, itemMandatory, itemValue, itemCid,itemCname, itemFName, itemMaxLen, itemAddrowheaderkey, itemAddrowkey) => {
+  const handleHover = (itemId, itemLabel, itemClass, itemReadOnly, itemMandatory, itemValue, itemCid, itemCname, itemFName, itemMaxLen, itemAddrowheaderkey, itemAddrowkey) => {
     setHoveredItem({
       id: itemId,
       label: itemLabel,
@@ -211,7 +212,17 @@ const App = () => {
       mandatory: e.target.value === 'true' ? true : false,
     });
   };
+  const [isEditing, setIsEditing] = useState(false);
+  const [editedText, setEditedText] = useState('Drop target panel');
 
+  const handleEditClick = () => {
+    setIsEditing(true);
+    const newName = window.prompt('Enter a new name:', editedText);
+    if (newName !== null) {
+      setEditedText(newName);
+    }
+    setIsEditing(false);
+  };
 
   return (
     <div className="container-fluid">
@@ -263,7 +274,7 @@ const App = () => {
       </nav>
       <div className="row">
         <div className="col-md-2 sidebar">
-        <h8 style={{ color: 'black' }}><b>Tool Box</b></h8>
+          <h8 style={{ color: 'black' }}><b>Tool Box</b></h8>
           <div style={{ overflowY: 'auto', maxHeight: '468px' }}>
             <DraggableItem type="COLLAPSE" text="Collapse" />
             <DraggableItem type="BUTTON" text="Button" />
@@ -281,8 +292,8 @@ const App = () => {
             <DraggableItem type="FOOTER" text="Footer" />
             <DraggableItem type="ADDROWHEADER" text="Add Table Header" />
             <DraggableItem type="ADDROWS" text="Add Rows" />
-          
-             {/* New Added Code for add row and header*/}
+
+            {/* New Added Code for add row and header*/}
           </div>
           {/* <div className="bottom left p-3" style={{ position: 'fixed', bottom: '0', left: '0', padding: '15px' }}>
             <button onClick={downloadJsonFile} className="btn btn-light" style={{ color: 'black' }}>
@@ -291,13 +302,29 @@ const App = () => {
           </div> */}
         </div>
 
-        <div className="col-md-7 code-editor">
-          <div style={{ overflowY: 'auto', maxHeight: '620px' }}>
-            <h8 style={{ color: 'black' }}>Drop Target Panel</h8>
+        <div className="col-md-7 code-editor" style={{ position: 'relative' }}>
+          <div style={{ overflowY: 'auto', maxHeight: '620px', display: 'flex', alignItems: 'center' }}>
+            <h4 id="h4-tag" style={{ color: 'black', marginRight: '10px' }}>
+              {isEditing ? (
+                <input
+                  type="text"
+                  value={editedText}
+                  onChange={(e) => setEditedText(e.target.value)}
+                />
+              ) : (
+                editedText
+              )}
+            </h4>
+            {!isEditing && (
+              <FontAwesomeIcon
+                icon={faPencilAlt}
+                onClick={handleEditClick}
+                style={{ fontSize: '17px', color: 'blue', cursor: 'pointer' }}
+              />
+            )}
             <DropTargetPanel droppedItems={droppedItems} setDroppedItems={setDroppedItems} onHover={handleHover} />
           </div>
         </div>
-
 
         <div className="col-md-3 output-window">
           <h8 style={{ color: 'black' }}><b>Properties</b></h8><br /><br />
