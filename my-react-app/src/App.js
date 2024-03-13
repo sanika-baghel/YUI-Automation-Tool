@@ -303,7 +303,7 @@ const App = () => {
         </div>
 
         <div className="col-md-7 code-editor" style={{ position: 'relative' }}>
-          <div style={{ overflowY: 'auto', maxHeight: '620px', display: 'flex', alignItems: 'center' }}>
+          <div style={{ display: 'flex', alignItems: 'center', paddingRight: '10px' }}>
             <h4 id="h4-tag" style={{ color: 'black', marginRight: '10px' }}>
               {isEditing ? (
                 <input
@@ -319,12 +319,15 @@ const App = () => {
               <FontAwesomeIcon
                 icon={faPencilAlt}
                 onClick={handleEditClick}
-                style={{ fontSize: '17px', color: 'blue', cursor: 'pointer' }}
+                style={{ fontSize: '14px', color: 'blue', cursor: 'pointer' }}
               />
             )}
           </div>
-          <DropTargetPanel droppedItems={droppedItems} setDroppedItems={setDroppedItems} onHover={handleHover} />
+          <div style={{ overflowY: 'auto', maxHeight: '620px' }}>
+            <DropTargetPanel droppedItems={droppedItems} setDroppedItems={setDroppedItems} onHover={handleHover} />
+          </div>
         </div>
+
 
         <div className="col-md-3 output-window">
           <h8 style={{ color: 'black' }}><b>Properties</b></h8><br /><br />
