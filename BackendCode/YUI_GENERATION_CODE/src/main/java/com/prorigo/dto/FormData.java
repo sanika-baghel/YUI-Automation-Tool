@@ -24,14 +24,11 @@ public class FormData {
 	private String maxLen;
 	private String templateName;
 	private String tabName;
-	private String width;
 	private List<CollapseSection> collapse;
 	private String cname; //Collapse Name
 	private String cid;   //Collapse Id
-	private List<RowHeader> addrowheaderkey ;
-	private List<FormData> addrowkey ;
-
-
+	private List<FormData> addrowkey;
+	private List<RowHeader> addrowheaderkey;
 }
 
 

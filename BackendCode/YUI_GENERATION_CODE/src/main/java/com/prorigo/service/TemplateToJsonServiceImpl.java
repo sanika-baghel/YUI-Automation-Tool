@@ -2,9 +2,10 @@ package com.prorigo.service;
 
 import com.prorigo.dto.Option;
 import com.prorigo.dto.OptionsGroup;
+import com.prorigo.dto.RowHeader;
 import com.prorigo.dto.TableHeader;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -23,20 +24,28 @@ import java.util.List;
 public class TemplateToJsonServiceImpl implements TemplateToJsonService {
 
   private final Gson gson = new Gson();
+  
+  // Define a constant regular expression for extracting label names
+  private static final String LABEL_REGEX = "\\{\\{applbl\\s*(.*?)}}";
 
   public List<FormData> convertTemplateToJson(MultipartFile file) throws IOException {
-    //Convert File to String
+    // Convert File to String
     String htmlContent = new String(file.getBytes());
     Document doc = Jsoup.parse(htmlContent);
     Elements elements = doc.select(
         "input[type=checkbox], input[type=radio], select, input[type=text],input[type=lookup],input[type=barcode],"
-            + " textarea, input[type=file],button:not(span > button)");
+            + " textarea, input[type=file],button:not(span > button),a[href],tr");
 
     // Extract Label Names
     List<String> labelNames = extractLabels(htmlContent);
     List<FormData> formDataList = new ArrayList<>();
-    for (Element element : elements) {
+    convertElementsToJson(elements, labelNames, formDataList);
+    return formDataList;
+  }
 
+
+  private void convertElementsToJson(Elements elements, List<String> labelNames, List<FormData> formDataList) {
+    for (Element element : elements) {
       if (!element.toString().startsWith("<!--") && !element.toString().endsWith("-->")) {
         FormData formData = new FormData();
         String extractedContent = "";
@@ -56,6 +65,25 @@ public class TemplateToJsonServiceImpl implements TemplateToJsonService {
         formData.setValue(extractedContent);
         formData.setClassName(element.hasAttr("class") ? element.attr("class") : "");
         formData.setReadOnly(element.hasAttr("disabled"));
+
+        formData.setMaxLen(element.hasAttr("maxlength") ? element.attr("maxlength") : "");
+
+        // Extract cid and cname from "href" for collapse
+        if (element.hasAttr("href")) {
+          String hrefValue = element.attr("href");
+          if (hrefValue.length() > 1) {
+            formData.setCid(hrefValue.substring(1));
+
+            String colapseName = element.text();
+            Pattern pattern = Pattern.compile("\\{\\{applbl \"(.*?)\"}}");
+            Matcher matcher = pattern.matcher(colapseName);
+            if (matcher.find()) {
+              formData.setCname(matcher.group(1)); // Extract the text inside the double quotes
+            } else {
+              formData.setCname("");  // Return empty string if no match found
+            }
+          }
+        }
 
         if (!element.hasAttr("data-mize_required")) {
           formData.setMandatory(false);
@@ -88,12 +116,55 @@ public class TemplateToJsonServiceImpl implements TemplateToJsonService {
           // Call getSelectOptions method for the current select element
           List<OptionsGroup> optionsGroups = getSelectOptions(element);
           formData.setOptions(optionsGroups);
+        } else if ("COLLAPSE".equals(formData.getType())) {
+          formData.setText("Collapse");
+        } else if ("ADDROWHEADER".equals(formData.getType())) {
+          formData.setText("Add Table Header");
+          // Extract row headers from child elements
+          List<RowHeader> rowHeaders = extractRowHeaders(element);
+          // Set the list of RowHeaders to the corresponding field in formData
+          formData.setAddrowheaderkey(rowHeaders);
         }
         formDataList.add(formData);
       }
     }
-    return formDataList;
   }
+
+
+  // Method to extract row headers from child elements and create RowHeader objects
+  private List<RowHeader> extractRowHeaders(Element parentElement) {
+    List<RowHeader> rowHeaders = new ArrayList<>();
+    Elements childElements = parentElement.children();
+    for (Element childElement : childElements) {
+      String dataRef = childElement.attr("data-ref");
+      String width = childElement.attr("width");
+      String className = childElement.className();
+      String headerLabel = childElement.text();
+      String extractedLabelName = headerLabel.replaceAll(LABEL_REGEX, "$1").trim();
+      rowHeaders.add(new RowHeader(dataRef, width, className, extractedLabelName));
+    }
+    return rowHeaders;
+  }
+
+//  private List<FormData> extractAddRow(Element parentElement) {
+//    List<FormData> rowHeaders = new ArrayList<>();
+//    Elements childElements = parentElement.children();
+//    for (Element row : childElements) {
+//      Elements cells = row.select("td");
+//      List<FormData> tableCells = new ArrayList<>();
+//      for (Element cell : cells) {
+//        FormData tableCell = new FormData();
+//        // Populate tableCell fields based on cell properties
+//        tableCell.setClassName(cell.attr("class"));
+//        tableCells.add(tableCell);
+//      }
+//      FormData tableRow = new FormData();
+//      // Populate tableRow fields based on row properties and tableCells
+//      rowHeaders.add(tableRow);
+//    }
+//    return rowHeaders;
+//  }
+
 
   //Extract Label
   private List<String> extractLabels(String htmlContent) {
@@ -102,9 +173,7 @@ public class TemplateToJsonServiceImpl implements TemplateToJsonService {
     List<String> labelNames = new ArrayList<>();
     for (Element label : labels) {
       String labelExpression = label.text();
-      String regex = "'(.*?)'";
-      String extractedLabelName = labelExpression.replaceAll("\\{\\{applbl\\s*" + regex + "}}",
-          "$1").trim();
+      String extractedLabelName = labelExpression.replaceAll(LABEL_REGEX, "$1").trim();
       labelNames.add(extractedLabelName);
     }
     return labelNames;
@@ -120,20 +189,20 @@ public class TemplateToJsonServiceImpl implements TemplateToJsonService {
       } else if ("radio".equals(type)) {
         return "RADIO";
       } else if ("text".equals(type)) {
-          Element parent = element.parent();
-         // && parent.hasClass("input-group")
-          if (parent != null ) {
-            // Check if the parent has a button with class containing "icon-calendar"
-            Elements buttons = parent.getElementsByTag("button");
-            for (Element button : buttons) {
-              if (!button.getElementsByClass("icon-calendar").isEmpty()) {
-                return "CALENDAR";
-              }else if(!button.getElementsByClass("icon-barcode").isEmpty()){
-                return "LOOKUPANDBARCODE";
-              }
+        Element parent = element.parent();
+        // && parent.hasClass("input-group")
+        if (parent != null) {
+          // Check if the parent has a button with class containing "icon-calendar"
+          Elements buttons = parent.getElementsByTag("button");
+          for (Element button : buttons) {
+            if (!button.getElementsByClass("icon-calendar").isEmpty()) {
+              return "CALENDAR";
+            } else if (!button.getElementsByClass("icon-barcode").isEmpty()) {
+              return "LOOKUPANDBARCODE";
             }
           }
-          return "TEXTBOX";
+        }
+        return "TEXTBOX";
       } else if ("datetime".equals(type)) {
         return "DATETIME";
       } else if ("file".equals(type)) {
@@ -149,10 +218,15 @@ public class TemplateToJsonServiceImpl implements TemplateToJsonService {
       return "TEXTAREA";
     } else if ("button".equals(tagName)) {
       return "BUTTON";
+    } else if ("a".equals(tagName)) {
+      return "COLLAPSE";
+    }else if ("tr".equals(tagName)) {
+      return "ADDROWHEADER";
     }
     return null;
   }
 
+  //For Dropdown
   private static List<OptionsGroup> getSelectOptions(Element selectElement) {
     List<OptionsGroup> optionsGroups = new ArrayList<>();
 
@@ -194,19 +268,17 @@ public class TemplateToJsonServiceImpl implements TemplateToJsonService {
   public String headTemplateToJson(String jsonInput) {
     Document doc = Jsoup.parse(jsonInput);
     Elements thElements = doc.select("th[data-ref]");
-    String json="";
+    String json = "";
     List<TableHeader> headers = new ArrayList<>();
     for (Element th : thElements) {
       String dataRef = th.attr("data-ref");
       String width = th.attr("width");
       String className = th.className();
-      String label = th.text();
-      String regex = "'(.*?)'";
-      String extractedLabelName = label.replaceAll("\\{\\{applbl\\s*" + regex + "}}",
-          "$1").trim();
+      String headerLabel = th.text();
+      String extractedLabelName = headerLabel.replaceAll(LABEL_REGEX, "$1").trim();
       headers.add(new TableHeader(dataRef, width, className, extractedLabelName));
-      Gson gson = new Gson();
-      json = gson.toJson(headers);
+      Gson gson1 = new Gson();
+      json = gson1.toJson(headers);
     }
     return json;
   }

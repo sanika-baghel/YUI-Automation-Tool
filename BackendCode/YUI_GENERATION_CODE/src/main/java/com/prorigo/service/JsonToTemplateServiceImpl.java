@@ -2,7 +2,6 @@ package com.prorigo.service;
 
 import com.prorigo.dto.CollapseSection;
 import com.prorigo.dto.FormData;
-
 import com.prorigo.util.TemplateCreateUtil;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -22,9 +21,6 @@ public class JsonToTemplateServiceImpl implements JsonToTemplateService {
     }
   }
 
-
-
-
   public String convertJsonToMultiTemplate(String jsonInput) {
     if (jsonInput == null || jsonInput.isEmpty()) {
       return "No JSON input provided.";
@@ -32,7 +28,6 @@ public class JsonToTemplateServiceImpl implements JsonToTemplateService {
 
     // Parse JSON input into FormData array
     FormData[] formElements = gson.fromJson(jsonInput, FormData[].class);
-    System.out.println("formElements==" + formElements);
     if (formElements == null) {
       return "Error parsing JSON input.";
     }
@@ -198,6 +193,4 @@ public class JsonToTemplateServiceImpl implements JsonToTemplateService {
 
     return htmlForm.toString();
   }
-
 }
-
