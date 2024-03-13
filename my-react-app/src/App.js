@@ -364,7 +364,7 @@ const App = () => {
               </tr>
               <tr>
                 <td>Is Mandatory</td>
-                <td>
+                <td>&nbsp;
                   <input
                     type="radio"
                     id="trueRadio"
@@ -373,7 +373,8 @@ const App = () => {
                     checked={hoveredItem.mandatory === true}
                     onChange={handleRadioChange}
                   />
-                  <label htmlFor="trueRadio">True</label>
+                 &nbsp;True
+                    &nbsp;
 
                   <input
                     type="radio"
@@ -383,7 +384,8 @@ const App = () => {
                     checked={hoveredItem.mandatory === false}
                     onChange={handleRadioChange}
                   />
-                  <label htmlFor="falseRadio">False</label>
+                 &nbsp;False
+                    &nbsp;
                 </td>
               </tr>
               <tr>
@@ -400,7 +402,7 @@ const App = () => {
               </tr>
               <tr>
                 <td>Is Read Only</td>
-                <td>
+                <td>&nbsp;
                   <input
                     type="radio"
                     id="readOnlyTrue"
@@ -409,8 +411,7 @@ const App = () => {
                     checked={hoveredItem.readOnly === true}
                     onChange={handleReadOnlyChange}
                   />
-                  <label htmlFor="readOnlyTrue">True</label>
-
+                 &nbsp;True &nbsp;
                   <input
                     type="radio"
                     id="readOnlyFalse"
@@ -419,7 +420,7 @@ const App = () => {
                     checked={hoveredItem.readOnly === false}
                     onChange={handleReadOnlyChange}
                   />
-                  <label htmlFor="readOnlyFalse">False</label>
+                  &nbsp;False&nbsp;
                 </td>
               </tr>
               <tr>
