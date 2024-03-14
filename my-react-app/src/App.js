@@ -346,19 +346,19 @@ const App = () => {
               <tr>
                 <td>Template Name</td>
                 <td>
-                  <input type="text" value={hoveredItem.tempname} />
+                  <input type="text" value={hoveredItem.tempname} style={{ fontWeight: 'bold' }} />
                 </td>
               </tr>
               <tr>
                 <td>Field ID</td>
                 <td>
-                  <input type="text" value={hoveredItem.id} editable />
+                  <input type="text" value={hoveredItem.id} editable style={{ fontWeight: 'bold' }}/>
                 </td>
               </tr>
               <tr>
                 <td>Field Label</td>
                 <td>
-                  <input type="text" value={hoveredItem.label}
+                  <input type="text" value={hoveredItem.label}   style={{ fontWeight: 'bold', color: 'blue'}}
                     editable />
                 </td>
               </tr>
@@ -371,10 +371,10 @@ const App = () => {
                     name="isMandatory"
                     value="true"
                     checked={hoveredItem.mandatory === true}
-                    onChange={handleRadioChange}
+                    onChange={handleRadioChange} 
                   />
-                 &nbsp;True
-                    &nbsp;
+                  &nbsp;True
+                  &nbsp;
 
                   <input
                     type="radio"
@@ -382,22 +382,22 @@ const App = () => {
                     name="isMandatory"
                     value="false"
                     checked={hoveredItem.mandatory === false}
-                    onChange={handleRadioChange}
+                    onChange={handleRadioChange} 
                   />
-                 &nbsp;False
-                    &nbsp;
+                  &nbsp;False
+                  &nbsp;
                 </td>
               </tr>
               <tr>
                 <td>Field Class</td>
                 <td>
-                  <input type="text" value={hoveredItem.class} />
+                  <input type="text" value={hoveredItem.class} style={{ fontWeight: 'bold' }} />
                 </td>
               </tr>
               <tr>
                 <td>Field Value</td>
                 <td>
-                  <input type="text" value={hoveredItem.value} />
+                  <input type="text" value={hoveredItem.value} style={{ fontWeight: 'bold' }} />
                 </td>
               </tr>
               <tr>
@@ -411,7 +411,7 @@ const App = () => {
                     checked={hoveredItem.readOnly === true}
                     onChange={handleReadOnlyChange}
                   />
-                 &nbsp;True &nbsp;
+                  &nbsp;True &nbsp;
                   <input
                     type="radio"
                     id="readOnlyFalse"
@@ -426,25 +426,25 @@ const App = () => {
               <tr>
                 <td>Collapse Name</td>
                 <td>
-                  <input type="text" value={hoveredItem.cname} />
+                  <input type="text" value={hoveredItem.cname} style={{ fontWeight: 'bold' }} />
                 </td>
               </tr>
               <tr>
                 <td>Collapse ID</td>
                 <td>
-                  <input type="text" value={hoveredItem.cid} />
+                  <input type="text" value={hoveredItem.cid} style={{ fontWeight: 'bold' }} />
                 </td>
               </tr>
               <tr>
                 <td>Input Field Name</td>
                 <td>
-                  <input type="text" value={hoveredItem.fname} />
+                  <input type="text" value={hoveredItem.fname} style={{ fontWeight: 'bold' }}/>
                 </td>
               </tr>
               <tr>
                 <td>Max Length</td>
                 <td>
-                  <input type="text" value={hoveredItem.maxLen} />
+                  <input type="text" value={hoveredItem.maxLen} style={{ fontWeight: 'bold' }} />
                 </td>
               </tr>
 
