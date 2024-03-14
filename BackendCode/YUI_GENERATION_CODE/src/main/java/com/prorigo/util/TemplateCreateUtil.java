@@ -40,13 +40,19 @@ public class TemplateCreateUtil {
                                                                                    "LOOKUPANDBARCODE")
         || element.getType().equalsIgnoreCase("CALENDAR")) ? "text"
         : element.getType().toLowerCase();
+
+   String maxLength= element.getMaxLen();
+
     StringBuilder inputHTML = new StringBuilder();
     inputHTML.append("\t    <input type=\"").append(typeName).append("\" id=\"")
              .append(element.getId())
              .append("\" name=\"").append(element.getId()).append("\" class=\"")
              .append(element.getClassName()).append("\" value=\"")
-             .append(value).append("\"")
-             .append(element.isMandatory() ? " data-mize_required" : "")
+             .append(value).append("\"");
+             if(maxLength!=null && !maxLength.equalsIgnoreCase("") ) {
+               inputHTML.append(" maxlength=\"").append(maxLength).append("\"");
+             }
+           inputHTML.append(element.isMandatory() ? " data-mize_required" : "")
              .append(element.isReadOnly() ? " disabled" : "")
              .append(" />\n");
     // Add button HTML if applicable
@@ -80,11 +86,14 @@ public class TemplateCreateUtil {
 
 
   private static String generateDropdownTemplate(FormData element) {
+    String maxLength= element.getMaxLen();
     StringBuilder dropdownHTML = new StringBuilder();
     dropdownHTML.append("\t    <select id=\"").append(element.getId()).append("\" name=\"")
-                .append(element.getId()).append("\" class=\"").append(element.getClassName())
-                .append("\"")
-                .append(element.isMandatory() ? " data-mize_required" : "")
+                .append(element.getId()).append("\" class=\"").append(element.getClassName());
+    if(maxLength!=null && !maxLength.equalsIgnoreCase("")) {
+      dropdownHTML.append(" maxlength=\"").append(maxLength).append("\"");
+    }
+     dropdownHTML.append(element.isMandatory() ? " data-mize_required" : "")
                 .append(element.isReadOnly() ? " disabled" : "").append(">\n");
     for (Map<String, Object> optionsGroupMap : (List<Map<String, Object>>) element.getOptions()) {
       String heading = (String) optionsGroupMap.get("heading");
@@ -104,19 +113,37 @@ public class TemplateCreateUtil {
   private static String generateButtonTemplate(FormData element) {
     String value = (element.getValue() != null && !element.getValue().equalsIgnoreCase("")) ?
         "{{" + element.getValue() + "}}" : "";
-    return "\t    <button type=\"button\" id=\"" + element.getId() + "\" name=\"" + element.getId()
-        + "\" class=\"" + element.getClassName() + "\"" + (element.isMandatory()
-        ? " data-mize_required" : "")
-        + (element.isReadOnly() ? " disabled" : "") + " >" + value + "</button>\n";
+    StringBuilder templateBuilder = new StringBuilder();
+    templateBuilder.append("\t    <button type=\"button\" id=\"").append(element.getId()).append("\" name=\"").append(element.getId())
+                   .append("\" class=\"").append(element.getClassName()).append("\"");
+
+    // Add maxlength attribute if element.getMaxLen() is not null or empty
+    if (element.getMaxLen() != null && !element.getMaxLen().isEmpty()) {
+      templateBuilder.append(" maxlength=\"").append(element.getMaxLen()).append("\"");
+    }
+
+    templateBuilder.append(element.isMandatory() ? " data-mize_required" : "")
+                   .append(element.isReadOnly() ? " disabled" : "").append(" >").append(value).append("</button>\n");
+
+    return templateBuilder.toString();
   }
 
   private static String generateTextareaTemplate(FormData element) {
     String value = (element.getValue() != null && !element.getValue().equalsIgnoreCase("")) ?
         "{{" + element.getValue() + "}}" : "";
-    return "\t    <textarea id=\"" + element.getId() + "\" name=\"" + element.getId()
-        + "\" class=\"" +
-        element.getClassName() + "\"" + (element.isMandatory() ? " data-mize_required" : "") +
-        (element.isReadOnly() ? " disabled" : "") + " >" + value + "</textarea>\n";
+    StringBuilder templateBuilder = new StringBuilder();
+
+    templateBuilder.append("\t    <textarea id=\"").append(element.getId()).append("\" name=\"").append(element.getId())
+                   .append("\" class=\"").append(element.getClassName()).append("\"");
+
+    // Add maxlength attribute if element.getMaxLen() is not null or empty
+    if (element.getMaxLen() != null && !element.getMaxLen().isEmpty()) {
+      templateBuilder.append(" maxlength=\"").append(element.getMaxLen()).append("\"");
+    }
+    templateBuilder.append(element.isMandatory() ? " data-mize_required" : "")
+                   .append(element.isReadOnly() ? " disabled" : "").append(" >").append(value).append("</textarea>\n");
+
+    return templateBuilder.toString();
   }
 
 
