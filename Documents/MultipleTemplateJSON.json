@@ -1,0 +1,103 @@
+[
+{
+"metaData":[
+{
+"addTemplateName":"",
+"deleteTemplateName":"",
+"updateTemplateName":""
+}
+]
+}, 
+
+
+{
+    "templateName": "CRAInfotemplate1",
+    "tabName": "CRA INFORMATION",
+    "collapse": [
+      {
+        "collapseName": "Dealer Information",
+        "collapseId": "",
+        "fields": [
+          {
+            "type": "LOOKUPANDBARCODE",
+            "id": "lbid2",
+            "value": "lbvalue2",
+            "text": "Lookup & Barcode",
+            "class": "lbcls2",
+            "label": "lblabel2",
+            "readOnly": false,
+            "options": [],
+            "mandatory": false,
+            "maxLength": ""
+          },
+          {
+            "type": "TEXTBOX",
+            "id": "textId",
+            "value": "textValue",
+            "text": "textbox",
+            "class": "textClass",
+            "label": "textlabel",
+            "readOnly": false,
+            "options": [],
+            "mandatory": false,
+            "maxLength": ""
+          }
+        ]
+      },
+      {
+        "collapseName": "CRA Information",
+        "collapseId": "",
+        "fields": [
+          {
+            "type": "TEXTAREA",
+            "id": "textarea",
+            "value": "textareavalue",
+            "text": "textarea",
+            "class": "textareaclass",
+            "label": "textarealabel",
+            "readOnly": false,
+            "options": [],
+            "mandatory": false,
+            "maxLength": ""
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "templateName": "Inspectiontemplate2",
+    "tabName": "Inspection Result",
+    "collapse": [
+      {
+        "collapseName": "Container Adjustment",
+        "collapseId": "",
+        "fields": [
+          {
+            "type": "LOOKUPANDBARCODE",
+            "id": "lbid2",
+            "value": "lbvalue2",
+            "text": "Lookup & Barcode",
+            "class": "lbcls2",
+            "label": "lblabel2",
+            "readOnly": false,
+            "options": [],
+            "mandatory": false,
+            "maxLength": ""
+          },
+          {
+            "type": "TEXTBOX",
+            "id": "textId",
+            "value": "textValue",
+            "text": "textbox",
+            "class": "textClass",
+            "label": "textlabel",
+            "readOnly": false,
+            "options": [],
+            "mandatory": false,
+            "maxLength": ""
+          }
+        ]
+      }
+    ]
+  }
+]
