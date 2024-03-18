@@ -1,8 +1,9 @@
-import React, { useState, useRef } from "react";
+import React, { useState } from "react";
 import logoImage from './Prorigologo.png';
 import { Dropdown } from "react-bootstrap";
 import './App.css';
 import SingleTabContent from './SingleTabContent';
+import MultipleCards from './MultipleCards'; // Import the MultipleCards component
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -11,6 +12,7 @@ import './App.css';
 const App = () => {
   const [fileDropdownVisible, setFileDropdownVisible] = useState(false);
   const [showSingleTabContent, setShowSingleTabContent] = useState(false);
+  const [showMultipleCards, setShowMultipleCards] = useState(false); // State to control visibility of MultipleCards
 
   const handleToolSelect = (toolType) => {
     if (toolType === "Exit") {
@@ -20,8 +22,10 @@ const App = () => {
     
     if (toolType === "Single Tab") {
       setShowSingleTabContent(true);
-    } else {
+      setShowMultipleCards(false); // Hide MultipleCards when Single Tab is selected
+    } else if (toolType === "Multiple Tab") {
       setShowSingleTabContent(false);
+      setShowMultipleCards(true); // Show MultipleCards when Multiple Tab is selected
     }
   };
  
@@ -30,99 +34,99 @@ const App = () => {
       {showSingleTabContent ? (
         <SingleTabContent />
       ) : (
-        <nav
-          className="navbar navbar-expand-lg navbar-light"
-          style={{ backgroundColor: "#0fb6c9dc", height: "50px" }}
-        >
-          <div className="collapse navbar-collapse">
-            <ul className="nav navbar-nav ml-auto">
-              <li className="nav-item">
-                {/* Add your image here */}
-                <img
-                  src={logoImage}
-                  alt="Logo"
-                  style={{ height: "40px", marginRight: "10px" }}
-                />{" "}
-              </li>
-              <li className="nav-item dropdown">
-                <a
-                  className="nav-link dropdown-toggle"
-                  href="#!"
-                  id="fileDropdown"
-                  role="button"
-                  onClick={() => setFileDropdownVisible(!fileDropdownVisible)}
-                  style={navLinkStyle}
-                >
-                  New Screen
-                </a>
-                <Dropdown.Menu
-                  show={fileDropdownVisible}
-                  style={{ backgroundColor: "#bfdbdfdc" }}
-                >
-                  <Dropdown.Item onClick={() => handleToolSelect("Single Tab")}>
-                    Single Tab
-                  </Dropdown.Item>
-
-                  <Dropdown.Item onClick={() => handleToolSelect("Multiple Tab")}>
-                    Multiple Tab
-                  </Dropdown.Item>
-                </Dropdown.Menu>
-
-                <Dropdown.Menu
-                  show={fileDropdownVisible}
-                  style={{ backgroundColor: "#bfdbdfdc" }}
-                >
-                  <Dropdown.Item
-                    onClick={() => {
-                      const confirmation = window.confirm(
-                        "Are you sure you want to download the Single Tab file?"
-                      );
-                      if (confirmation) {
-                        handleToolSelect("Single Tab");
-                      }
-                    }}
+        <div>
+          <nav
+            className="navbar navbar-expand-lg navbar-light"
+            style={{ backgroundColor: "#0fb6c9dc", height: "50px" }}
+          >
+            <div className="collapse navbar-collapse">
+              <ul className="nav navbar-nav ml-auto">
+                <li className="nav-item">
+                  <img
+                    src={logoImage}
+                    alt="Logo"
+                    style={{ height: "40px", marginRight: "10px" }}
+                  />{" "}
+                </li>
+                <li className="nav-item dropdown">
+                  <a
+                    className="nav-link dropdown-toggle"
+                    href="#!"
+                    id="fileDropdown"
+                    role="button"
+                    onClick={() => setFileDropdownVisible(!fileDropdownVisible)}
+                    style={navLinkStyle}
                   >
-                    Single Tab
-                  </Dropdown.Item>
-                  <Dropdown.Item
-                    onClick={() => {
-                      const confirmation = window.confirm(
-                        "Are you sure you want to download the Multiple Tab file?"
-                      );
-                      if (confirmation) {
-                        handleToolSelect("Multiple Tab");
-                      }
-                    }}
+                    New Screen
+                  </a>
+                  <Dropdown.Menu
+                    show={fileDropdownVisible}
+                    style={{ backgroundColor: "#bfdbdfdc" }}
                   >
-                    Multiple Tab
-                  </Dropdown.Item>
-                </Dropdown.Menu>
-              </li>
+                    <Dropdown.Item onClick={() => handleToolSelect("Single Tab")}>
+                      Single Tab
+                    </Dropdown.Item>
 
-              <li className="navbar-right">
-                <b>
-                  <a href="#">Open</a>
-                </b>
-              </li>
-              <li className="navbar-right">
-                <b>
-                  <a href="#">Logout</a>
-                </b>
-              </li>
-            </ul>
-          </div>
-        </nav>
-      )}
+                    <Dropdown.Item onClick={() => handleToolSelect("Multiple Tab")}>
+                      Multiple Tab
+                    </Dropdown.Item>
+                  </Dropdown.Menu>
 
-      {!showSingleTabContent && (
-        <div className="center-text">
-          <div>
-            <h1 style={{ color: "blue", fontWeight: "bold", marginTop: "250px" }}>
-              YUI Screen Generator
-            </h1>
-          </div>
+                  <Dropdown.Menu
+                    show={fileDropdownVisible}
+                    style={{ backgroundColor: "#bfdbdfdc" }}
+                  >
+                    <Dropdown.Item
+                      onClick={() => {
+                        const confirmation = window.confirm(
+                          "Are you sure you want to download the Single Tab file?"
+                        );
+                        if (confirmation) {
+                          handleToolSelect("Single Tab");
+                        }
+                      }}
+                    >
+                      Single Tab
+                    </Dropdown.Item>
+                    <Dropdown.Item
+                      onClick={() => {
+                        const confirmation = window.confirm(
+                          "Are you sure you want to download the Multiple Tab file?"
+                        );
+                        if (confirmation) {
+                          handleToolSelect("Multiple Tab");
+                        }
+                      }}
+                    >
+                      Multiple Tab
+                    </Dropdown.Item>
+                  </Dropdown.Menu>
+                </li>
+                <li className="navbar-right">
+                  <b>
+                    <a href="#">Open</a>
+                  </b>
+                </li>
+                <li className="navbar-right">
+                  <b>
+                    <a href="#">Logout</a>
+                  </b>
+                </li>
+              </ul>
+            </div>
+          </nav>
+          {!showMultipleCards && (
+            <div className="center-text">
+              <div>
+                <h1 style={{ color: "blue", fontWeight: "bold", marginTop: "250px" }}>
+                  YUI Screen Generator
+                </h1>
+              </div>
+            </div>
+          )}
         </div>
       )}
+      {showMultipleCards && <MultipleCards />} {/* Render MultipleCards component if showMultipleCards is true */}
     </div>
   );
 };
@@ -133,9 +137,9 @@ const navLinkStyle = {
   padding: "14px 16px",
   transition: "background-color 0.3s",
 };
- 
-// Add hover effect
+
 navLinkStyle[":hover"] = {
   backgroundColor: "#0fb6c9dc",
 };
+
 export default App;
