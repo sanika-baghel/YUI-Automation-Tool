@@ -24,7 +24,7 @@ import java.util.List;
 public class TemplateToJsonServiceImpl implements TemplateToJsonService {
 
   private final Gson gson = new Gson();
-  
+
   // Define a constant regular expression for extracting label names
   private static final String LABEL_REGEX = "\\{\\{applbl\\s*(.*?)}}";
 
@@ -34,9 +34,8 @@ public class TemplateToJsonServiceImpl implements TemplateToJsonService {
     Document doc = Jsoup.parse(htmlContent);
     Elements elements = doc.select(
         "input[type=checkbox], input[type=radio], select, input[type=text],input[type=lookup],input[type=barcode],"
-            + " textarea, input[type=file],button:not(span > button),a[href],tr");
+            + " textarea, input[type=file],button:not(span > button),a[href],tr, td");
 
-    // Extract Label Names
     List<String> labelNames = extractLabels(htmlContent);
     List<FormData> formDataList = new ArrayList<>();
     convertElementsToJson(elements, labelNames, formDataList);
@@ -44,7 +43,8 @@ public class TemplateToJsonServiceImpl implements TemplateToJsonService {
   }
 
 
-  private void convertElementsToJson(Elements elements, List<String> labelNames, List<FormData> formDataList) {
+  private void convertElementsToJson(Elements elements, List<String> labelNames,
+      List<FormData> formDataList) {
     for (Element element : elements) {
       if (!element.toString().startsWith("<!--") && !element.toString().endsWith("-->")) {
         FormData formData = new FormData();
@@ -65,7 +65,6 @@ public class TemplateToJsonServiceImpl implements TemplateToJsonService {
         formData.setValue(extractedContent);
         formData.setClassName(element.hasAttr("class") ? element.attr("class") : "");
         formData.setReadOnly(element.hasAttr("disabled"));
-
         formData.setMaxLen(element.hasAttr("maxlength") ? element.attr("maxlength") : "");
 
         // Extract cid and cname from "href" for collapse
@@ -73,7 +72,6 @@ public class TemplateToJsonServiceImpl implements TemplateToJsonService {
           String hrefValue = element.attr("href");
           if (hrefValue.length() > 1) {
             formData.setCid(hrefValue.substring(1));
-
             String colapseName = element.text();
             Pattern pattern = Pattern.compile("\\{\\{applbl \"(.*?)\"}}");
             Matcher matcher = pattern.matcher(colapseName);
@@ -124,6 +122,13 @@ public class TemplateToJsonServiceImpl implements TemplateToJsonService {
           List<RowHeader> rowHeaders = extractRowHeaders(element);
           // Set the list of RowHeaders to the corresponding field in formData
           formData.setAddrowheaderkey(rowHeaders);
+        } else if ("ADDROWS".equals(formData.getType())) {
+          formData.setText("Add Rows");
+          Elements childElements = element.select("td"); // Assuming child elements are td elements
+          List<FormData> childFormDataList = new ArrayList<>();
+          convertElementsToJson(childElements, labelNames, childFormDataList);
+          // Set the list of child elements to addrowkey
+          formData.setAddrowkey(childFormDataList);
         }
         formDataList.add(formData);
       }
@@ -146,24 +151,24 @@ public class TemplateToJsonServiceImpl implements TemplateToJsonService {
     return rowHeaders;
   }
 
-//  private List<FormData> extractAddRow(Element parentElement) {
-//    List<FormData> rowHeaders = new ArrayList<>();
-//    Elements childElements = parentElement.children();
-//    for (Element row : childElements) {
-//      Elements cells = row.select("td");
-//      List<FormData> tableCells = new ArrayList<>();
-//      for (Element cell : cells) {
-//        FormData tableCell = new FormData();
-//        // Populate tableCell fields based on cell properties
-//        tableCell.setClassName(cell.attr("class"));
-//        tableCells.add(tableCell);
-//      }
-//      FormData tableRow = new FormData();
-//      // Populate tableRow fields based on row properties and tableCells
-//      rowHeaders.add(tableRow);
-//    }
-//    return rowHeaders;
-//  }
+  private List<FormData> extractAddRow(Element parentElement) {
+    List<FormData> rowHeaders = new ArrayList<>();
+    Elements childElements = parentElement.children();
+    for (Element row : childElements) {
+      Elements cells = row.select("tbody");
+      List<FormData> tableCells = new ArrayList<>();
+      for (Element cell : cells) {
+        FormData tableCell = new FormData();
+        // Populate tableCell fields based on cell properties
+        tableCell.setClassName(cell.attr("class"));
+        tableCells.add(tableCell);
+      }
+      FormData tableRow = new FormData();
+      // Populate tableRow fields based on row properties and tableCells
+      rowHeaders.add(tableRow);
+    }
+    return rowHeaders;
+  }
 
 
   //Extract Label
@@ -182,6 +187,7 @@ public class TemplateToJsonServiceImpl implements TemplateToJsonService {
   //Check Type Name of the template
   private String checkTypeName(Element element) {
     String tagName = element.tagName().toLowerCase();
+    System.out.println("tagName==" + tagName);
     if ("input".equals(tagName)) {
       String type = element.attr("type").toLowerCase();
       if ("checkbox".equals(type)) {
@@ -220,8 +226,11 @@ public class TemplateToJsonServiceImpl implements TemplateToJsonService {
       return "BUTTON";
     } else if ("a".equals(tagName)) {
       return "COLLAPSE";
-    }else if ("tr".equals(tagName)) {
+    } else if ("tr".equals(tagName)) {
       return "ADDROWHEADER";
+    } else if ("tbody#orderPartTbody > td".equals(tagName)) {
+      System.out.println("type");
+      return "ADDROWS";
     }
     return null;
   }

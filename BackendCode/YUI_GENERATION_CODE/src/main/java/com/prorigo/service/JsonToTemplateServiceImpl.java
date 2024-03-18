@@ -45,11 +45,13 @@ public class JsonToTemplateServiceImpl implements JsonToTemplateService {
       htmlForm.append("    <div class=\"col-sm-12 no-padding return-info-form\"> \n");
       htmlForm.append(
           "      <div class=\"col-xs-12 print-halfbox no-padding clearfix pad10-bottom\">\n");
-      htmlForm.append(
-          "       <div class=\"panel-collapse collapse in col-xs-12 no-margin no-padding pad15-top id=\"\">\n");
-      htmlForm.append(
-          "         <div class=\"col-sm-12 errorText_overFlow no-margin no-padding clearfix\">\n");
-      htmlForm.append("           <div class=\"cc-field control-group drpDwn_cc hide\">\n");
+
+
+//      htmlForm.append(
+//          "       <div class=\"panel-collapse collapse in col-xs-12 no-margin no-padding pad15-top id=\"\">\n");
+//      htmlForm.append(
+//          "         <div class=\"col-sm-12 errorText_overFlow no-margin no-padding clearfix\">\n");
+//      htmlForm.append("           <div class=\"cc-field control-group drpDwn_cc \">\n");
 
       // Iterate over collapse sections for the current template
       for (CollapseSection collapse : template.getCollapse()) {
@@ -64,7 +66,7 @@ public class JsonToTemplateServiceImpl implements JsonToTemplateService {
         htmlForm.append("\"  aria-expanded=\"false\"").append("\n      aria-controls=\"")
                 .append(collapseId)
                 .append("\" class=\"col-xs-12 clearfix no-padding\" tabindex=\"-1\">\n");
-        htmlForm.append("         <div class=\"col-xs-12 pad5-top collapsetabs border\">\n");
+        htmlForm.append("         <div class=\"col-xs-12 pad5-top collapsetabs border-bottom\">\n");
         htmlForm.append("         <h5 class=\"text-uppercase\">").append("{{applbl \"");
         htmlForm.append(collapseName).append("\"").append("}}").append("</h5>\n");
         htmlForm.append("         </div>\n");
@@ -104,9 +106,9 @@ public class JsonToTemplateServiceImpl implements JsonToTemplateService {
       }
 
       // End of template section
-      htmlForm.append("       </div>\n");
-      htmlForm.append("      </div>\n");
-      htmlForm.append("     </div>\n");
+//      htmlForm.append("       </div>\n");
+//      htmlForm.append("      </div>\n");
+//      htmlForm.append("     </div>\n");
       htmlForm.append("    </div>\n");
       htmlForm.append("   </div>\n");
       htmlForm.append("  </div>\n");
@@ -150,11 +152,12 @@ public class JsonToTemplateServiceImpl implements JsonToTemplateService {
     htmlForm.append("    <div class=\"col-sm-12 no-padding return-info-form\"> \n");
     htmlForm.append(
         "      <div class=\"col-xs-12 print-halfbox no-padding clearfix pad10-bottom\">\n");
-    htmlForm.append(
-        "       <div class=\"panel-collapse collapse in col-xs-12 no-margin no-padding pad15-top\" id=\"\">\n");
-    htmlForm.append(
-        "         <div class=\"col-sm-12 errorText_overFlow no-margin no-padding clearfix\">\n");
-    htmlForm.append("           <div class=\"cc-field control-group drpDwn_cc hide\">\n");
+
+//    htmlForm.append(
+//        "       <div class=\"panel-collapse collapse in col-xs-12 no-margin no-padding pad15-top\" id=\"\">\n");
+//    htmlForm.append(
+//        "         <div class=\"col-sm-12 errorText_overFlow no-margin no-padding clearfix\">\n");
+//    htmlForm.append("           <div class=\"cc-field control-group drpDwn_cc \">\n");
 
     for (FormData element : formElements) {
       if ("COLLAPSE".equalsIgnoreCase(element.getType())) {
@@ -180,9 +183,9 @@ public class JsonToTemplateServiceImpl implements JsonToTemplateService {
         htmlForm.append("         </div>\n");
       }
     }
-    htmlForm.append("           </div>\n");
-    htmlForm.append("         </div>\n");
-    htmlForm.append("        </div>\n");
+//    htmlForm.append("           </div>\n");
+//    htmlForm.append("         </div>\n");
+//    htmlForm.append("        </div>\n");
     htmlForm.append("       </div>\n");
     htmlForm.append("      </div>\n");
     htmlForm.append("     </div>\n");

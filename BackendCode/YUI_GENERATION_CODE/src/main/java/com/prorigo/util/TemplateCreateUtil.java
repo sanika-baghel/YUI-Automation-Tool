@@ -44,6 +44,10 @@ public class TemplateCreateUtil {
    String maxLength= element.getMaxLen();
 
     StringBuilder inputHTML = new StringBuilder();
+    if(element.getType().equalsIgnoreCase("LOOKUP")){
+      inputHTML.append("\t <div class=\"input-group yui3-skin-sam gs_lookup_field beCodeCls\">\n");
+    }
+
     inputHTML.append("\t    <input type=\"").append(typeName).append("\" id=\"")
              .append(element.getId())
              .append("\" name=\"").append(element.getId()).append("\" class=\"")
@@ -58,7 +62,7 @@ public class TemplateCreateUtil {
     // Add button HTML if applicable
     if (element.getType().equalsIgnoreCase("LOOKUP") || element.getType().equalsIgnoreCase(
         "LOOKUPANDBARCODE")) {
-      inputHTML.append("\t    <span class=\"\">\n")
+      inputHTML.append("\t    <span class=\"input-group-btn gs_lookup_businessentity\">\n")
                .append("\t      <button type=\"button\" class=\"\" tabindex=\"-1\">\n")
                .append("\t        <i class=\"icon-search\"></i>\n")
                .append("\t      </button>\n")
@@ -81,6 +85,10 @@ public class TemplateCreateUtil {
                .append("\t    </span>\n")
                .append("\t  </div>\n");
     }
+    if(element.getType().equalsIgnoreCase("LOOKUP")){
+      inputHTML.append("\t </div>\n");
+    }
+
     return inputHTML.toString();
   }
 
@@ -161,13 +169,14 @@ public class TemplateCreateUtil {
     collapseTempl.append("\"  aria-expanded=\"false\"").append("\n      aria-controls=\"")
                  .append(collapseId)
                  .append("\" class=\"col-xs-12 clearfix no-padding\" tabindex=\"-1\">\n");
-    collapseTempl.append("         <div class=\"col-xs-12 pad5-top collapsetabs border\">\n");
+    collapseTempl.append("         <div class=\"col-xs-12 pad5-top collapsetabs border-bottom\">\n");
     collapseTempl.append("         <h5 class=\"text-uppercase\">").append("{{applbl \"");
     collapseTempl.append(collapseName).append("\"").append("}}").append("</h5>\n");
     collapseTempl.append("         </div>\n");
     collapseTempl.append("       </a>\n");
     collapseTempl.append(
-        "       <div class=\"panel-collapse collapse in border\" id=\"" + collapseId + "\">\n");
+        "       <div class=\"panel-collapse collapse in \" id=\"" + collapseId + "\">\n");
+
     collapseTempl.append(
         "         <div class=\"col-sm-12 errorText_overflow no-margin no-padding clearfix\">\n");
 

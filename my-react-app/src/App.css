@@ -90,3 +90,15 @@ a {
 a:hover {
   background-color: #bfdbdfdc;
 }
+
+.centered-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 90vh; /* 100% of viewport height */
+}
+
+.center-text {
+  text-align: center;
+  margin-top: 50px;
+}
