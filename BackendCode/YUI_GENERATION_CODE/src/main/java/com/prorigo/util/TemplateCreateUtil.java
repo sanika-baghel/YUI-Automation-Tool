@@ -38,7 +38,7 @@ public class TemplateCreateUtil {
     String typeName = (element.getType().equalsIgnoreCase("TEXTBOX") || element.getType()
                                                                                .equalsIgnoreCase(
                                                                                    "LOOKUPANDBARCODE")
-        || element.getType().equalsIgnoreCase("CALENDAR")) ? "text"
+        || element.getType().equalsIgnoreCase("CALENDAR") || element.getType().equalsIgnoreCase("LOOKUP")) ? "text"
         : element.getType().toLowerCase();
 
    String maxLength= element.getMaxLen();
@@ -63,17 +63,18 @@ public class TemplateCreateUtil {
     if (element.getType().equalsIgnoreCase("LOOKUP") || element.getType().equalsIgnoreCase(
         "LOOKUPANDBARCODE")) {
       inputHTML.append("\t    <span class=\"input-group-btn gs_lookup_businessentity\">\n")
-               .append("\t      <button type=\"button\" class=\"\" tabindex=\"-1\">\n")
-               .append("\t        <i class=\"icon-search\"></i>\n")
-               .append("\t      </button>\n")
+               .append("\t      <button type=\"button\" class=\"btn btn-default\" tabindex=\"-1\">")
+               .append("<i class=\"icon-search\" readonly></i>")
+               .append("</button>\n")
                .append("\t    </span>\n");
     }
+
     if (element.getType().equalsIgnoreCase("LOOKUPANDBARCODE") || element.getType()
                                                                          .equalsIgnoreCase(
                                                                              "BARCODE")) {
       inputHTML.append("\t    <span class=\"\">\n")
                .append("\t      <button type=\"button\" class=\"\" tabindex=\"-1\">\n")
-               .append("\t        <i class=\"icon-barcode big-font\"></i>\n")
+               .append(" <i class=\"icon-barcode big-font\"></i>\n")
                .append("\t      </button>\n")
                .append("\t    </span>\n");
     }
