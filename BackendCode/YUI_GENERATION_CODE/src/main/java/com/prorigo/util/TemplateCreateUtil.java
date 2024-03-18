@@ -35,16 +35,16 @@ public class TemplateCreateUtil {
   private static String generateInputFieldTemplate(FormData element) {
     String value = (element.getValue() != null && !element.getValue().equalsIgnoreCase("")) ?
         "{{" + element.getValue() + "}}" : "";
-    String typeName = (element.getType().equalsIgnoreCase("TEXTBOX") || element.getType()
-                                                                               .equalsIgnoreCase(
-                                                                                   "LOOKUPANDBARCODE")
-        || element.getType().equalsIgnoreCase("CALENDAR") || element.getType().equalsIgnoreCase("LOOKUP")) ? "text"
+    String typeName = (element.getType().equalsIgnoreCase("TEXTBOX") || element.getType().equalsIgnoreCase("LOOKUPANDBARCODE")
+        || element.getType().equalsIgnoreCase("CALENDAR") || element.getType().equalsIgnoreCase("LOOKUP")
+        || element.getType().equalsIgnoreCase("BARCODE")) ? "text"
         : element.getType().toLowerCase();
 
    String maxLength= element.getMaxLen();
 
     StringBuilder inputHTML = new StringBuilder();
-    if(element.getType().equalsIgnoreCase("LOOKUP")){
+    if(element.getType().equalsIgnoreCase("LOOKUP") || element.getType().equalsIgnoreCase("LOOKUPANDBARCODE")
+    || element.getType().equalsIgnoreCase("CALENDAR") || element.getType().equalsIgnoreCase("BARCODE")){
       inputHTML.append("\t <div class=\"input-group yui3-skin-sam gs_lookup_field beCodeCls\">\n");
     }
 
@@ -72,21 +72,23 @@ public class TemplateCreateUtil {
     if (element.getType().equalsIgnoreCase("LOOKUPANDBARCODE") || element.getType()
                                                                          .equalsIgnoreCase(
                                                                              "BARCODE")) {
-      inputHTML.append("\t    <span class=\"\">\n")
-               .append("\t      <button type=\"button\" class=\"\" tabindex=\"-1\">\n")
-               .append(" <i class=\"icon-barcode big-font\"></i>\n")
-               .append("\t      </button>\n")
+      inputHTML.append("\t    <span class=\"input-group-btn\">\n")
+               .append("\t      <button type=\"button\" class=\"btn btn-default\" tabindex=\"-1\">")
+               .append(" <i class=\"icon-barcode big-font\"></i>")
+               .append("</button>\n")
                .append("\t    </span>\n");
     }
     if (element.getType().equalsIgnoreCase("CALENDAR")) {
-      inputHTML.append("\t    <span class=\"\">\n")
-               .append("\t      <button type=\"button\" class=\"\" tabindex=\"-1\">\n")
-               .append("\t        <i class=\"icon-calendar\"></i>\n")
-               .append("\t      </button>\n")
+      inputHTML.append("\t    <span class=\"input-group-btn\">\n")
+               .append("\t      <button type=\"button\" class=\"btn btn-default\" tabindex=\"-1\">")
+               .append(" <i class=\"icon-calendar\"></i>")
+               .append("</button>\n")
                .append("\t    </span>\n")
                .append("\t  </div>\n");
     }
-    if(element.getType().equalsIgnoreCase("LOOKUP")){
+
+    if(element.getType().equalsIgnoreCase("LOOKUP") || element.getType().equalsIgnoreCase("LOOKUPANDBARCODE")
+        || element.getType().equalsIgnoreCase("CALENDAR") || element.getType().equalsIgnoreCase("BARCODE")){
       inputHTML.append("\t </div>\n");
     }
 
