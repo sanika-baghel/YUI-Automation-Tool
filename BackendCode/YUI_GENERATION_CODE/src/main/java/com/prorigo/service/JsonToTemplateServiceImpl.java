@@ -73,7 +73,7 @@ public class JsonToTemplateServiceImpl implements JsonToTemplateService {
         htmlForm.append("       </a>\n");
 
         htmlForm.append(
-            "       <div class=\"panel-collapse collapse in border\" id=\"" + collapseName + ">\n");
+            "       <div class=\"panel-collapse collapse in border\" id=\"" + collapseId + ">\n");
         htmlForm.append(
             "         <div class=\"col-sm-12 errorText_overflow no-margin no-padding clearfix\">\n");
 
@@ -159,6 +159,8 @@ public class JsonToTemplateServiceImpl implements JsonToTemplateService {
 //        "         <div class=\"col-sm-12 errorText_overFlow no-margin no-padding clearfix\">\n");
 //    htmlForm.append("           <div class=\"cc-field control-group drpDwn_cc \">\n");
 
+
+
     for (FormData element : formElements) {
       if ("COLLAPSE".equalsIgnoreCase(element.getType())) {
         htmlForm.append(TemplateCreateUtil.generateCollapseTemplate(element));
@@ -186,8 +188,11 @@ public class JsonToTemplateServiceImpl implements JsonToTemplateService {
 //    htmlForm.append("           </div>\n");
 //    htmlForm.append("         </div>\n");
 //    htmlForm.append("        </div>\n");
-    htmlForm.append("       </div>\n");
-    htmlForm.append("      </div>\n");
+
+
+     htmlForm.append("       </div>\n");
+     htmlForm.append("      </div>\n");
+
     htmlForm.append("     </div>\n");
     htmlForm.append("    </div>\n");
     htmlForm.append("   </div>\n");

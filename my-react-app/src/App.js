@@ -104,12 +104,12 @@ const App = () => {
                 </li>
                 <li className="navbar-right">
                   <b>
-                    <a href="#">Open</a>
+                    <a href="#" style={navLinkStyle}>Open</a>
                   </b>
                 </li>
                 <li className="navbar-right">
                   <b>
-                    <a href="#">Logout</a>
+                    <a href="#" style={navLinkStyle}>Logout</a>
                   </b>
                 </li>
               </ul>

@@ -100,7 +100,7 @@ public class TemplateCreateUtil {
     String maxLength= element.getMaxLen();
     StringBuilder dropdownHTML = new StringBuilder();
     dropdownHTML.append("\t    <select id=\"").append(element.getId()).append("\" name=\"")
-                .append(element.getId()).append("\" class=\"").append(element.getClassName());
+                .append(element.getId()).append("\" class=\"").append(element.getClassName()+"\"");
     if(maxLength!=null && !maxLength.equalsIgnoreCase("")) {
       dropdownHTML.append(" maxlength=\"").append(maxLength).append("\"");
     }
