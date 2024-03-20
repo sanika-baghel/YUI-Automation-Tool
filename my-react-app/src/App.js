@@ -35,12 +35,12 @@ const App = () => {
         <SingleTabContent />
       ) : (
         <div>
-          <nav
-            className="navbar navbar-expand-lg navbar-light"
+          <nav className="nav-container"
+           
             style={{ backgroundColor: "#0fb6c9dc", height: "50px" }}
           >
-            <div className="collapse navbar-collapse">
-              <ul className="nav navbar-nav ml-auto">
+            
+              <ul className="right-side">
                 <li className="nav-item">
                   <img
                     src={logoImage}
@@ -107,13 +107,15 @@ const App = () => {
                     <a href="#" style={navLinkStyle}>Open</a>
                   </b>
                 </li>
-                <li className="navbar-right">
+                </ul>
+                <ul className="left-side">
+                <li>
                   <b>
                     <a href="#" style={navLinkStyle}>Logout</a>
                   </b>
                 </li>
               </ul>
-            </div>
+           
           </nav>
           {!showMultipleCards && (
             <div className="center-text">

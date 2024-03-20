@@ -102,3 +102,31 @@ a:hover {
   text-align: center;
   margin-top: 50px;
 }
+
+.navbar-nav{
+  margin-left: auto;
+}
+
+.right-side, .left-side{
+list-style-type: none;
+}
+
+.right-side li ,.left-side li{
+  display: inline-block;
+}
+
+.right-side li a ,.left-side li a{
+display: block;
+width: 100%;
+height: 100%;
+
+}
+
+.nav-container{
+display: flex;
+justify-content: space-between;
+}
+
+.table {
+  font-size: 12px; /* Adjust the font size as needed */
+}

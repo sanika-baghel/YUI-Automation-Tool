@@ -228,13 +228,13 @@ const SingleTabContent = () => {
     <div className="container-fluid">
 
       {/* <NavigationBar /> Include the NavigationBar component here */}
-      <nav className="navbar navbar-expand-lg navbar-light" style={{ backgroundColor: '#0fb6c9dc', height: '50px' }}>
-        <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <nav className="nav-container" style={{ backgroundColor: '#0fb6c9dc', height: '50px' }}>
+        {/* <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
           <span className="navbar-toggler-icon"></span>
-        </button>
+        </button> */}
 
-        <div className="collapse navbar-collapse" id="navbarSupportedContent">
-          <ul className="navbar-nav mr-auto">
+        {/* <div className="collapse navbar-collapse" id="navbarSupportedContent"> */}
+          <ul className="right-side">
             <li className="nav-item">
               <img src={logoImage} alt="Logo" style={{ height: '40px', marginRight: '10px' }} /> {/* Add your image here */}
             </li>
@@ -270,7 +270,7 @@ const SingleTabContent = () => {
               <input type="file" ref={fileInputRef} className="d-none" onChange={handleFileUpload} />
             </li>
           </ul>
-        </div>
+        {/* </div> */}
       </nav>
       <div className="row">
         <div className="col-md-2 sidebar">
@@ -341,7 +341,7 @@ const SingleTabContent = () => {
           </button> <br></br> */}
 
           {/* <div className={`collapse ${propertiesCollapsed ? 'show' : ''}`} id="propertiesPanel"> */}
-          <div className="table-responsive">
+          {/* <div className="table-responsive">
             <table className="table table-bordered">
               <tr>
                 <td>Template Name</td>
@@ -449,7 +449,123 @@ const SingleTabContent = () => {
               </tr>
 
             </table>
-          </div>
+          </div> */}
+
+<div className="table-responsive">
+  <table className="table table-bordered" style={{ backgroundColor: "#0fb6c9dc"}}>
+    <tbody>
+      <tr>
+        <td>Template Name</td>
+        <td>
+          <input type="text" value={hoveredItem.tempname} style={{ fontWeight: 'bold' }} />
+        </td>
+      </tr>
+      <tr>
+        <td>Field ID</td>
+        <td>
+          <input type="text" value={hoveredItem.id} style={{ fontWeight: 'bold' }} />
+        </td>
+      </tr>
+      <tr>
+        <td>Field Label</td>
+        <td>
+          <input type="text" value={hoveredItem.label} style={{ fontWeight: 'bold', color: 'blue' }} />
+        </td>
+      </tr>
+      <tr>
+        <td>Is Mandatory</td>
+        <td>
+          <input
+            type="radio"
+            id="trueRadio"
+            name="isMandatory"
+            value="true"
+            checked={hoveredItem.mandatory === true}
+            onChange={handleRadioChange} 
+          />
+          &nbsp;
+          True
+          &nbsp;
+          <input
+            type="radio"
+            id="falseRadio"
+            name="isMandatory"
+            value="false"
+            checked={hoveredItem.mandatory === false}
+            onChange={handleRadioChange} 
+          />
+          &nbsp;
+          False
+          &nbsp;
+        </td>
+      </tr>
+      <tr>
+        <td>Field Class</td>
+        <td>
+          <input type="text" value={hoveredItem.class} style={{ fontWeight: 'bold' }} />
+        </td>
+      </tr>
+      <tr>
+        <td>Field Value</td>
+        <td>
+          <input type="text" value={hoveredItem.value} style={{ fontWeight: 'bold' }} />
+        </td>
+      </tr>
+      <tr>
+        <td>Is Read Only</td>
+        <td>
+          <input
+            type="radio"
+            id="readOnlyTrue"
+            name="isReadOnly"
+            value="true"
+            checked={hoveredItem.readOnly === true}
+            onChange={handleReadOnlyChange}
+          />
+          &nbsp;
+          True
+          &nbsp;
+          <input
+            type="radio"
+            id="readOnlyFalse"
+            name="isReadOnly"
+            value="false"
+            checked={hoveredItem.readOnly === false}
+            onChange={handleReadOnlyChange}
+          />
+          &nbsp;
+          False
+          &nbsp;
+        </td>
+      </tr>
+      <tr>
+        <td>Collapse Name</td>
+        <td>
+          <input type="text" value={hoveredItem.cname} style={{ fontWeight: 'bold' }} />
+        </td>
+      </tr>
+      <tr>
+        <td>Collapse ID</td>
+        <td>
+          <input type="text" value={hoveredItem.cid} style={{ fontWeight: 'bold' }} />
+        </td>
+      </tr>
+      <tr>
+        <td>Input Field Name</td>
+        <td>
+          <input type="text" value={hoveredItem.fname} style={{ fontWeight: 'bold' }} />
+        </td>
+      </tr>
+      <tr>
+        <td>Max Length</td>
+        <td>
+          <input type="text" value={hoveredItem.maxLen} style={{ fontWeight: 'bold' }} />
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
         </div>
       </div>
     </div>
