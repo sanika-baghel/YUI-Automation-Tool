@@ -3,7 +3,7 @@ import logoImage from './Prorigologo.png';
 import { Dropdown } from "react-bootstrap";
 import './App.css';
 import SingleTabContent from './SingleTabContent';
-import MultipleCards from './MultipleCards'; // Import the MultipleCards component
+import MultipleCards from './Automation-MultipleCards'; // Import the MultipleCards component
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 import 'bootstrap/dist/css/bootstrap.min.css';

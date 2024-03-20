@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Card, Button } from 'react-bootstrap';
 import './MultipleCards.css'; 
 import Options from './Options.jpeg';
-import PopupForm from './PopupForm'; 
+import PopupForm from './Automation-PopupForm'; 
 
 const MultipleCards = () => {
   const [showForm, setShowForm] = useState(false); 
