@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { Modal, Button, Form } from 'react-bootstrap';
+import { Modal, Button } from 'react-bootstrap';
+import { Form as BootstrapForm, Row, Col } from 'react-bootstrap';
 
 const PopupForm = ({ show, handleClose }) => {
   const [formData, setFormData] = useState({
@@ -19,35 +20,37 @@ const PopupForm = ({ show, handleClose }) => {
   return (
     <Modal show={show} onHide={handleClose}>
       <Modal.Header closeButton>
-        <Modal.Title>Create Form</Modal.Title>
+        <Modal.Title>Add Tab Name and Template Name</Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        <Form>
-          <Form.Group controlId="formtabName">
-            <Form.Label>Tab Name</Form.Label>
-            <Form.Control
-              type="text"
-              placeholder="Enter TabName"
-              name="tabName"
-              value={formData.tabName}
-              onChange={handleInputChange}
-            />
-          </Form.Group>
-          <Form.Group controlId="formtemplateName">
-            <Form.Label>Template Name</Form.Label>
-            <Form.Control
-              type="text"
-              placeholder="Enter Template name"
-              name="templateName"
-              value={formData.templateName}
-              onChange={handleInputChange}
-            />
-          </Form.Group>
-        </Form>
+        <BootstrapForm>
+          <Row>
+            <Col>
+              <BootstrapForm.Label style={{ fontWeight: 'bold' }}>Tab 1:</BootstrapForm.Label>
+            </Col>
+            <Col>
+              <BootstrapForm.Label style={{ fontWeight: 'bold' }}>Tab Name:</BootstrapForm.Label>
+              <BootstrapForm.Control
+                type="text"
+                name="label"
+                placeholder="Enter TabName"
+                onChange={handleInputChange}
+              />
+            </Col>
+            <Col>
+              <BootstrapForm.Label style={{ fontWeight: 'bold' }}>Template Name:</BootstrapForm.Label>
+              <BootstrapForm.Control
+                type="text"
+                name="id"
+                placeholder="Enter TemplateName"
+                onChange={handleInputChange}
+              />
+            </Col>
+          </Row>
+        </BootstrapForm>
       </Modal.Body>
       <Modal.Footer>
         <Button variant="primary" onClick={handleClose}>Save</Button>
-
         <Button variant="secondary" onClick={handleClose}>Close</Button>
       </Modal.Footer>
     </Modal>

@@ -18,7 +18,19 @@ const MultipleCards = () => {
   return (
     <div className="container center-container"> 
       <div className="row justify-content-center"> 
-        <div className="col-md-3">
+      <div className="col-md-4">
+          <Card className="custom-card"> 
+            <Card.Img variant="top" src={Options} />
+            <Card.Body>
+              <Card.Title>1 Tabs</Card.Title>
+              <Card.Text>
+                For 1 Tabs click here.
+              </Card.Text>
+              <Button variant="primary" onClick={handleShowForm}>Create</Button> {/* Open the form */}
+            </Card.Body>
+          </Card>
+        </div>
+        <div className="col-md-4">
           <Card className="custom-card"> 
             <Card.Img variant="top" src={Options} />
             <Card.Body>
@@ -30,7 +42,7 @@ const MultipleCards = () => {
             </Card.Body>
           </Card>
         </div>
-        <div className="col-md-3">
+        <div className="col-md-4">
           <Card className="custom-card"> 
             <Card.Img variant="top" src={Options} />
             <Card.Body>
@@ -42,7 +54,7 @@ const MultipleCards = () => {
             </Card.Body>
           </Card>
         </div>
-        <div className="col-md-3">
+        <div className="col-md-4">
           <Card className="custom-card"> 
             <Card.Img variant="top" src={Options} />
             <Card.Body>
@@ -54,7 +66,7 @@ const MultipleCards = () => {
             </Card.Body>
           </Card>
         </div>
-        <div className="col-md-3">
+        <div className="col-md-4">
           <Card className="custom-card"> 
             <Card.Img variant="top" src={Options} />
             <Card.Body>
@@ -67,7 +79,6 @@ const MultipleCards = () => {
           </Card>
         </div>
       </div>
-     
       <PopupForm show={showForm} handleClose={handleCloseForm} />
     </div>
   );
