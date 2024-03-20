@@ -12,7 +12,7 @@
 {
   "templateName": "CRAInfotemplate1",
     "tabName": "CRA INFORMATION",
-fields:
+"fields":
  [
     {
       "type": "COLLAPSE",
@@ -70,7 +70,7 @@ fields:
 {
   "templateName": "Inspectiontemplate2",
     "tabName": "Inspection Result",
-fields:
+"fields":
  [
     {
       "type": "COLLAPSE",
