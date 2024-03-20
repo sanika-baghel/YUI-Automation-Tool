@@ -1,0 +1,32 @@
+[
+  {
+    "type": "ADDROWHEADER",
+    "id": "HeaderId",
+    "value": "Headervalue",
+    "text": "",
+    "class": "HeaderClass",
+    "label": "HeaderLabel",
+    "cid": "",
+    "cname": "",
+    "fname": "",
+    "maxLen": "",
+    "addrowheaderkey": [
+      {
+        "data_ref": "",
+        "width": "",
+        "class": "",
+        "label": "A"
+      },
+      {
+        "data_ref": "",
+        "width": "",
+        "class": "",
+        "label": "B"
+      }
+    ],
+    "addrowkey": [],
+    "readOnly": true,
+    "options": [],
+    "mandatory": true
+  }
+]
