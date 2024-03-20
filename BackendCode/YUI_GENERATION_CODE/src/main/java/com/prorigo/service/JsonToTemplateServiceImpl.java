@@ -46,7 +46,6 @@ public class JsonToTemplateServiceImpl implements JsonToTemplateService {
       htmlForm.append(
           "      <div class=\"col-xs-12 print-halfbox no-padding clearfix pad10-bottom\">\n");
 
-
 //      htmlForm.append(
 //          "       <div class=\"panel-collapse collapse in col-xs-12 no-margin no-padding pad15-top id=\"\">\n");
 //      htmlForm.append(
@@ -159,10 +158,17 @@ public class JsonToTemplateServiceImpl implements JsonToTemplateService {
 //        "         <div class=\"col-sm-12 errorText_overFlow no-margin no-padding clearfix\">\n");
 //    htmlForm.append("           <div class=\"cc-field control-group drpDwn_cc \">\n");
 
-
-
+    boolean firstCollapse = true;
     for (FormData element : formElements) {
       if ("COLLAPSE".equalsIgnoreCase(element.getType())) {
+        if (!firstCollapse ) {
+          // Close the previous collapse panel if it's not the first one
+          htmlForm.append("       </div>\n");
+          htmlForm.append("      </div>\n");
+        } else {
+          // If it's the first collapse, mark it as false to avoid skipping the next div
+          firstCollapse = false;
+        }
         htmlForm.append(TemplateCreateUtil.generateCollapseTemplate(element));
       } else if ("ADDROWHEADER".equalsIgnoreCase(element.getType())) {
         htmlForm.append(TemplateCreateUtil.generateTableHeader(element));
@@ -189,9 +195,11 @@ public class JsonToTemplateServiceImpl implements JsonToTemplateService {
 //    htmlForm.append("         </div>\n");
 //    htmlForm.append("        </div>\n");
 
-
-     htmlForm.append("       </div>\n");
-     htmlForm.append("      </div>\n");
+    // Close the last collapse panel if there was one
+    if (!firstCollapse) {
+      htmlForm.append("       </div>\n");
+      htmlForm.append("      </div>\n");
+    }
 
     htmlForm.append("     </div>\n");
     htmlForm.append("    </div>\n");

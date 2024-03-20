@@ -23,8 +23,6 @@ public class TemplateCreateUtil {
         return generateButtonTemplate(element);
       case "TEXTAREA":
         return generateTextareaTemplate(element);
-      case "COLLAPSE":
-        return generateCollapseTemplate(element);
       case "ADDROWHEADER":
         return generateTableHeader(element);
       default:
@@ -164,6 +162,8 @@ public class TemplateCreateUtil {
     StringBuilder collapseTempl = new StringBuilder();
     String collapseId = element.getCid();
     String collapseName = element.getCname();
+
+
 
     collapseTempl.append(
                      "           <a role=\"button\" data-toggle=\"collapse\"").append(" href=\"")
