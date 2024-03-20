@@ -165,6 +165,8 @@ public class JsonToTemplateServiceImpl implements JsonToTemplateService {
           // Close the previous collapse panel if it's not the first one
           htmlForm.append("       </div>\n");
           htmlForm.append("      </div>\n");
+          htmlForm.append("       </div>\n");
+          htmlForm.append("      </div>\n");
         } else {
           // If it's the first collapse, mark it as false to avoid skipping the next div
           firstCollapse = false;
@@ -197,6 +199,8 @@ public class JsonToTemplateServiceImpl implements JsonToTemplateService {
 
     // Close the last collapse panel if there was one
     if (!firstCollapse) {
+      htmlForm.append("       </div>\n");
+      htmlForm.append("      </div>\n");
       htmlForm.append("       </div>\n");
       htmlForm.append("      </div>\n");
     }

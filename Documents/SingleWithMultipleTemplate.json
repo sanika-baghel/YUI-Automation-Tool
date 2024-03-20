@@ -1,0 +1,128 @@
+
+[
+{
+"metaData":[
+{
+"addTemplateName":"",
+"deleteTemplateName":"",
+"updateTemplateName":""
+}
+]
+}, 
+{
+  "templateName": "CRAInfotemplate1",
+    "tabName": "CRA INFORMATION",
+fields:
+ [
+    {
+      "type": "COLLAPSE",
+      "id": "",
+      "value": "",
+      "text": "Collapse",
+      "class": "",
+      "label": "collapseLabel",
+      "cid": "collapseDealerInfo",
+      "cname": "collapseDealerInfo",
+      "fname": "",
+      "maxLen": "",
+      "addrowheaderkey": [],
+      "addrowkey": [],
+      "readOnly": false,
+      "options": [],
+      "mandatory": false
+    },
+    {
+      "type": "LOOKUP",
+      "id": "requester_becode",
+      "value": "requester.becode",
+      "text": "Lookup",
+      "class": "form-control",
+      "label": "DLR_NO",
+      "cid": "collapseDealerInfo",
+      "cname": "collapseDealerInfo",
+      "fname": "",
+      "maxLen": "",
+      "addrowheaderkey": [],
+      "addrowkey": [],
+      "readOnly": true,
+      "options": [],
+      "mandatory": true
+    },
+    {
+      "type": "TEXTBOX",
+      "id": "requester_bename",
+      "value": "requester.beName",
+      "text": "Textbox",
+      "class": "requesterName",
+      "label": "NM",
+      "cid": "collapseDealerInfo",
+      "cname": "collapseDealerInfo",
+      "fname": "",
+      "maxLen": "",
+      "addrowheaderkey": [],
+      "addrowkey": [],
+      "readOnly": false,
+      "options": [],
+      "mandatory": false
+    }
+  ]
+},
+{
+  "templateName": "Inspectiontemplate2",
+    "tabName": "Inspection Result",
+fields:
+ [
+    {
+      "type": "COLLAPSE",
+      "id": "",
+      "value": "",
+      "text": "Collapse",
+      "class": "",
+      "label": "collapseLabel",
+      "cid": "collapseDealerInfo",
+      "cname": "collapseDealerInfo",
+      "fname": "",
+      "maxLen": "",
+      "addrowheaderkey": [],
+      "addrowkey": [],
+      "readOnly": false,
+      "options": [],
+      "mandatory": false
+    },
+    {
+      "type": "LOOKUP",
+      "id": "requester_becode",
+      "value": "requester.becode",
+      "text": "Lookup",
+      "class": "form-control",
+      "label": "DLR_NO",
+      "cid": "collapseDealerInfo",
+      "cname": "collapseDealerInfo",
+      "fname": "",
+      "maxLen": "",
+      "addrowheaderkey": [],
+      "addrowkey": [],
+      "readOnly": true,
+      "options": [],
+      "mandatory": true
+    },
+    {
+      "type": "TEXTBOX",
+      "id": "requester_bename",
+      "value": "requester.beName",
+      "text": "Textbox",
+      "class": "requesterName",
+      "label": "NM",
+      "cid": "collapseDealerInfo",
+      "cname": "collapseDealerInfo",
+      "fname": "",
+      "maxLen": "",
+      "addrowheaderkey": [],
+      "addrowkey": [],
+      "readOnly": false,
+      "options": [],
+      "mandatory": false
+    }
+  ]
+}
+]

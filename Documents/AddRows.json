@@ -1,0 +1,55 @@
+[
+  {
+    "type": "ADDROWS",
+    "id": "",
+    "value": "",
+    "text": "Add Rows",
+    "class": "",
+    "label": "",
+    "cid": "",
+    "cname": "",
+    "fname": "",
+    "maxLen": "",
+    "readOnly": false,
+    "options": [],
+    "mandatory": false,
+    "addrowheaderkey": [],
+    "addrowkey": [
+      {
+        "type": "TEXTBOX",
+        "id": "textid",
+        "value": "textvalue",
+        "text": "Textbox",
+        "class": "textclass",
+        "label": "textlabel",
+        "cid": "",
+        "cname": "",
+        "fname": "",
+        "maxLen": "",
+        "readOnly": false,
+        "options": [],
+        "mandatory": false,
+        "addrowheaderkey": [],
+        "addrowkey": []
+      },
+      {
+        "type": "BUTTON",
+        "id": "btnid",
+        "value": "btnvalue",
+        "text": "button",
+        "class": "butnclass",
+        "label": "btnlabel",
+        "cid": "",
+        "cname": "",
+        "fname": "",
+        "maxLen": "",
+        "readOnly": false,
+        "options": [],
+        "mandatory": false,
+        "addrowheaderkey": [],
+        "addrowkey": []
+        
+      }
+    ]
+  }
+]

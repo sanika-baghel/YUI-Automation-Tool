@@ -163,7 +163,8 @@ public class TemplateCreateUtil {
     String collapseId = element.getCid();
     String collapseName = element.getCname();
 
-
+    collapseTempl.append("        <div class=\"col-sm-12 no-padding return-info-form\">\n");
+    collapseTempl.append("            <div class=\"col-xs-12 print-halfbox no-padding clearfix pad10-bottom\">\n");
 
     collapseTempl.append(
                      "           <a role=\"button\" data-toggle=\"collapse\"").append(" href=\"")
@@ -176,7 +177,8 @@ public class TemplateCreateUtil {
     collapseTempl.append("         <h5 class=\"text-uppercase\">").append("{{applbl \"");
     collapseTempl.append(collapseName).append("\"").append("}}").append("</h5>\n");
     collapseTempl.append("         </div>\n");
-    collapseTempl.append("       </a>\n");
+    collapseTempl.append("        </a>\n");
+
     collapseTempl.append(
         "       <div class=\"panel-collapse collapse in \" id=\"" + collapseId + "\">\n");
 
