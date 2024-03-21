@@ -77,6 +77,7 @@ body {
 
 .table-bordered td, .table-bordered th {
   border: 1px solid #0c0c0c;
+  font-size: 12.6px;
 }
 a {
   display: block;
@@ -127,6 +128,3 @@ display: flex;
 justify-content: space-between;
 }
 
-.table {
-  font-size: 12px; /* Adjust the font size as needed */
-}
