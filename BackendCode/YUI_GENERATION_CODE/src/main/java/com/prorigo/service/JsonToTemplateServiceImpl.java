@@ -2,6 +2,8 @@ package com.prorigo.service;
 
 import com.prorigo.dto.CollapseSection;
 import com.prorigo.dto.FormData;
+import com.prorigo.dto.TemplateSection;
+import com.prorigo.util.TableDataUtil;
 import com.prorigo.util.TemplateCreateUtil;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -14,12 +16,6 @@ public class JsonToTemplateServiceImpl implements JsonToTemplateService {
   private final Gson gson = new Gson();
 
   @Override
-  //Write data in Template File
-  public void writeTemplateToFile(String htmlForm) throws IOException {
-    try (FileWriter fileWriter = new FileWriter("output.template")) {
-      fileWriter.write(htmlForm);
-    }
-  }
 
   public String convertJsonToMultiTemplate(String jsonInput) {
     if (jsonInput == null || jsonInput.isEmpty()) {
@@ -45,12 +41,6 @@ public class JsonToTemplateServiceImpl implements JsonToTemplateService {
       htmlForm.append("    <div class=\"col-sm-12 no-padding return-info-form\"> \n");
       htmlForm.append(
           "      <div class=\"col-xs-12 print-halfbox no-padding clearfix pad10-bottom\">\n");
-
-//      htmlForm.append(
-//          "       <div class=\"panel-collapse collapse in col-xs-12 no-margin no-padding pad15-top id=\"\">\n");
-//      htmlForm.append(
-//          "         <div class=\"col-sm-12 errorText_overFlow no-margin no-padding clearfix\">\n");
-//      htmlForm.append("           <div class=\"cc-field control-group drpDwn_cc \">\n");
 
       // Iterate over collapse sections for the current template
       for (CollapseSection collapse : template.getCollapse()) {
@@ -105,9 +95,6 @@ public class JsonToTemplateServiceImpl implements JsonToTemplateService {
       }
 
       // End of template section
-//      htmlForm.append("       </div>\n");
-//      htmlForm.append("      </div>\n");
-//      htmlForm.append("     </div>\n");
       htmlForm.append("    </div>\n");
       htmlForm.append("   </div>\n");
       htmlForm.append("  </div>\n");
@@ -124,93 +111,117 @@ public class JsonToTemplateServiceImpl implements JsonToTemplateService {
     return htmlForm.toString();
   }
 
-  private void writeToFile(String content, String filename) {
-    try (FileWriter writer = new FileWriter(filename)) {
-      writer.write(content);
-    } catch (IOException e) {
-      e.printStackTrace();
-    }
-  }
 
-  // Convert Json to Template
+  /**
+   * Converts JSON input representing form templates into HTML templates.
+   *
+   * @param jsonInput The JSON input string representing form templates.
+   * @return The HTML representation of the form templates.
+   */
   public String convertJsonToTemplate(String jsonInput) {
+    // Check if JSON input is provided
     if (jsonInput == null || jsonInput.isEmpty()) {
       return "No JSON input provided.";
     }
 
-    FormData[] formElements = gson.fromJson(jsonInput, FormData[].class);
+    // Parse JSON input into TemplateSection array
+    TemplateSection[] formElements = gson.fromJson(jsonInput, TemplateSection[].class);
+
+    // Check if parsing was successful and array is not empty
     if (formElements == null || formElements.length == 0) {
       return "Error parsing JSON input or empty array.";
     }
 
+    // Initialize StringBuilder to construct HTML form
     StringBuilder htmlForm = new StringBuilder();
 
-    htmlForm.append("<form role=\"form\" class=\"form-horizontal\" id=\"return-info-form\">\n");
-    htmlForm.append(" <div class=\"col-sm-12 col-md-12 col-xs-12 clearfix no-padding\"> \n");
-    htmlForm.append("  <div class=\"col-sm-12 clearfix no-padding\"> \n");
-    htmlForm.append("    <div class=\"col-sm-12 no-padding return-info-form\"> \n");
-    htmlForm.append(
-        "      <div class=\"col-xs-12 print-halfbox no-padding clearfix pad10-bottom\">\n");
+    // Iterate over each template section
+    for (TemplateSection template : formElements) {
+      String templateName = template.getTemplateName();
+      String tabName = template.getTabName();
+      boolean firstCollapse = true; // Initialize firstCollapse for each template
 
-//    htmlForm.append(
-//        "       <div class=\"panel-collapse collapse in col-xs-12 no-margin no-padding pad15-top\" id=\"\">\n");
-//    htmlForm.append(
-//        "         <div class=\"col-sm-12 errorText_overFlow no-margin no-padding clearfix\">\n");
-//    htmlForm.append("           <div class=\"cc-field control-group drpDwn_cc \">\n");
+      // Open form tag with role, class, and id attributes
+      htmlForm.append("<form role=\"form\" class=\"form-horizontal\" id=\"return-info-form\">\n");
+      htmlForm.append(" <div class=\"col-sm-12 col-md-12 col-xs-12 clearfix no-padding\"> \n");
+      htmlForm.append("  <div class=\"col-sm-12 clearfix no-padding\"> \n");
+      htmlForm.append("    <div class=\"col-sm-12 no-padding return-info-form\"> \n");
+      htmlForm.append(
+          "      <div class=\"col-xs-12 print-halfbox no-padding clearfix pad10-bottom\">\n");
 
-    boolean firstCollapse = true;
-    for (FormData element : formElements) {
-      if ("COLLAPSE".equalsIgnoreCase(element.getType())) {
-        if (!firstCollapse ) {
-          // Close the previous collapse panel if it's not the first one
-          htmlForm.append("       </div>\n");
-          htmlForm.append("      </div>\n");
-          htmlForm.append("       </div>\n");
-          htmlForm.append("      </div>\n");
+      // Iterate over each form element in the template section
+      for (FormData element : template.getFields()) {
+        // Check element type and generate corresponding HTML
+        if ("COLLAPSE".equalsIgnoreCase(element.getType())) {
+          if (!firstCollapse) {
+            // Close the previous collapse panel if it's not the first one
+            htmlForm.append("          </div>\n");
+            htmlForm.append("        </div>\n");
+            htmlForm.append("       </div>\n");
+            htmlForm.append("      </div>\n");
+          } else {
+            // If it's the first collapse, mark it as false to avoid skipping the next div
+            firstCollapse = false;
+          }
+          htmlForm.append(TemplateCreateUtil.generateCollapseTemplate(element));
+        } else if ("ADDROWHEADER".equalsIgnoreCase(element.getType())) {
+          htmlForm.append(TableDataUtil.generateTableHeader(element));
+        } else if ("ADDROWS".equalsIgnoreCase(element.getType())) {
+          htmlForm.append(TableDataUtil.generateTableData(element));
         } else {
-          // If it's the first collapse, mark it as false to avoid skipping the next div
-          firstCollapse = false;
+          htmlForm.append("\t      <div class=\"cc-field\">\n");
+          htmlForm.append("\t      <label class=\"\">").append("{{applbl ")
+                  .append("'").append(element.getLabel()).append("'").append("}}")
+                  .append("</label>\n");
+          htmlForm.append("\t      <div class=\"controls\">\n");
+          htmlForm.append("\t      {{#if @viewonly}}\n");
+          htmlForm.append("\t      <p class=\"").append("\" id=\"").append(element.getId())
+                  .append("\" name=\"").append(element.getId()).append("\">").append("{{")
+                  .append(element.getId()).append("}}").append("</p>\n");
+          htmlForm.append("\t      {{else}}\n");
+          htmlForm.append(TemplateCreateUtil.generateComponentHTML(element));
+          htmlForm.append("           {{/if}}\n");
+          htmlForm.append("          </div>\n");
+          htmlForm.append("         </div>\n");
         }
-        htmlForm.append(TemplateCreateUtil.generateCollapseTemplate(element));
-      } else if ("ADDROWHEADER".equalsIgnoreCase(element.getType())) {
-        htmlForm.append(TemplateCreateUtil.generateTableHeader(element));
-      } else if ("ADDROWS".equalsIgnoreCase(element.getType())) {
-        htmlForm.append(TemplateCreateUtil.generateTableData(element));
-      } else {
-        htmlForm.append("\t      <div class=\"cc-field\">\n");
-        htmlForm.append("\t      <label class=\"\">").append("{{applbl ")
-                .append("'").append(element.getLabel()).append("'").append("}}")
-                .append("</label>\n");
-        htmlForm.append("\t      <div class=\"controls\">\n");
-        htmlForm.append("\t      {{#if @viewonly}}\n");
-        htmlForm.append("\t      <p class=\"").append("\" id=\"").append(element.getId())
-                .append("\" name=\"").append(element.getId()).append("\">").append("{{")
-                .append(element.getId()).append("}}").append("</p>\n");
-        htmlForm.append("\t      {{else}}\n");
-        htmlForm.append(TemplateCreateUtil.generateComponentHTML(element));
-        htmlForm.append("           {{/if}}\n");
-        htmlForm.append("          </div>\n");
-        htmlForm.append("         </div>\n");
       }
+
+      // Close the last collapse panel if there was one
+      if (!firstCollapse) {
+        htmlForm.append("         </div>\n");
+        htmlForm.append("        </div>\n");
+        htmlForm.append("       </div>\n");
+        htmlForm.append("      </div>\n");
+      }
+
+      // Close divs for form structure
+      htmlForm.append("     </div>\n");
+      htmlForm.append("    </div>\n");
+      htmlForm.append("   </div>\n");
+      htmlForm.append("  </div>\n");
+      htmlForm.append("</form>");
+
+      // Write HTML form to file
+      writeToFile(htmlForm.toString(), templateName + ".template");
+
+      // Clear StringBuilder for the next template
+      htmlForm.setLength(0);
     }
-//    htmlForm.append("           </div>\n");
-//    htmlForm.append("         </div>\n");
-//    htmlForm.append("        </div>\n");
 
-    // Close the last collapse panel if there was one
-    if (!firstCollapse) {
-      htmlForm.append("       </div>\n");
-      htmlForm.append("      </div>\n");
-      htmlForm.append("       </div>\n");
-      htmlForm.append("      </div>\n");
-    }
-
-    htmlForm.append("     </div>\n");
-    htmlForm.append("    </div>\n");
-    htmlForm.append("   </div>\n");
-    htmlForm.append("  </div>\n");
-    htmlForm.append("</form>");
-
+    // Return the generated HTML
     return htmlForm.toString();
+  }
+
+  /**
+   * Writes the provided content to a file with the given filename.
+   * @param content The content to write to the file.
+   * @param filename The name of the file to write to.
+   */
+  private void writeToFile(String content, String filename) {
+    try (FileWriter writer = new FileWriter(filename)) {
+      writer.write(content); // Write content to the file
+    } catch (IOException e) {
+      e.printStackTrace(); // Print stack trace if an IOException occurs
+    }
   }
 }
