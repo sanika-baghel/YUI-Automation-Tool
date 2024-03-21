@@ -20,4 +20,19 @@
     transform: translateY(-5px);
     background-color: #f8f9fa; /* Change to desired background color */
   }
-  
+  /* MultipleCards.css */
+
+.container {
+  display: flex;
+  justify-content: center;
+}
+
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.custom-card {
+  margin: 10px;
+}
