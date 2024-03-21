@@ -38,7 +38,6 @@ public class TemplateCreateUtil {
   /**
    * Generates HTML input field based on the provided form element data. Handles various input types
    * such as Textbox, Checkbox, Radio, Lookup, Barcode, and Calendar.
-   *
    * @param element The FormData object representing the form element.
    * @return The HTML representation of the input field.
    */

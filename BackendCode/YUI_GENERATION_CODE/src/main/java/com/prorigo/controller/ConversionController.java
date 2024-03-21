@@ -45,21 +45,22 @@ public class ConversionController {
                            .body("Error converting HTML to JSON");
     }
   }
-
   //Convert Json to Template File
+
   @PostMapping("/jsonToTemplate")
-  public ResponseEntity<?> convertJsonToTemplate(
+  public ResponseEntity<byte[]> convertJsonToTemplate(
       @RequestParam("jsonFile") MultipartFile jsonFile) {
     try {
       String jsonInput = new String(jsonFile.getBytes());
       String htmlForm = jsonToTemplateService.convertJsonToTemplate(jsonInput);
+      // Write the HTML form to a file
+      jsonToTemplateService.writeTemplateToFile(htmlForm);
 
       // Read the file
-     Path path = Paths.get("output.template");
+      Path path = Paths.get("output.template");
       byte[] content = Files.readAllBytes(path);
 
       return ResponseEntity.ok().body(content);
-    //  return ResponseEntity.ok().body("Successfully Generated..!");
     } catch (IOException e) {
       e.printStackTrace();
       return ResponseEntity.status(500).body("Error processing file".getBytes());
