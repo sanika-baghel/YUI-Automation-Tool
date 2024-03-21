@@ -5,10 +5,12 @@ import Options from './Options.jpeg';
 import PopupForm from './Automation-PopupForm'; 
 
 const MultipleCards = () => {
-  const [showForm, setShowForm] = useState(false); 
+  const [showForm, setShowForm] = useState(false);
+  const [numberOfTabs, setNumberOfTabs] = useState(0); // State to keep track of the number of tabs clicked
 
-  const handleShowForm = () => {
+  const handleShowForm = (numTabs) => {
     setShowForm(true);
+    setNumberOfTabs(numTabs); 
   };
 
   const handleCloseForm = () => {
@@ -18,7 +20,7 @@ const MultipleCards = () => {
   return (
     <div className="container center-container"> 
       <div className="row justify-content-center"> 
-      <div className="col-md-4">
+        <div className="col-md-4">
           <Card className="custom-card"> 
             <Card.Img variant="top" src={Options} />
             <Card.Body>
@@ -26,7 +28,7 @@ const MultipleCards = () => {
               <Card.Text>
                 For 1 Tabs click here.
               </Card.Text>
-              <Button variant="primary" onClick={handleShowForm}>Create</Button> {/* Open the form */}
+              <Button variant="primary" onClick={() => handleShowForm(1)}>Create</Button> {/* Pass the number of tabs */}
             </Card.Body>
           </Card>
         </div>
@@ -38,7 +40,7 @@ const MultipleCards = () => {
               <Card.Text>
                 For 2 Tabs click here.
               </Card.Text>
-              <Button variant="primary" onClick={handleShowForm}>Create</Button> {/* Open the form */}
+              <Button variant="primary" onClick={() => handleShowForm(2)}>Create</Button> {/* Pass the number of tabs */}
             </Card.Body>
           </Card>
         </div>
@@ -50,7 +52,7 @@ const MultipleCards = () => {
               <Card.Text>
                 For 3 Tabs click here.
               </Card.Text>
-              <Button variant="primary" onClick={handleShowForm}>Create</Button> {/* Open the form */}
+              <Button variant="primary" onClick={() => handleShowForm(3)}>Create</Button> {/* Pass the number of tabs */}
             </Card.Body>
           </Card>
         </div>
@@ -62,7 +64,7 @@ const MultipleCards = () => {
               <Card.Text>
                 For 4 Tabs click here.
               </Card.Text>
-              <Button variant="primary" onClick={handleShowForm}>Create</Button> {/* Open the form */}
+              <Button variant="primary" onClick={() => handleShowForm(4)}>Create</Button> {/* Pass the number of tabs */}
             </Card.Body>
           </Card>
         </div>
@@ -74,12 +76,12 @@ const MultipleCards = () => {
               <Card.Text>
                 For 5 Tabs click here.
               </Card.Text>
-              <Button variant="primary" onClick={handleShowForm}>Create</Button> {/* Open the form */}
+              <Button variant="primary" onClick={() => handleShowForm(5)}>Create</Button> {/* Pass the number of tabs */}
             </Card.Body>
           </Card>
         </div>
       </div>
-      <PopupForm show={showForm} handleClose={handleCloseForm} />
+      <PopupForm show={showForm} handleClose={handleCloseForm} numberOfTabs={numberOfTabs} />
     </div>
   );
 };
