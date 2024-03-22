@@ -3,7 +3,6 @@ package com.prorigo.service;
 import com.prorigo.dto.Option;
 import com.prorigo.dto.OptionsGroup;
 import com.prorigo.dto.RowHeader;
-import com.prorigo.dto.TableHeader;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import org.jsoup.Jsoup;
@@ -26,40 +25,57 @@ public class TemplateToJsonServiceImpl implements TemplateToJsonService {
   private final Gson gson = new Gson();
 
   // Define a constant regular expression for extracting label names
-  private static final String LABEL_REGEX = "\\{\\{applbl\\s*(.*?)}}";
+  //private static final String LABEL_REGEX = "\\{\\{applbl\\s*(.*?)}}";
+  private static final String LABEL_REGEX = "\\{\\{applbl\\s*'*(.*?)'*}}";
+
 
   public List<FormData> convertTemplateToJson(MultipartFile file) throws IOException {
     // Convert File to String
-    String htmlContent = new String(file.getBytes());
-    Document doc = Jsoup.parse(htmlContent);
+    String htmlContent = new String(file.getBytes()); // Convert the MultipartFile to a String
+    Document doc = Jsoup.parse(htmlContent); // Parse the HTML content using Jsoup
     Elements elements = doc.select(
-        "input[type=checkbox], input[type=radio], select, input[type=text],input[type=lookup],input[type=barcode],"
-            + " textarea, input[type=file],button:not(span > button),a[href],tr, td");
+        "input[type=checkbox], input[type=radio], select, input[type=text],input[type=barcode],"
+            + " textarea, input[type=file],button:not(span > button),a[href],tr, td"); // Select relevant form elements
 
+    // Extract label names from HTML content
     List<String> labelNames = extractLabels(htmlContent);
+
+    // List to store form data
     List<FormData> formDataList = new ArrayList<>();
+
+    // Convert HTML form elements to JSON
     convertElementsToJson(elements, labelNames, formDataList);
+
+    // Return the list of form data in JSON format
     return formDataList;
   }
 
 
   private void convertElementsToJson(Elements elements, List<String> labelNames,
       List<FormData> formDataList) {
+    // Iterate through each HTML element
     for (Element element : elements) {
+      // Exclude commented elements
       if (!element.toString().startsWith("<!--") && !element.toString().endsWith("-->")) {
+        // Create a new FormData object to store the data for this HTML element
         FormData formData = new FormData();
         String extractedContent = "";
-        // Iterate over label names and set them in FormData
+
+        // Set label from labelNames list based on index
         int index = elements.indexOf(element);
         if (index < labelNames.size()) {
           formData.setLabel(labelNames.get(index));
         }
+
+        // Extract content within {{ }} if present in the value attribute
         String inputValue = element.attr("value");
         int startIndex = inputValue.indexOf("{{");
         int endIndex = inputValue.indexOf("}}");
         if (startIndex != -1 && endIndex != -1 && startIndex < endIndex) {
           extractedContent = inputValue.substring(startIndex + 2, endIndex);
         }
+
+        // Set various attributes of FormData based on element attributes
         formData.setType(checkTypeName(element));
         formData.setId(element.attr("id"));
         formData.setValue(extractedContent);
@@ -67,14 +83,14 @@ public class TemplateToJsonServiceImpl implements TemplateToJsonService {
         formData.setReadOnly(element.hasAttr("disabled"));
         formData.setMaxLen(element.hasAttr("maxlength") ? element.attr("maxlength") : "");
 
-        // Extract cid and cname from "href" for collapse
+        // Extract cid and cname from "href" for collapse elements
         if (element.hasAttr("href")) {
           String hrefValue = element.attr("href");
           if (hrefValue.length() > 1) {
             formData.setCid(hrefValue.substring(1));
-            String colapseName = element.text();
+            String collapseName = element.text();
             Pattern pattern = Pattern.compile("\\{\\{applbl \"(.*?)\"}}");
-            Matcher matcher = pattern.matcher(colapseName);
+            Matcher matcher = pattern.matcher(collapseName);
             if (matcher.find()) {
               formData.setCname(matcher.group(1)); // Extract the text inside the double quotes
             } else {
@@ -83,12 +99,10 @@ public class TemplateToJsonServiceImpl implements TemplateToJsonService {
           }
         }
 
-        if (!element.hasAttr("data-mize_required")) {
-          formData.setMandatory(false);
-        } else {
-          formData.setMandatory(element.hasAttr("data-mize_required"));
-        }
+        // Set whether the element is mandatory or not
+        formData.setMandatory(element.hasAttr("data-mize_required"));
 
+        // Set text descriptions based on element type
         if ("TEXTBOX".equals(formData.getType())) {
           formData.setText("Textbox");
         } else if ("CHECKBOX".equals(formData.getType())) {
@@ -123,13 +137,10 @@ public class TemplateToJsonServiceImpl implements TemplateToJsonService {
           // Set the list of RowHeaders to the corresponding field in formData
           formData.setAddrowheaderkey(rowHeaders);
         } else if ("ADDROWS".equals(formData.getType())) {
-          formData.setText("Add Rows");
-          Elements childElements = element.select("td"); // Assuming child elements are td elements
-          List<FormData> childFormDataList = new ArrayList<>();
-          convertElementsToJson(childElements, labelNames, childFormDataList);
-          // Set the list of child elements to addrowkey
-          formData.setAddrowkey(childFormDataList);
+          //TO DO ADDROWS
         }
+
+        // Add the FormData object to the list
         formDataList.add(formData);
       }
     }
@@ -138,56 +149,75 @@ public class TemplateToJsonServiceImpl implements TemplateToJsonService {
 
   // Method to extract row headers from child elements and create RowHeader objects
   private List<RowHeader> extractRowHeaders(Element parentElement) {
+    // List to store RowHeader objects
     List<RowHeader> rowHeaders = new ArrayList<>();
+
+    // Get child elements of the parent element
     Elements childElements = parentElement.children();
+
+    // Iterate through each child element
     for (Element childElement : childElements) {
+      // Extract attributes and text content from the child element
       String dataRef = childElement.attr("data-ref");
       String width = childElement.attr("width");
       String className = childElement.className();
       String headerLabel = childElement.text();
+
+      // Extract the label name from the header label using a regular expression
       String extractedLabelName = headerLabel.replaceAll(LABEL_REGEX, "$1").trim();
+
+      // Create a new RowHeader object and add it to the list
       rowHeaders.add(new RowHeader(dataRef, width, className, extractedLabelName));
     }
+    // Return the list of RowHeader objects
     return rowHeaders;
   }
 
-  private List<FormData> extractAddRow(Element parentElement) {
-    List<FormData> rowHeaders = new ArrayList<>();
-    Elements childElements = parentElement.children();
-    for (Element row : childElements) {
-      Elements cells = row.select("tbody");
-      List<FormData> tableCells = new ArrayList<>();
-      for (Element cell : cells) {
-        FormData tableCell = new FormData();
-        // Populate tableCell fields based on cell properties
-        tableCell.setClassName(cell.attr("class"));
-        tableCells.add(tableCell);
-      }
-      FormData tableRow = new FormData();
-      // Populate tableRow fields based on row properties and tableCells
-      rowHeaders.add(tableRow);
-    }
-    return rowHeaders;
-  }
-
-
-  //Extract Label
+  /**
+   * Extracts label names from the HTML content.
+   *
+   * @param htmlContent The HTML content from which labels are to be extracted.
+   * @return A list of extracted label names.
+   */
   private List<String> extractLabels(String htmlContent) {
+    // Parse the HTML content using Jsoup
     Document doc = Jsoup.parse(htmlContent);
-    Elements labels = doc.select("form#return-info-form label");
+
+    // Select labels within the form with id "return-info-form"
+    // Elements labels = doc.select("form#return-info-form label");
+
+    Elements labels = doc.select(".cc-field label");
+
+    // List to store extracted label names
     List<String> labelNames = new ArrayList<>();
+
+    // Iterate through each label element
     for (Element label : labels) {
+      // Extract the text content of the label
       String labelExpression = label.text();
+
+      // Use regular expression to extract the label name from the label expression
       String extractedLabelName = labelExpression.replaceAll(LABEL_REGEX, "$1").trim();
+
+      // Add the extracted label name to the list
       labelNames.add(extractedLabelName);
     }
+
+    // Return the list of extracted label names
     return labelNames;
   }
 
-  //Check Type Name of the template
+  /**
+   * Checks the type name of the HTML element.
+   *
+   * @param element The HTML element to check the type name for.
+   * @return The type name of the element.
+   */
   private String checkTypeName(Element element) {
+    // Get the tag name of the element in lowercase
     String tagName = element.tagName().toLowerCase();
-    System.out.println("tagName==" + tagName);
+
+    // Check different types of elements and return their corresponding type names
     if ("input".equals(tagName)) {
       String type = element.attr("type").toLowerCase();
       if ("checkbox".equals(type)) {
@@ -196,15 +226,16 @@ public class TemplateToJsonServiceImpl implements TemplateToJsonService {
         return "RADIO";
       } else if ("text".equals(type)) {
         Element parent = element.parent();
-        // && parent.hasClass("input-group")
+        // Check if the parent has a button with class containing "icon-calendar" or "icon-barcode"
         if (parent != null) {
-          // Check if the parent has a button with class containing "icon-calendar"
           Elements buttons = parent.getElementsByTag("button");
           for (Element button : buttons) {
             if (!button.getElementsByClass("icon-calendar").isEmpty()) {
               return "CALENDAR";
             } else if (!button.getElementsByClass("icon-barcode").isEmpty()) {
               return "LOOKUPANDBARCODE";
+            } else if (!button.getElementsByClass("icon-search").isEmpty()) {
+              return "LOOKUP";
             }
           }
         }
@@ -213,8 +244,6 @@ public class TemplateToJsonServiceImpl implements TemplateToJsonService {
         return "DATETIME";
       } else if ("file".equals(type)) {
         return "FILE";
-      } else if ("lookup".equals(type)) {
-        return "LOOKUP";
       } else if ("barcode".equals(type)) {
         return "BARCODE";
       }
@@ -229,66 +258,71 @@ public class TemplateToJsonServiceImpl implements TemplateToJsonService {
     } else if ("tr".equals(tagName)) {
       return "ADDROWHEADER";
     } else if ("tbody#orderPartTbody > td".equals(tagName)) {
-      System.out.println("type");
+      // Assuming this represents a specific type of element, possibly for adding rows
+      //TO DO ADDROWS
       return "ADDROWS";
     }
+    // Return null if the type name cannot be determined
     return null;
   }
 
-  //For Dropdown
+  /**
+   * Extracts options from a select element and organizes them into option groups.
+   *
+   * @param selectElement The select element from which options are to be extracted.
+   * @return A list of option groups containing the extracted options.
+   */
   private static List<OptionsGroup> getSelectOptions(Element selectElement) {
+    // List to store option groups
     List<OptionsGroup> optionsGroups = new ArrayList<>();
 
+    // Check if the select element is not null
     if (selectElement != null) {
-      // Get the options elements
+      // Get the option elements within the select element
       Elements optionElements = selectElement.select("option");
 
       // Create an OptionsGroup object
       OptionsGroup optionsGroup = new OptionsGroup();
-      optionsGroup.setHeading("Catalog");
+      optionsGroup.setHeading("Catalog"); // Set a default heading for the options group
 
-      // Create a list of Option objects
+      // Create a list of Option objects to store options
       List<Option> options = new ArrayList<>();
+
+      // Iterate through each option element
       for (Element optionElement : optionElements) {
+        // Extract the text content of the option
         String text = optionElement.text();
+
+        // Create an Option object with the extracted text
         Option option = new Option(text);
+
+        // Add the Option object to the list of options
         options.add(option);
       }
-      // Set the options list in the OptionsGroup object
+      // Set the list of options in the OptionsGroup object
       optionsGroup.setOptions(options);
 
-      // Add the OptionsGroup to the list
+      // Add the OptionsGroup to the list of option groups
       optionsGroups.add(optionsGroup);
     }
+
+    // Return the list of option groups
     return optionsGroups;
   }
 
-
-  //Write data in Json File
+  /**
+   * Writes JSON data to a file.
+   *
+   * @param json The JSON data to be written to the file.
+   * @throws IOException If an I/O error occurs while writing the file.
+   */
   @Override
   public void writeToJsonFile(String json) throws IOException {
+    // Try-with-resources block ensures proper resource management and automatic closing of FileWriter
     try (FileWriter fileWriter = new FileWriter("output.json")) {
+      // Write the JSON data to the file
       fileWriter.write(json);
     }
   }
 
-  //Heading Template to json
-  @Override
-  public String headTemplateToJson(String jsonInput) {
-    Document doc = Jsoup.parse(jsonInput);
-    Elements thElements = doc.select("th[data-ref]");
-    String json = "";
-    List<TableHeader> headers = new ArrayList<>();
-    for (Element th : thElements) {
-      String dataRef = th.attr("data-ref");
-      String width = th.attr("width");
-      String className = th.className();
-      String headerLabel = th.text();
-      String extractedLabelName = headerLabel.replaceAll(LABEL_REGEX, "$1").trim();
-      headers.add(new TableHeader(dataRef, width, className, extractedLabelName));
-      Gson gson1 = new Gson();
-      json = gson1.toJson(headers);
-    }
-    return json;
-  }
 }
