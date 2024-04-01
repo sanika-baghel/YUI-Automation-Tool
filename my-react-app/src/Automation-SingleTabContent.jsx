@@ -20,6 +20,7 @@ const SingleTabContent = () => {
     readOnly: false,
     mandatory: false,
     tempname: null,
+    tabname:null,
     cid: null,
     cname: null,
     fname: null,
@@ -454,6 +455,12 @@ const SingleTabContent = () => {
 <div className="table-responsive">
   <table className="table table-bordered" style={{ backgroundColor: "#0fb6c9dc"}}>
     <tbody>
+    <tr>
+        <td>Tab Name</td>
+        <td>
+          <input type="text" value={hoveredItem.tabname} style={{ fontWeight: 'bold' }} />
+        </td>
+      </tr>
       <tr>
         <td>Template Name</td>
         <td>
